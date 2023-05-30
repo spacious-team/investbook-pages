@@ -1,18 +1,22 @@
 import { Banner } from '@investbook-pages/common-ui';
 import { exampleProducts } from '@investbook-pages/products';
+import { Container, List, ListItem, ListItemText } from '@mui/material';
 
 export function App() {
   return (
-    <div>
-      <Banner text="Hello world" />
-      <ul>
+    <Container maxWidth="sm">
+      <Banner text="Investbook pages" />
+      <List sx={{ width: '100%' }}>
         {exampleProducts.map((product) => (
-          <li key={product.id}>
-            <strong>{product.name}</strong> Price: {product.price}
-          </li>
+          <ListItem key={product.id}>
+            <ListItemText
+              primary={product.name}
+              secondary={`Price: ${product.price}`}
+            />
+          </ListItem>
         ))}
-      </ul>
-    </div>
+      </List>
+    </Container>
   );
 }
 
