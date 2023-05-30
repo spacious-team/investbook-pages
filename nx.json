@@ -56,5 +56,8 @@
         "unitTestRunner": "jest"
       }
     }
+  },
+  "cli": {
+    "packageManager": "yarn"
   }
 }
