@@ -6,19 +6,19 @@ import { Container, List, ListItem, ListItemText } from '@mui/material';
 interface MainPageProps {}
 
 const MainPage: FC<MainPageProps> = () => (
-   <Container maxWidth="sm">
-   <Banner text="Investbook pages" />
-   <List sx={{ width: '100%' }}>
+  <Container maxWidth="sm">
+    <Banner text="Investbook pages" />
+    <List sx={{ width: '100%' }}>
       {exampleProducts.map((product) => (
-         <ListItem key={product.id}>
-         <ListItemText
+        <ListItem key={product.id}>
+          <ListItemText
             primary={product.name}
             secondary={`Price: ${product.price}`}
-         />
-         </ListItem>
+          />
+        </ListItem>
       ))}
-   </List>
- </Container>
+    </List>
+  </Container>
 );
 
 export default MainPage;
