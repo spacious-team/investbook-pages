@@ -1,22 +1,13 @@
-import { Banner } from '@investbook-pages/common-ui';
-import { exampleProducts } from '@investbook-pages/products';
-import { Container, List, ListItem, ListItemText } from '@mui/material';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import MainPage from './pages/MainPage';
 
 export function App() {
   return (
-    <Container maxWidth="sm">
-      <Banner text="Investbook pages" />
-      <List sx={{ width: '100%' }}>
-        {exampleProducts.map((product) => (
-          <ListItem key={product.id}>
-            <ListItemText
-              primary={product.name}
-              secondary={`Price: ${product.price}`}
-            />
-          </ListItem>
-        ))}
-      </List>
-    </Container>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<MainPage />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
