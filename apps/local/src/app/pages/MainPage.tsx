@@ -2,8 +2,11 @@ import React, { FC } from 'react';
 import { Banner } from '@investbook-pages/common-ui';
 import { exampleProducts } from '@investbook-pages/products';
 import { Container, List, ListItem, ListItemText } from '@mui/material';
+import ReduxExample from '../examples/redux-component/redux-example';
 
-interface MainPageProps {}
+interface MainPageProps {
+  test?: string;
+}
 
 const MainPage: FC<MainPageProps> = () => (
   <Container maxWidth="sm">
@@ -18,6 +21,7 @@ const MainPage: FC<MainPageProps> = () => (
         </ListItem>
       ))}
     </List>
+    <ReduxExample></ReduxExample>
   </Container>
 );
 
