@@ -2,6 +2,8 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "outDir": "../../dist/out-tsc",
+    "declaration": true,
+    "moduleResolution": "bundler",
     "types": ["node", "vite/client"]
   },
   "files": [
