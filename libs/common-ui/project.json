@@ -6,7 +6,7 @@
   "tags": [],
   "targets": {
     "lint": {
-      "executor": "@nx/linter:eslint",
+      "executor": "@nx/eslint:lint",
       "outputs": ["{options.outputFile}"],
       "options": {
         "lintFilePatterns": ["libs/common-ui/**/*.{ts,tsx,js,jsx}"]
@@ -17,7 +17,8 @@
       "outputs": ["{options.outputPath}"],
       "defaultConfiguration": "production",
       "options": {
-        "outputPath": "dist/libs/common-ui"
+        "outputPath": "dist/libs/common-ui",
+        "configFile": "libs/common-ui/vite.config.ts"
       },
       "configurations": {
         "development": {
@@ -29,17 +30,11 @@
       }
     },
     "test": {
-      "executor": "@nx/jest:jest",
+      "executor": "@nx/vitest:test",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
-        "jestConfig": "libs/common-ui/jest.config.ts",
-        "passWithNoTests": true
-      },
-      "configurations": {
-        "ci": {
-          "ci": true,
-          "codeCoverage": true
-        }
+        "passWithNoTests": true,
+        "reportsDirectory": "../../coverage/libs/common-ui"
       }
     }
   }

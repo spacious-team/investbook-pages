@@ -3,9 +3,7 @@ import { Banner } from '@investbook-pages/common-ui';
 import { exampleProducts } from '@investbook-pages/products';
 import { Container, List, ListItem, ListItemText } from '@mui/material';
 
-interface MainPageProps {}
-
-const MainPage: FC<MainPageProps> = () => (
+const MainPage: FC = () => (
   <Container maxWidth="sm">
     <Banner text="Investbook pages" />
     <List sx={{ width: '100%' }}>

@@ -5,5 +5,5 @@ Frontend проекта [investbook](https://github.com/spacious-team/investbook
 ```
 yarn
 yarn prepare
-npx nx serve local
+yarn dev
 ```
