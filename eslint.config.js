@@ -15,6 +15,7 @@ module.exports = [
       '.nx/**',
       '**/vite.config.*.timestamp*',
       '**/vitest.config.*.timestamp*',
+      'libs/products/src/client/**',
     ],
   },
 
