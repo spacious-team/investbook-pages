@@ -7,9 +7,10 @@
     "build": "nx build local",
     "test": "nx test local",
     "lint": "nx run-many -t lint",
-    "lint:fix": "nx run-many -t lint --fix",
+    "format": "prettier --write \"**/*.{js,mjs,ts,jsx,tsx,css,md}\"",
+    "lint:fix": "nx run-many -t lint --fix && yarn format",
     "preview": "cd apps/local && vite preview --port 4300",
-    "openapi-ts": "node scripts/transform-spec.mjs && openapi-ts"
+    "openapi-ts": "node scripts/transform-spec.mjs && openapi-ts && yarn format"
   },
   "private": true,
   "dependencies": {
