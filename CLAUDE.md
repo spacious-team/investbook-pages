@@ -80,6 +80,27 @@ The `@nx/enforce-module-boundaries` ESLint rule is active. Apps can import from 
 - New business logic goes in `libs/products/src/lib/` and must be re-exported from `libs/products/src/index.ts`
 - Nx generators default to `@emotion/styled`, `eslint`, `vite`, and `vitest` — use these defaults when scaffolding new apps/libs
 
+## API client generation (openapi-ts)
+
+```bash
+# Requires the backend running at http://localhost:2030
+yarn openapi-ts
+```
+
+Two-step process:
+
+1. `scripts/transform-spec.mjs` — fetches spec from `http://localhost:2030/v3/api-docs/public`, transliterates Cyrillic schema names to Latin, generates `operationId`s from HTTP method + path, writes `openapi-spec.json`
+2. `openapi-ts` — reads `openapi-ts.config.ts`, generates TypeScript client into `libs/products/src/client/`
+
+Generated files (auto-generated, do not edit manually):
+
+- `types.gen.ts` — request/response types
+- `sdk.gen.ts` — typed SDK functions per endpoint
+- `client.gen.ts` — Fetch client instance
+- `core/` — internal serialization/auth utilities
+
+Everything is re-exported from `libs/products/src/index.ts` and available via `@investbook-pages/products`.
+
 ## Pre-commit hooks
 
 Husky runs `lint-staged` on commit, which automatically applies:
