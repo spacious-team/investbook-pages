@@ -24,6 +24,9 @@ yarn test
 # Lint (all projects)
 yarn lint
 
+# Lint with auto-fix (all projects)
+yarn lint:fix
+
 # Preview production build at http://localhost:4300
 yarn preview
 ```

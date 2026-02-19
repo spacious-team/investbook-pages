@@ -253,7 +253,7 @@ export type OstatokDenezhnykhSredstv = {
    */
   market: string;
   /**
-   * Ostatok denezhnykh sredstv
+   * OstatokDenezhnykhSredstv
    */
   value: number;
   /**
@@ -411,7 +411,7 @@ export type PageSobytiePoBumage = {
   empty?: boolean;
 };
 
-export type PageСвойстваInstrumentа = {
+export type PageSvojstvaInstrumenta = {
   totalElements?: number;
   totalPages?: number;
   sort?: SortObject;
@@ -453,7 +453,7 @@ export type PageSchet = {
   empty?: boolean;
 };
 
-export type PageСвойстваSchetа = {
+export type PageSvojstvaScheta = {
   totalElements?: number;
   totalPages?: number;
   sort?: SortObject;
@@ -509,7 +509,7 @@ export type PageOfitsialnyjObmennyjKurs = {
   empty?: boolean;
 };
 
-export type PageДвижениеДсПоSchetу = {
+export type PageDvizhenieDsPoSchetu = {
   totalElements?: number;
   totalPages?: number;
   sort?: SortObject;
@@ -1935,7 +1935,7 @@ export type GetSecurityDescriptionsResponses = {
   /**
    * OK
    */
-  200: PageСвойстваInstrumentа;
+  200: PageSvojstvaInstrumenta;
 };
 
 export type GetSecurityDescriptionsResponse =
@@ -2121,7 +2121,7 @@ export type GetPortfolioPropertiesResponses = {
   /**
    * OK
    */
-  200: PageСвойстваSchetа;
+  200: PageSvojstvaScheta;
 };
 
 export type GetPortfolioPropertiesResponse =
@@ -2368,7 +2368,7 @@ export type GetEventCashFlowsResponses = {
   /**
    * OK
    */
-  200: PageДвижениеДсПоSchetу;
+  200: PageDvizhenieDsPoSchetu;
 };
 
 export type GetEventCashFlowsResponse =

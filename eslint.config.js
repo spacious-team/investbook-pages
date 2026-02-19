@@ -5,6 +5,7 @@ const reactPlugin = require('eslint-plugin-react');
 const reactHooksPlugin = require('eslint-plugin-react-hooks');
 const jsxA11yPlugin = require('eslint-plugin-jsx-a11y');
 const importPlugin = require('eslint-plugin-import');
+const prettierConfig = require('eslint-config-prettier');
 
 module.exports = [
   // Global ignores
@@ -89,4 +90,7 @@ module.exports = [
       },
     },
   },
+
+  // Disable ESLint rules that conflict with Prettier (must be last)
+  prettierConfig,
 ];

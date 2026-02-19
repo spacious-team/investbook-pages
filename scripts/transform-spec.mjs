@@ -78,7 +78,10 @@ const renameMap = {}; // cyrillicName → latinName
 
 for (const name of Object.keys(schemas)) {
   if (hasCyrillic(name)) {
-    renameMap[name] = transliterate(name);
+    renameMap[name] = transliterate(name)
+      .split(' ')
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+      .join('');
   }
 }
 
@@ -91,7 +94,8 @@ for (const [from, to] of Object.entries(renameMap)) {
 //    This catches every $ref, discriminator mapping, etc. in one pass.
 let specText = JSON.stringify(spec, null, 2);
 
-for (const [from, to] of Object.entries(renameMap)) {
+const sortedRenames = Object.entries(renameMap).sort(([a], [b]) => b.length - a.length);
+for (const [from, to] of sortedRenames) {
   // Replace inside JSON strings: "/components/schemas/Сделка" and plain keys "Сделка"
   specText = specText.replaceAll(from, to);
 }

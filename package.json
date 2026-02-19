@@ -7,6 +7,7 @@
     "build": "nx build local",
     "test": "nx test local",
     "lint": "nx lint local",
+    "lint:fix": "nx lint local --fix",
     "preview": "cd apps/local && vite preview --port 4300",
     "openapi-ts": "node scripts/transform-spec.mjs && openapi-ts"
   },
