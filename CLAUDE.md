@@ -101,6 +101,22 @@ Generated files (auto-generated, do not edit manually):
 
 Everything is re-exported from `libs/products/src/index.ts` and available via `@investbook-pages/products`.
 
+### Environment variables
+
+The project is designed for local use. `.env` is committed with sane defaults:
+
+| Variable            | Used by                                | Default                                    | Purpose                                      |
+| ------------------- | -------------------------------------- | ------------------------------------------ | -------------------------------------------- |
+| `VITE_API_BASE_URL` | Vite / browser bundle                  | `http://localhost:2030`                    | Runtime base URL for all API calls           |
+| `OPENAPI_SPEC_URL`  | `scripts/transform-spec.mjs` (Node.js) | `http://localhost:2030/v3/api-docs/public` | URL to fetch the OpenAPI spec during codegen |
+
+To override without editing `.env`, create a `.env.local` file (gitignored by Vite) or set the variable inline:
+
+```bash
+OPENAPI_SPEC_URL=http://myhost:2030/v3/api-docs/public yarn openapi-ts
+VITE_API_BASE_URL=http://myhost:2030 yarn dev
+```
+
 ## Pre-commit hooks
 
 Husky runs `lint-staged` on commit, which automatically applies:

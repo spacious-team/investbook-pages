@@ -6,8 +6,8 @@
     "dev": "cd apps/local && vite --port 4200",
     "build": "nx build local",
     "test": "nx test local",
-    "lint": "nx lint local",
-    "lint:fix": "nx lint local --fix",
+    "lint": "nx run-many -t lint",
+    "lint:fix": "nx run-many -t lint --fix",
     "preview": "cd apps/local && vite preview --port 4300",
     "openapi-ts": "node scripts/transform-spec.mjs && openapi-ts"
   },
@@ -67,6 +67,6 @@
   },
   "lint-staged": {
     "*.{js,ts,jsx,tsx}": "eslint --fix",
-    "*.{js,ts,jsx,tsx,css,md}": "prettier --write"
+    "*.{js,mjs,ts,jsx,tsx,css,md}": "prettier --write"
   }
 }

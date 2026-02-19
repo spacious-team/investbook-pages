@@ -10,15 +10,71 @@ const OUTPUT_FILE = 'openapi-spec.json';
 
 // Cyrillic → Latin transliteration table (ISO 9 / common web standard)
 const TRANSLIT_MAP = {
-  А: 'A', Б: 'B', В: 'V', Г: 'G', Д: 'D', Е: 'E', Ё: 'Yo', Ж: 'Zh',
-  З: 'Z', И: 'I', Й: 'J', К: 'K', Л: 'L', М: 'M', Н: 'N', О: 'O',
-  П: 'P', Р: 'R', С: 'S', Т: 'T', У: 'U', Ф: 'F', Х: 'Kh', Ц: 'Ts',
-  Ч: 'Ch', Ш: 'Sh', Щ: 'Shch', Ъ: '', Ы: 'Y', Ь: '', Э: 'E', Ю: 'Yu',
+  А: 'A',
+  Б: 'B',
+  В: 'V',
+  Г: 'G',
+  Д: 'D',
+  Е: 'E',
+  Ё: 'Yo',
+  Ж: 'Zh',
+  З: 'Z',
+  И: 'I',
+  Й: 'J',
+  К: 'K',
+  Л: 'L',
+  М: 'M',
+  Н: 'N',
+  О: 'O',
+  П: 'P',
+  Р: 'R',
+  С: 'S',
+  Т: 'T',
+  У: 'U',
+  Ф: 'F',
+  Х: 'Kh',
+  Ц: 'Ts',
+  Ч: 'Ch',
+  Ш: 'Sh',
+  Щ: 'Shch',
+  Ъ: '',
+  Ы: 'Y',
+  Ь: '',
+  Э: 'E',
+  Ю: 'Yu',
   Я: 'Ya',
-  а: 'a', б: 'b', в: 'v', г: 'g', д: 'd', е: 'e', ё: 'yo', ж: 'zh',
-  з: 'z', и: 'i', й: 'j', к: 'k', л: 'l', м: 'm', н: 'n', о: 'o',
-  п: 'p', р: 'r', с: 's', т: 't', у: 'u', ф: 'f', х: 'kh', ц: 'ts',
-  ч: 'ch', ш: 'sh', щ: 'shch', ъ: '', ы: 'y', ь: '', э: 'e', ю: 'yu',
+  а: 'a',
+  б: 'b',
+  в: 'v',
+  г: 'g',
+  д: 'd',
+  е: 'e',
+  ё: 'yo',
+  ж: 'zh',
+  з: 'z',
+  и: 'i',
+  й: 'j',
+  к: 'k',
+  л: 'l',
+  м: 'm',
+  н: 'n',
+  о: 'o',
+  п: 'p',
+  р: 'r',
+  с: 's',
+  т: 't',
+  у: 'u',
+  ф: 'f',
+  х: 'kh',
+  ц: 'ts',
+  ч: 'ch',
+  ш: 'sh',
+  щ: 'shch',
+  ъ: '',
+  ы: 'y',
+  ь: '',
+  э: 'e',
+  ю: 'yu',
   я: 'ya',
 };
 
@@ -67,7 +123,9 @@ function buildOperationId(method, path) {
 console.log(`Fetching spec from ${SPEC_URL}…`);
 const response = await fetch(SPEC_URL);
 if (!response.ok) {
-  throw new Error(`Failed to fetch spec: ${response.status} ${response.statusText}`);
+  throw new Error(
+    `Failed to fetch spec: ${response.status} ${response.statusText}`,
+  );
 }
 
 const spec = await response.json();
@@ -94,7 +152,9 @@ for (const [from, to] of Object.entries(renameMap)) {
 //    This catches every $ref, discriminator mapping, etc. in one pass.
 let specText = JSON.stringify(spec, null, 2);
 
-const sortedRenames = Object.entries(renameMap).sort(([a], [b]) => b.length - a.length);
+const sortedRenames = Object.entries(renameMap).sort(
+  ([a], [b]) => b.length - a.length,
+);
 for (const [from, to] of sortedRenames) {
   // Replace inside JSON strings: "/components/schemas/Сделка" and plain keys "Сделка"
   specText = specText.replaceAll(from, to);
@@ -107,7 +167,16 @@ let operationCount = 0;
 const paths = transformedSpec?.paths ?? {};
 
 for (const [path, pathItem] of Object.entries(paths)) {
-  for (const method of ['get', 'put', 'post', 'delete', 'patch', 'options', 'head', 'trace']) {
+  for (const method of [
+    'get',
+    'put',
+    'post',
+    'delete',
+    'patch',
+    'options',
+    'head',
+    'trace',
+  ]) {
     const operation = pathItem[method];
     if (!operation) continue;
 
