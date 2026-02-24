@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema.json",
+  "style": "new-york",
+  "tailwind": {
+    "config": "",
+    "css": "apps/local/src/index.css",
+    "baseColor": "zinc",
+    "cssVariables": true,
+    "prefix": ""
+  },
+  "rsc": false,
+  "tsx": true,
+  "aliases": {
+    "components": "@investbook-pages/common-ui",
+    "utils": "@investbook-pages/common-ui",
+    "ui": "@investbook-pages/common-ui",
+    "lib": "@investbook-pages/common-ui",
+    "hooks": "@investbook-pages/common-ui"
+  }
+}

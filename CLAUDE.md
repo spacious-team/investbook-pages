@@ -64,10 +64,18 @@ npx nx build common-ui
 ### Key technology choices
 
 - **React 19** with functional components and hooks
-- **MUI v7** (`@mui/material`) with **Emotion** (`@emotion/styled`) for styling — use `sx` prop or `styled()` for custom styles
+- **Tailwind CSS v4** + **shadcn/ui** (new-york style, zinc base color) for styling — use Tailwind utility classes; `cn()` helper from `@investbook-pages/common-ui` for conditional class merging
 - **React Router v7** — `createBrowserRouter` pattern
 - **Vitest** + **@testing-library/react** for tests
 - **Nx 22** for monorepo task orchestration and caching
+
+### Styling setup
+
+- Tailwind entry point: `apps/local/src/index.css` — imports `tailwindcss`, `tw-animate-css`, and adds `@source` directives to scan `libs/common-ui/src`
+- shadcn/ui config: `components.json` at repo root
+- OKLCH design tokens (zinc palette, light + dark) defined in `index.css`
+- `cn` utility (`clsx` + `tailwind-merge`): `libs/common-ui/src/lib/utils.ts`, re-exported from `@investbook-pages/common-ui`
+- Vite integration via `@tailwindcss/vite` plugin
 
 ### Nx module boundary enforcement
 
@@ -78,7 +86,8 @@ The `@nx/enforce-module-boundaries` ESLint rule is active. Apps can import from 
 - Component files use PascalCase (`MainPage.tsx`, `banner.tsx`)
 - New shared UI components go in `libs/common-ui/src/lib/` and must be re-exported from `libs/common-ui/src/index.ts`
 - New business logic goes in `libs/products/src/lib/` and must be re-exported from `libs/products/src/index.ts`
-- Nx generators default to `@emotion/styled`, `eslint`, `vite`, and `vitest` — use these defaults when scaffolding new apps/libs
+- Nx generators default to `none` for styling (no CSS-in-JS), `eslint`, `vite`, and `vitest` — use these defaults when scaffolding new apps/libs
+- New shadcn/ui components: run `npx shadcn add <component>` from repo root; components land in `libs/common-ui/src/lib/` and must be re-exported from `libs/common-ui/src/index.ts`
 
 ## API client generation (openapi-ts)
 
