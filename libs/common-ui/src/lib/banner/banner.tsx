@@ -1,11 +1,16 @@
-import { Typography } from '@mui/material';
+import { cn } from '../utils';
 
 export interface BannerProps {
   text: string;
+  className?: string;
 }
 
-export function Banner(props: BannerProps) {
-  return <Typography variant="h5">{props.text}</Typography>;
+export function Banner({ text, className }: BannerProps) {
+  return (
+    <h2 className={cn('text-2xl font-semibold tracking-tight', className)}>
+      {text}
+    </h2>
+  );
 }
 
 export default Banner;

@@ -1,22 +1,23 @@
-import React, { FC } from 'react';
+import { FC } from 'react';
 import { Banner } from '@investbook-pages/common-ui';
 import { exampleProducts } from '@investbook-pages/products';
-import { Container, List, ListItem, ListItemText } from '@mui/material';
 
 const MainPage: FC = () => (
-  <Container maxWidth="sm">
+  <div className="mx-auto max-w-xl px-4 py-6">
     <Banner text="Investbook pages" />
-    <List sx={{ width: '100%' }}>
+    <ul className="mt-4 w-full divide-y divide-border">
       {exampleProducts.map((product) => (
-        <ListItem key={product.id}>
-          <ListItemText
-            primary={product.name}
-            secondary={`Price: ${product.price}`}
-          />
-        </ListItem>
+        <li key={product.id} className="flex flex-col py-3">
+          <span className="text-sm font-medium leading-none">
+            {product.name}
+          </span>
+          <span className="mt-1 text-sm text-muted-foreground">
+            Price: {product.price}
+          </span>
+        </li>
       ))}
-    </List>
-  </Container>
+    </ul>
+  </div>
 );
 
 export default MainPage;
