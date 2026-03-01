@@ -1,13 +1,12 @@
-import { createBrowserRouter, RouterProvider, Outlet } from 'react-router-dom';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import MainPage from './pages/MainPage/MainPage';
 import DemoPage from './pages/DemoPage/DemoPage';
-import Navbar from 'widgets/Navbar/Navbar';
-import Sidebar from 'widgets/Sidebar/Sidebar';
+import MainLayout from './layouts/MainLayout/MainLayout';
 
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <Layout />,
+    element: <MainLayout />,
     children: [
       {
         index: true,
@@ -20,22 +19,6 @@ const router = createBrowserRouter([
     ],
   },
 ]);
-
-function Layout() {
-  return (
-    <div className="flex h-screen">
-      <Sidebar />
-      
-      <div className="flex flex-col flex-1">
-        <Navbar />
-        
-        <main className="flex-1 overflow-y-auto">
-          <Outlet />
-        </main>
-      </div>
-    </div>
-  );
-}
 
 export function App() {
   return <RouterProvider router={router} />;
