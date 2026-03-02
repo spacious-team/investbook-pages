@@ -21,7 +21,8 @@
     "baseUrl": ".",
     "paths": {
       "@investbook-pages/common-ui": ["libs/common-ui/src/index.ts"],
-      "@investbook-pages/products": ["libs/products/src/index.ts"]
+      "@investbook-pages/products": ["libs/products/src/index.ts"],
+      "*": ["apps/local/src/app/*"]
     }
   },
   "exclude": ["node_modules", "tmp"]
