@@ -83,7 +83,7 @@ The `@nx/enforce-module-boundaries` ESLint rule is active. Apps can import from 
 
 ## Code conventions
 
-- Component files use PascalCase (`MainPage.tsx`, `banner.tsx`)
+- Component files use PascalCase (`MainPage.tsx`, `Banner.tsx`)
 - New shared UI components go in `libs/common-ui/src/lib/` and must be re-exported from `libs/common-ui/src/index.ts`
 - New business logic goes in `libs/products/src/lib/` and must be re-exported from `libs/products/src/index.ts`
 - Nx generators default to `none` for styling (no CSS-in-JS), `eslint`, `vite`, and `vitest` — use these defaults when scaffolding new apps/libs

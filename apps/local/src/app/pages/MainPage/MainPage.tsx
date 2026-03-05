@@ -1,6 +1,6 @@
 import { FC } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Banner } from '@investbook-pages/common-ui';
+import { Banner, Button } from '@investbook-pages/common-ui';
 import { exampleProducts } from '@investbook-pages/products';
 
 const MainPage: FC = () => {
@@ -21,12 +21,11 @@ const MainPage: FC = () => {
           </li>
         ))}
       </ul>
-      <button
+      <Button
         onClick={() => navigate('/demo')}
-        className="mt-6 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors"
       >
         Go to Demo Page
-      </button>
+      </Button>
     </div>
   );
 };

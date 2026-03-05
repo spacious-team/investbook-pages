@@ -1,11 +1,15 @@
+import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarProvider } from '@investbook-pages/common-ui';
 import { Outlet } from 'react-router-dom';
 import Navbar from 'widgets/Navbar/Navbar';
-import Sidebar from 'widgets/Sidebar/Sidebar';
 
 export default function MainLayout() {
   return (
-    <div className="flex h-screen">
-      <Sidebar />
+    <SidebarProvider>
+      <Sidebar>
+        <SidebarHeader />
+        <SidebarContent />
+        <SidebarFooter />
+      </Sidebar>
       
       <div className="flex flex-col flex-1">
         <Navbar />
@@ -14,6 +18,6 @@ export default function MainLayout() {
           <Outlet />
         </main>
       </div>
-    </div>
+    </SidebarProvider>
   );
 }
