@@ -19,7 +19,7 @@ Frontend проекта [investbook](https://github.com/spacious-team/investbook
 - **React 19** - UI библиотека
 - **TypeScript** - основной язык разработки
 - **Vite** - сборщик и dev-сервер
-- **Material-UI (MUI)** - компонентная библиотека
+- **Shadcn/UI** - компонентная библиотека
 - **React Router v7** - маршрутизация
 - **Vitest** - тестирование
 - **Nx** - инструмент для монорепозитория
