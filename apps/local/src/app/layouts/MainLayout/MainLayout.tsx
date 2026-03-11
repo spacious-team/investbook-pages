@@ -1,23 +1,31 @@
-import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarProvider } from '@investbook-pages/common-ui';
+import {
+  Sidebar,
+  SidebarContent,
+  SidebarFooter,
+  SidebarHeader,
+  SidebarInset,
+  SidebarProvider,
+  SidebarTrigger,
+} from '@investbook-pages/common-ui';
 import { Outlet } from 'react-router-dom';
 import Navbar from 'widgets/Navbar/Navbar';
 
 export default function MainLayout() {
   return (
     <SidebarProvider>
-      <Sidebar>
+      <Sidebar collapsible="icon">
         <SidebarHeader />
         <SidebarContent />
-        <SidebarFooter />
+        <SidebarFooter>
+          <SidebarTrigger />
+        </SidebarFooter>
       </Sidebar>
-      
-      <div className="flex flex-col flex-1">
+      <SidebarInset>
         <Navbar />
-        
         <main className="flex-1 overflow-y-auto">
           <Outlet />
         </main>
-      </div>
+      </SidebarInset>
     </SidebarProvider>
   );
 }

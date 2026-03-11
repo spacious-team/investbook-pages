@@ -65,6 +65,7 @@ npx nx build common-ui
 
 - **React 19** with functional components and hooks
 - **Tailwind CSS v4** + **shadcn/ui** (new-york style, zinc base color) for styling — use Tailwind utility classes; `cn()` helper from `@investbook-pages/common-ui` for conditional class merging
+- **shadcn/ui components are built on individual `@radix-ui/*` packages** — always use individual Radix UI packages (e.g. `@radix-ui/react-dialog`, `@radix-ui/react-slot`) as the primitive layer; do NOT use the monolithic `radix-ui` package, `@base-ui/react`, or other component libraries
 - **React Router v7** — `createBrowserRouter` pattern
 - **Vitest** + **@testing-library/react** for tests
 - **Nx 22** for monorepo task orchestration and caching
@@ -80,6 +81,8 @@ npx nx build common-ui
 ### Nx module boundary enforcement
 
 The `@nx/enforce-module-boundaries` ESLint rule is active. Apps can import from libs; libs must not import from apps or create circular dependencies.
+
+**Important:** The wildcard path alias `"*": ["apps/local/src/app/*"]` lives only in `apps/local/tsconfig.json`, NOT in `tsconfig.base.json`. Putting app-level paths in `tsconfig.base.json` causes Nx to detect a circular dependency (lib → app → lib). Libs only inherit the `@investbook-pages/*` paths from `tsconfig.base.json`.
 
 ## Code conventions
 
