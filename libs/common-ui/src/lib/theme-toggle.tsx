@@ -1,15 +1,10 @@
-import { FC, useEffect, useState } from 'react';
+import { FC, useState } from 'react';
 import { Moon, Sun } from 'lucide-react';
 import { Button } from './button';
 import { cn } from './utils';
 
 export const ThemeToggle: FC<{ className?: string }> = ({ className }) => {
-  const [isDark, setIsDark] = useState(false);
-
-  useEffect(() => {
-    const isDarkMode = document.documentElement.classList.contains('dark');
-    setIsDark(isDarkMode);
-  }, []);
+  const [isDark, setIsDark] = useState(document.documentElement.classList.contains('dark'));
 
   const toggleTheme = () => {
     const htmlElement = document.documentElement;
