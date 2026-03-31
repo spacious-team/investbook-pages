@@ -7,4 +7,5 @@ export * from './lib/sheet';
 export * from './lib/skeleton';
 export * from './lib/sidebar';
 export * from './lib/tooltip';
+export * from './lib/theme-toggle';
 export * from './lib/use-mobile';

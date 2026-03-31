@@ -8,10 +8,10 @@ const DemoPage: FC = () => {
   return (
     <div className="mx-auto max-w-xl px-4 py-6">
       <Banner text="Demo Page" />
-      <p className="text-gray-600 mb-4">
+      <p className="mb-4">
         This is a demo page to show that the router works correctly.
       </p>
-      <div className="bg-blue-50 border border-blue-200 rounded p-4 mb-6">
+      <div className="bg-secondary border border-blue-200 rounded p-4 mb-6">
         <p className="text-sm">
           You can navigate between different pages using the router configuration in app.tsx
         </p>
