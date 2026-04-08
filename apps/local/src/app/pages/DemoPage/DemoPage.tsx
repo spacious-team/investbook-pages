@@ -13,14 +13,11 @@ const DemoPage: FC = () => {
       </p>
       <div className="bg-secondary border border-blue-200 rounded p-4 mb-6">
         <p className="text-sm">
-          You can navigate between different pages using the router configuration in app.tsx
+          You can navigate between different pages using the router
+          configuration in app.tsx
         </p>
       </div>
-      <Button
-        onClick={() => navigate('/')}
-      >
-        Back to Main Page
-      </Button>
+      <Button onClick={() => navigate('/')}>Back to Main Page</Button>
     </div>
   );
 };

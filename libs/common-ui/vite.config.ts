@@ -1,7 +1,6 @@
 /// <reference types="vitest" />
 import { defineConfig } from 'vitest/config';
 import react from '@vitejs/plugin-react';
-import viteTsConfigPaths from 'vite-tsconfig-paths';
 import dts from 'vite-plugin-dts';
 import { joinPathFragments } from '@nx/devkit';
 
@@ -9,15 +8,16 @@ export default defineConfig({
   root: __dirname,
   cacheDir: '../../node_modules/.vite/common-ui',
 
+  resolve: {
+    tsconfigPaths: true,
+  },
+
   plugins: [
     dts({
       entryRoot: 'src',
       tsconfigPath: joinPathFragments(__dirname, 'tsconfig.lib.json'),
     }),
     react(),
-    viteTsConfigPaths({
-      root: '../../',
-    }),
   ],
 
   // Uncomment this if you are using workers.

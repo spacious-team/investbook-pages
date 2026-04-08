@@ -21,11 +21,7 @@ const MainPage: FC = () => {
           </li>
         ))}
       </ul>
-      <Button
-        onClick={() => navigate('/demo')}
-      >
-        Go to Demo Page
-      </Button>
+      <Button onClick={() => navigate('/demo')}>Go to Demo Page</Button>
     </div>
   );
 };

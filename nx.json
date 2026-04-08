@@ -50,5 +50,6 @@
   "cli": {
     "packageManager": "yarn"
   },
-  "useInferencePlugins": false
+  "useInferencePlugins": false,
+  "analytics": true
 }

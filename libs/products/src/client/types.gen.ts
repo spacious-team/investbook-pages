@@ -341,185 +341,185 @@ export type DvizhenieDsPoSchetu = {
 };
 
 export type PageableObject = {
-  unpaged?: boolean;
+  offset?: number;
   sort?: SortObject;
   paged?: boolean;
   pageNumber?: number;
   pageSize?: number;
-  offset?: number;
+  unpaged?: boolean;
 };
 
 export type PageSdelka = {
   totalElements?: number;
   totalPages?: number;
-  sort?: SortObject;
-  pageable?: PageableObject;
-  numberOfElements?: number;
   size?: number;
   content?: Array<Sdelka>;
   number?: number;
   first?: boolean;
   last?: boolean;
+  numberOfElements?: number;
+  sort?: SortObject;
+  pageable?: PageableObject;
   empty?: boolean;
 };
 
 export type SortObject = {
-  unsorted?: boolean;
-  sorted?: boolean;
   empty?: boolean;
+  sorted?: boolean;
+  unsorted?: boolean;
 };
 
 export type PageDvizhenieDsPoSdelke = {
   totalElements?: number;
   totalPages?: number;
-  sort?: SortObject;
-  pageable?: PageableObject;
-  numberOfElements?: number;
   size?: number;
   content?: Array<DvizhenieDsPoSdelke>;
   number?: number;
   first?: boolean;
   last?: boolean;
+  numberOfElements?: number;
+  sort?: SortObject;
+  pageable?: PageableObject;
   empty?: boolean;
 };
 
 export type PageKotirovka = {
   totalElements?: number;
   totalPages?: number;
-  sort?: SortObject;
-  pageable?: PageableObject;
-  numberOfElements?: number;
   size?: number;
   content?: Array<Kotirovka>;
   number?: number;
   first?: boolean;
   last?: boolean;
+  numberOfElements?: number;
+  sort?: SortObject;
+  pageable?: PageableObject;
   empty?: boolean;
 };
 
 export type PageSobytiePoBumage = {
   totalElements?: number;
   totalPages?: number;
-  sort?: SortObject;
-  pageable?: PageableObject;
-  numberOfElements?: number;
   size?: number;
   content?: Array<SobytiePoBumage>;
   number?: number;
   first?: boolean;
   last?: boolean;
+  numberOfElements?: number;
+  sort?: SortObject;
+  pageable?: PageableObject;
   empty?: boolean;
 };
 
 export type PageSvojstvaInstrumenta = {
   totalElements?: number;
   totalPages?: number;
-  sort?: SortObject;
-  pageable?: PageableObject;
-  numberOfElements?: number;
   size?: number;
   content?: Array<SvojstvaInstrumenta>;
   number?: number;
   first?: boolean;
   last?: boolean;
+  numberOfElements?: number;
+  sort?: SortObject;
+  pageable?: PageableObject;
   empty?: boolean;
 };
 
 export type PageInstrument = {
   totalElements?: number;
   totalPages?: number;
-  sort?: SortObject;
-  pageable?: PageableObject;
-  numberOfElements?: number;
   size?: number;
   content?: Array<Instrument>;
   number?: number;
   first?: boolean;
   last?: boolean;
+  numberOfElements?: number;
+  sort?: SortObject;
+  pageable?: PageableObject;
   empty?: boolean;
 };
 
 export type PageSchet = {
   totalElements?: number;
   totalPages?: number;
-  sort?: SortObject;
-  pageable?: PageableObject;
-  numberOfElements?: number;
   size?: number;
   content?: Array<Schet>;
   number?: number;
   first?: boolean;
   last?: boolean;
+  numberOfElements?: number;
+  sort?: SortObject;
+  pageable?: PageableObject;
   empty?: boolean;
 };
 
 export type PageSvojstvaScheta = {
   totalElements?: number;
   totalPages?: number;
-  sort?: SortObject;
-  pageable?: PageableObject;
-  numberOfElements?: number;
   size?: number;
   content?: Array<SvojstvaScheta>;
   number?: number;
   first?: boolean;
   last?: boolean;
+  numberOfElements?: number;
+  sort?: SortObject;
+  pageable?: PageableObject;
   empty?: boolean;
 };
 
 export type PageOstatokDenezhnykhSredstv = {
   totalElements?: number;
   totalPages?: number;
-  sort?: SortObject;
-  pageable?: PageableObject;
-  numberOfElements?: number;
   size?: number;
   content?: Array<OstatokDenezhnykhSredstv>;
   number?: number;
   first?: boolean;
   last?: boolean;
+  numberOfElements?: number;
+  sort?: SortObject;
+  pageable?: PageableObject;
   empty?: boolean;
 };
 
 export type PageEmitent = {
   totalElements?: number;
   totalPages?: number;
-  sort?: SortObject;
-  pageable?: PageableObject;
-  numberOfElements?: number;
   size?: number;
   content?: Array<Emitent>;
   number?: number;
   first?: boolean;
   last?: boolean;
+  numberOfElements?: number;
+  sort?: SortObject;
+  pageable?: PageableObject;
   empty?: boolean;
 };
 
 export type PageOfitsialnyjObmennyjKurs = {
   totalElements?: number;
   totalPages?: number;
-  sort?: SortObject;
-  pageable?: PageableObject;
-  numberOfElements?: number;
   size?: number;
   content?: Array<OfitsialnyjObmennyjKurs>;
   number?: number;
   first?: boolean;
   last?: boolean;
+  numberOfElements?: number;
+  sort?: SortObject;
+  pageable?: PageableObject;
   empty?: boolean;
 };
 
 export type PageDvizhenieDsPoSchetu = {
   totalElements?: number;
   totalPages?: number;
-  sort?: SortObject;
-  pageable?: PageableObject;
-  numberOfElements?: number;
   size?: number;
   content?: Array<DvizhenieDsPoSchetu>;
   number?: number;
   first?: boolean;
   last?: boolean;
+  numberOfElements?: number;
+  sort?: SortObject;
+  pageable?: PageableObject;
   empty?: boolean;
 };
 

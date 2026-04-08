@@ -1,7 +1,6 @@
 import { ThemeToggle } from '@investbook-pages/common-ui';
 
 export default function Navbar() {
-  
   return (
     <nav className="w-full bg-primary text-primary-foreground py-4 px-6">
       <div className="flex items-center justify-between">
@@ -9,5 +8,5 @@ export default function Navbar() {
         <ThemeToggle />
       </div>
     </nav>
-  )
+  );
 }

@@ -2,7 +2,6 @@
 import { defineConfig } from 'vitest/config';
 import tailwindcss from '@tailwindcss/vite';
 import react from '@vitejs/plugin-react';
-import viteTsConfigPaths from 'vite-tsconfig-paths';
 
 export default defineConfig({
   root: __dirname,
@@ -18,13 +17,11 @@ export default defineConfig({
     host: 'localhost',
   },
 
-  plugins: [
-    tailwindcss(),
-    react(),
-    viteTsConfigPaths({
-      root: '../../',
-    }),
-  ],
+  resolve: {
+    tsconfigPaths: true,
+  },
+
+  plugins: [tailwindcss(), react()],
 
   // Uncomment this if you are using workers.
   // worker: {

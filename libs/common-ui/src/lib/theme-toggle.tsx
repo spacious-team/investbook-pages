@@ -4,12 +4,14 @@ import { Button } from './button';
 import { cn } from './utils';
 
 export const ThemeToggle: FC<{ className?: string }> = ({ className }) => {
-  const [isDark, setIsDark] = useState(document.documentElement.classList.contains('dark'));
+  const [isDark, setIsDark] = useState(
+    document.documentElement.classList.contains('dark'),
+  );
 
   const toggleTheme = () => {
     const htmlElement = document.documentElement;
     const newDarkMode = !isDark;
-    
+
     if (newDarkMode) {
       htmlElement.classList.add('dark');
       localStorage.setItem('theme', 'dark');
@@ -17,7 +19,7 @@ export const ThemeToggle: FC<{ className?: string }> = ({ className }) => {
       htmlElement.classList.remove('dark');
       localStorage.setItem('theme', 'light');
     }
-    
+
     setIsDark(newDarkMode);
   };
 
@@ -29,11 +31,7 @@ export const ThemeToggle: FC<{ className?: string }> = ({ className }) => {
       className={cn('size-9', className)}
       title={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
     >
-      {isDark ? (
-        <Sun className="size-4" />
-      ) : (
-        <Moon className="size-4" />
-      )}
+      {isDark ? <Sun className="size-4" /> : <Moon className="size-4" />}
       <span className="sr-only">Toggle theme</span>
     </Button>
   );
