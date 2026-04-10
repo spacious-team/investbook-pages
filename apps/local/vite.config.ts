@@ -2,6 +2,7 @@
 import { defineConfig } from 'vitest/config';
 import tailwindcss from '@tailwindcss/vite';
 import react from '@vitejs/plugin-react';
+import path from 'path';
 
 export default defineConfig({
   root: __dirname,
@@ -18,7 +19,17 @@ export default defineConfig({
   },
 
   resolve: {
-    tsconfigPaths: true,
+    alias: {
+      '@investbook-pages/common-ui': path.resolve(
+        __dirname,
+        '../../libs/common-ui/src/index.ts',
+      ),
+      '@investbook-pages/products': path.resolve(
+        __dirname,
+        '../../libs/products/src/index.ts',
+      ),
+      widgets: path.resolve(__dirname, 'src/app/widgets'),
+    },
   },
 
   plugins: [tailwindcss(), react()],
