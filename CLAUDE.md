@@ -84,6 +84,10 @@ The `@nx/enforce-module-boundaries` ESLint rule is active. Apps can import from 
 
 **Important:** The wildcard path alias `"*": ["apps/local/src/app/*"]` lives only in `apps/local/tsconfig.json`, NOT in `tsconfig.base.json`. Putting app-level paths in `tsconfig.base.json` causes Nx to detect a circular dependency (lib → app → lib). Libs only inherit the `@investbook-pages/*` paths from `tsconfig.base.json`.
 
+## Testing conventions
+
+Do **not** write tests unless the user explicitly asks for them. This project uses Vitest + @testing-library/react, but tests are added on demand only — not as a default step when creating components or pages.
+
 ## Code conventions
 
 - Component files use PascalCase (`MainPage.tsx`, `Banner.tsx`)

@@ -1,6 +1,5 @@
 /// <reference types="vitest" />
 import { defineConfig } from 'vitest/config';
-import viteTsConfigPaths from 'vite-tsconfig-paths';
 import dts from 'vite-plugin-dts';
 import { joinPathFragments } from '@nx/devkit';
 
@@ -8,14 +7,14 @@ export default defineConfig({
   root: __dirname,
   cacheDir: '../../node_modules/.vite/products',
 
+  resolve: {
+    tsconfigPaths: true,
+  },
+
   plugins: [
     dts({
       entryRoot: 'src',
       tsconfigPath: joinPathFragments(__dirname, 'tsconfig.lib.json'),
-    }),
-
-    viteTsConfigPaths({
-      root: '../../',
     }),
   ],
 

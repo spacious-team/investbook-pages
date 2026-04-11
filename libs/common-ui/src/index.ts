@@ -1,3 +1,5 @@
+export * from './lib/dropdown-menu';
+export * from './lib/logo';
 export * from './lib/typography';
 export * from './lib/utils';
 export * from './lib/button';

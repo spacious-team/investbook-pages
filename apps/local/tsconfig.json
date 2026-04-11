@@ -2,14 +2,13 @@
   "compilerOptions": {
     "jsx": "react-jsx",
     "allowJs": false,
-    "esModuleInterop": false,
     "allowSyntheticDefaultImports": true,
     "strict": true,
     "types": ["vite/client", "vitest"],
     "paths": {
-      "@investbook-pages/common-ui": ["libs/common-ui/src/index.ts"],
-      "@investbook-pages/products": ["libs/products/src/index.ts"],
-      "*": ["apps/local/src/app/*"]
+      "@investbook-pages/common-ui": ["../../libs/common-ui/src/index.ts"],
+      "@investbook-pages/products": ["../../libs/products/src/index.ts"],
+      "*": ["./src/app/*"]
     }
   },
   "files": [],
