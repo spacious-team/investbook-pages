@@ -13,6 +13,7 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from '@investbook-pages/common-ui';
+import { useTranslation } from '@investbook-pages/products';
 import {
   BarChart3,
   BriefcaseBusiness,
@@ -23,16 +24,17 @@ import {
 import { NavLink, Outlet, useLocation } from 'react-router-dom';
 import Header from 'widgets/Header/Header';
 
-const navItems = [
-  { to: '/portfolio', label: 'Портфель', icon: BriefcaseBusiness },
-  { to: '/analytics', label: 'Аналитика', icon: BarChart3 },
-  { to: '/taxes', label: 'Налоги', icon: Receipt },
-  { to: '/upload', label: 'Загрузить отчёты', icon: Upload },
-  { to: '/forms', label: 'Формы', icon: FileText },
-];
-
 export default function MainLayout() {
+  const { t } = useTranslation();
   const { pathname } = useLocation();
+
+  const navItems = [
+    { to: '/portfolio', label: t('nav.portfolio'), icon: BriefcaseBusiness },
+    { to: '/analytics', label: t('nav.analytics'), icon: BarChart3 },
+    { to: '/taxes', label: t('nav.taxes'), icon: Receipt },
+    { to: '/upload', label: t('nav.upload'), icon: Upload },
+    { to: '/forms', label: t('nav.forms'), icon: FileText },
+  ];
 
   return (
     <SidebarProvider>
