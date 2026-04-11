@@ -96,6 +96,26 @@ Do **not** write tests unless the user explicitly asks for them. This project us
 - Nx generators default to `none` for styling (no CSS-in-JS), `eslint`, `vite`, and `vitest` — use these defaults when scaffolding new apps/libs
 - New shadcn/ui components: run `npx shadcn add <component>` from repo root; components land in `libs/common-ui/src/lib/` and must be re-exported from `libs/common-ui/src/index.ts`
 
+## Internationalisation (i18n)
+
+The project uses `react-i18next` with a single Russian locale. No other languages are planned.
+
+- **Translation file:** `libs/products/src/i18n/ru.json` — single source of truth for all UI strings, organised by area (`nav`, `pageTitles`, `header`, `header.menu`)
+- **Init module:** `libs/products/src/i18n/index.ts` — initialises i18next synchronously (`initImmediate: false`) and re-exports `useTranslation`
+- **Import:** `import { useTranslation } from '@investbook-pages/products'`
+- **Usage:** call `const { t } = useTranslation()` inside the component, then `t('pageTitles.portfolio')` etc.
+
+All hardcoded Russian strings must go through `t()`. When adding new UI copy, add the key to `ru.json` first, then use it in the component.
+
+Key namespaces in `ru.json`:
+
+| Namespace                                                                | Used in                                       |
+| ------------------------------------------------------------------------ | --------------------------------------------- |
+| `nav.*`                                                                  | Sidebar navigation labels (short form)        |
+| `pageTitles.*`                                                           | Header title per route + Banner text on pages |
+| `header.menu.*`                                                          | User dropdown menu items                      |
+| `header.theme`, `header.themeLight`, `header.themeDark`, `header.logout` | Theme submenu and logout button               |
+
 ## API client generation (openapi-ts)
 
 ```bash

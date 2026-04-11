@@ -1,0 +1,31 @@
+{
+  "nav": {
+    "portfolio": "Портфель",
+    "analytics": "Аналитика",
+    "taxes": "Налоги",
+    "upload": "Загрузить отчёты",
+    "forms": "Формы"
+  },
+  "pageTitles": {
+    "portfolio": "Портфель",
+    "analytics": "Аналитика",
+    "taxes": "Налоги",
+    "upload": "Загрузить отчёты брокера",
+    "forms": "Формы"
+  },
+  "header": {
+    "menu": {
+      "updates": "Обновления",
+      "docs": "Документация",
+      "news": "Новости",
+      "help": "Помощь",
+      "bugreport": "Багрепорт",
+      "feedback": "Оставить отзыв",
+      "contact": "Связаться"
+    },
+    "theme": "Тема",
+    "themeLight": "Светлая",
+    "themeDark": "Темная",
+    "logout": "Выход"
+  }
+}

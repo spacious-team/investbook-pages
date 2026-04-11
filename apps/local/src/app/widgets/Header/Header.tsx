@@ -14,55 +14,9 @@ import {
   Sun,
   SunMoon,
 } from 'lucide-react';
+import { useTranslation } from '@investbook-pages/products';
 import { useState } from 'react';
 import { useLocation } from 'react-router-dom';
-
-const pageTitles: Record<string, string> = {
-  '/': 'Портфель',
-  '/portfolio': 'Портфель',
-  '/analytics': 'Аналитика',
-  '/taxes': 'Налоги',
-  '/upload': 'Загрузить отчёты брокера',
-  '/forms': 'Формы',
-};
-
-const menuItems = [
-  {
-    label: 'Обновления',
-    icon: RefreshCw,
-    href: 'https://github.com/spacious-team/investbook/releases/latest',
-  },
-  {
-    label: 'Документация',
-    icon: ExternalLink,
-    href: '/user-guide/index.html',
-  },
-  {
-    label: 'Новости',
-    icon: Newspaper,
-    href: 'https://t.me/investbook_official',
-  },
-  {
-    label: 'Помощь',
-    icon: HelpCircle,
-    href: 'https://t.me/investbook_official',
-  },
-  {
-    label: 'Багрепорт',
-    icon: Bug,
-    href: 'https://github.com/spacious-team/investbook/issues/new?labels=bug&template=bug_report.md',
-  },
-  {
-    label: 'Оставить отзыв',
-    icon: Star,
-    href: 'https://otzovik.com/reviews/investbook-prilozhenie_investora_i_treydera/',
-  },
-  {
-    label: 'Связаться',
-    icon: Mail,
-    href: 'mailto:spacious-team@ya.ru',
-  },
-] as const;
 
 const itemClass =
   'flex w-full items-center gap-2 rounded-sm px-2 py-1.5 text-sm text-left cursor-pointer outline-none transition-colors hover:bg-accent hover:text-accent-foreground [&_svg]:size-4 [&_svg]:shrink-0';
@@ -72,6 +26,55 @@ const panelClass =
 
 export default function Header() {
   const { pathname } = useLocation();
+  const { t } = useTranslation();
+
+  const pageTitles: Record<string, string> = {
+    '/': t('pageTitles.portfolio'),
+    '/portfolio': t('pageTitles.portfolio'),
+    '/analytics': t('pageTitles.analytics'),
+    '/taxes': t('pageTitles.taxes'),
+    '/upload': t('pageTitles.upload'),
+    '/forms': t('pageTitles.forms'),
+  };
+
+  const menuItems = [
+    {
+      label: t('header.menu.updates'),
+      icon: RefreshCw,
+      href: 'https://github.com/spacious-team/investbook/releases/latest',
+    },
+    {
+      label: t('header.menu.docs'),
+      icon: ExternalLink,
+      href: '/user-guide/index.html',
+    },
+    {
+      label: t('header.menu.news'),
+      icon: Newspaper,
+      href: 'https://t.me/investbook_official',
+    },
+    {
+      label: t('header.menu.help'),
+      icon: HelpCircle,
+      href: 'https://t.me/investbook_official',
+    },
+    {
+      label: t('header.menu.bugreport'),
+      icon: Bug,
+      href: 'https://github.com/spacious-team/investbook/issues/new?labels=bug&template=bug_report.md',
+    },
+    {
+      label: t('header.menu.feedback'),
+      icon: Star,
+      href: 'https://otzovik.com/reviews/investbook-prilozhenie_investora_i_treydera/',
+    },
+    {
+      label: t('header.menu.contact'),
+      icon: Mail,
+      href: 'mailto:spacious-team@ya.ru',
+    },
+  ];
+
   const title = pageTitles[pathname] ?? '';
 
   const [isDark, setIsDark] = useState(
@@ -120,7 +123,7 @@ export default function Header() {
               <div className="relative group/theme">
                 <button className={itemClass}>
                   <SunMoon />
-                  Тема
+                  {t('header.theme')}
                   <ChevronLeft className="ml-auto" />
                 </button>
 
@@ -132,7 +135,7 @@ export default function Header() {
                       onClick={() => applyTheme(false)}
                     >
                       <Sun />
-                      Светлая
+                      {t('header.themeLight')}
                       {!isDark && <Check className="ml-auto" />}
                     </button>
                     <button
@@ -140,7 +143,7 @@ export default function Header() {
                       onClick={() => applyTheme(true)}
                     >
                       <Moon />
-                      Темная
+                      {t('header.themeDark')}
                       {isDark && <Check className="ml-auto" />}
                     </button>
                   </div>
@@ -153,7 +156,7 @@ export default function Header() {
                 onClick={() => console.log('logout')}
               >
                 <LogOut />
-                Выход
+                {t('header.logout')}
               </button>
             </div>
           </div>

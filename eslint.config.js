@@ -83,4 +83,15 @@ module.exports = [
 
   // Disable ESLint rules that conflict with Prettier (must be last)
   prettierConfig,
+
+  // Re-enable rules that don't conflict with Prettier but are turned off by eslint-config-prettier
+  {
+    files: ['**/*.ts', '**/*.tsx', '**/*.js', '**/*.jsx'],
+    rules: {
+      'padding-line-between-statements': [
+        'warn',
+        { blankLine: 'always', prev: '*', next: 'return' },
+      ],
+    },
+  },
 ];
