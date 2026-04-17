@@ -4,7 +4,7 @@ export type ClientOptions = {
   baseUrl: 'http://localhost:2030' | (string & {});
 };
 
-export type Sdelka = {
+export type Transaction = {
   /**
    * Внутренний идентификатор сделки
    */
@@ -12,9 +12,9 @@ export type Sdelka = {
   /**
    * Номер счета в системе учета брокера
    */
-  portfolio: string;
+  account: string;
   /**
-   * Instrument
+   * Инструмент
    */
   security: number;
   /**
@@ -31,7 +31,7 @@ export type Sdelka = {
   'trade-id': string;
 };
 
-export type DvizhenieDsPoSdelke = {
+export type TransactionCashFlow = {
   /**
    * Внутренний идентификатор записи
    */
@@ -68,13 +68,13 @@ export type DvizhenieDsPoSdelke = {
     | 'DERIVATIVE_QUOTE';
 };
 
-export type Kotirovka = {
+export type SecurityQuote = {
   /**
    * Внутренний идентификатор записи
    */
   id?: number;
   /**
-   * Instrument
+   * Инструмент
    */
   security: number;
   /**
@@ -82,11 +82,11 @@ export type Kotirovka = {
    */
   timestamp: string;
   /**
-   * Kotirovka (для облигаций - в процентах, деривативы - в пунктах)
+   * Котировка (для облигаций - в процентах, деривативы - в пунктах)
    */
   quote: number;
   /**
-   * Kotirovka (в валюте, только для облигаций и деривативов)
+   * Котировка (в валюте, только для облигаций и деривативов)
    */
   price?: number;
   /**
@@ -102,7 +102,7 @@ export type Kotirovka = {
 /**
  * Дивиденды, купоны, амортизация, вариационная маржа, налоги, комиссии
  */
-export type SobytiePoBumage = {
+export type SecurityEventCashFlow = {
   /**
    * Внутренний идентификатор записи
    */
@@ -110,13 +110,13 @@ export type SobytiePoBumage = {
   /**
    * Номер счета в системе учета брокера
    */
-  portfolio: string;
+  account: string;
   /**
    * Время события
    */
   timestamp: string;
   /**
-   * Instrument
+   * Инструмент
    */
   security: number;
   /**
@@ -154,7 +154,7 @@ export type SobytiePoBumage = {
 /**
  * Информация об инструменте
  */
-export type SvojstvaInstrumenta = {
+export type SecurityDescription = {
   /**
    * Внутренний идентификатор инструмента
    */
@@ -172,7 +172,7 @@ export type SvojstvaInstrumenta = {
 /**
  * Акция, облигация, валютная пара, фьючерс, опцион или произвольный актив
  */
-export type Instrument = {
+export type Security = {
   /**
    * Внутренний идентификатор инструмента
    */
@@ -201,68 +201,7 @@ export type Instrument = {
   name?: string;
 };
 
-export type Schet = {
-  /**
-   * Номер счета в системе учета брокера
-   */
-  id: string;
-  /**
-   * Признак активного счета: если false то счет исключается из аналитического расчета
-   */
-  enabled: boolean;
-};
-
-export type SvojstvaScheta = {
-  /**
-   * Внутренний идентификатор записи
-   */
-  id?: number;
-  /**
-   * Номер счета
-   */
-  portfolio: string;
-  /**
-   * Информация актуальна на время
-   */
-  timestamp?: string;
-  /**
-   * Свойство портфеля
-   */
-  property: 'TOTAL_ASSETS_RUB' | 'TOTAL_ASSETS_USD';
-  /**
-   * Значение свойства
-   */
-  value: string;
-};
-
-export type OstatokDenezhnykhSredstv = {
-  /**
-   * Внутренний идентификатор
-   */
-  id?: number;
-  /**
-   * Номер счета в системе учета брокера
-   */
-  portfolio: string;
-  /**
-   * Значение актуально на дату
-   */
-  timestamp: string;
-  /**
-   * Рынок
-   */
-  market: string;
-  /**
-   * OstatokDenezhnykhSredstv
-   */
-  value: number;
-  /**
-   * Валюта
-   */
-  currency: string;
-};
-
-export type Emitent = {
+export type Issuer = {
   /**
    * Внутренний идентификатор эмитента
    */
@@ -277,7 +216,7 @@ export type Emitent = {
   name: string;
 };
 
-export type OfitsialnyjObmennyjKurs = {
+export type ForeignExchangeRate = {
   /**
    * Дата
    */
@@ -295,7 +234,7 @@ export type OfitsialnyjObmennyjKurs = {
 /**
  * Ввод и вывод ДС, налоги, комиссии, а также выплаты по инструментам другого счета
  */
-export type DvizhenieDsPoSchetu = {
+export type EventCashFlow = {
   /**
    * Идентификатор записи
    */
@@ -303,7 +242,7 @@ export type DvizhenieDsPoSchetu = {
   /**
    * Номер счета
    */
-  portfolio: string;
+  account: string;
   /**
    * Время события
    */
@@ -340,20 +279,72 @@ export type DvizhenieDsPoSchetu = {
     | 'DERIVATIVE_QUOTE';
 };
 
-export type PageableObject = {
-  offset?: number;
-  sort?: SortObject;
-  paged?: boolean;
-  pageNumber?: number;
-  pageSize?: number;
-  unpaged?: boolean;
+export type Account = {
+  /**
+   * Номер счета в системе учета брокера
+   */
+  id: string;
+  /**
+   * Признак активного счета: если false то счет исключается из аналитического расчета
+   */
+  enabled: boolean;
 };
 
-export type PageSdelka = {
+export type AccountProperty = {
+  /**
+   * Внутренний идентификатор записи
+   */
+  id?: number;
+  /**
+   * Номер счета
+   */
+  account: string;
+  /**
+   * Информация актуальна на время
+   */
+  timestamp?: string;
+  /**
+   * Свойство портфеля
+   */
+  property: 'TOTAL_ASSETS_RUB' | 'TOTAL_ASSETS_USD';
+  /**
+   * Значение свойства
+   */
+  value: string;
+};
+
+export type AccountCash = {
+  /**
+   * Внутренний идентификатор
+   */
+  id?: number;
+  /**
+   * Номер счета в системе учета брокера
+   */
+  account: string;
+  /**
+   * Значение актуально на дату
+   */
+  timestamp: string;
+  /**
+   * Рынок
+   */
+  market: string;
+  /**
+   * Остаток денежных средств
+   */
+  value: number;
+  /**
+   * Валюта
+   */
+  currency: string;
+};
+
+export type PageTransaction = {
   totalElements?: number;
   totalPages?: number;
   size?: number;
-  content?: Array<Sdelka>;
+  content?: Array<Transaction>;
   number?: number;
   first?: boolean;
   last?: boolean;
@@ -361,6 +352,15 @@ export type PageSdelka = {
   sort?: SortObject;
   pageable?: PageableObject;
   empty?: boolean;
+};
+
+export type PageableObject = {
+  offset?: number;
+  unpaged?: boolean;
+  sort?: SortObject;
+  paged?: boolean;
+  pageNumber?: number;
+  pageSize?: number;
 };
 
 export type SortObject = {
@@ -369,11 +369,11 @@ export type SortObject = {
   unsorted?: boolean;
 };
 
-export type PageDvizhenieDsPoSdelke = {
+export type PageTransactionCashFlow = {
   totalElements?: number;
   totalPages?: number;
   size?: number;
-  content?: Array<DvizhenieDsPoSdelke>;
+  content?: Array<TransactionCashFlow>;
   number?: number;
   first?: boolean;
   last?: boolean;
@@ -383,11 +383,11 @@ export type PageDvizhenieDsPoSdelke = {
   empty?: boolean;
 };
 
-export type PageKotirovka = {
+export type PageSecurityQuote = {
   totalElements?: number;
   totalPages?: number;
   size?: number;
-  content?: Array<Kotirovka>;
+  content?: Array<SecurityQuote>;
   number?: number;
   first?: boolean;
   last?: boolean;
@@ -397,11 +397,11 @@ export type PageKotirovka = {
   empty?: boolean;
 };
 
-export type PageSobytiePoBumage = {
+export type PageSecurityEventCashFlow = {
   totalElements?: number;
   totalPages?: number;
   size?: number;
-  content?: Array<SobytiePoBumage>;
+  content?: Array<SecurityEventCashFlow>;
   number?: number;
   first?: boolean;
   last?: boolean;
@@ -411,11 +411,11 @@ export type PageSobytiePoBumage = {
   empty?: boolean;
 };
 
-export type PageSvojstvaInstrumenta = {
+export type PageSecurityDescription = {
   totalElements?: number;
   totalPages?: number;
   size?: number;
-  content?: Array<SvojstvaInstrumenta>;
+  content?: Array<SecurityDescription>;
   number?: number;
   first?: boolean;
   last?: boolean;
@@ -425,11 +425,11 @@ export type PageSvojstvaInstrumenta = {
   empty?: boolean;
 };
 
-export type PageInstrument = {
+export type PageSecurity = {
   totalElements?: number;
   totalPages?: number;
   size?: number;
-  content?: Array<Instrument>;
+  content?: Array<Security>;
   number?: number;
   first?: boolean;
   last?: boolean;
@@ -439,11 +439,11 @@ export type PageInstrument = {
   empty?: boolean;
 };
 
-export type PageSchet = {
+export type PageIssuer = {
   totalElements?: number;
   totalPages?: number;
   size?: number;
-  content?: Array<Schet>;
+  content?: Array<Issuer>;
   number?: number;
   first?: boolean;
   last?: boolean;
@@ -453,11 +453,11 @@ export type PageSchet = {
   empty?: boolean;
 };
 
-export type PageSvojstvaScheta = {
+export type PageForeignExchangeRate = {
   totalElements?: number;
   totalPages?: number;
   size?: number;
-  content?: Array<SvojstvaScheta>;
+  content?: Array<ForeignExchangeRate>;
   number?: number;
   first?: boolean;
   last?: boolean;
@@ -467,11 +467,11 @@ export type PageSvojstvaScheta = {
   empty?: boolean;
 };
 
-export type PageOstatokDenezhnykhSredstv = {
+export type PageEventCashFlow = {
   totalElements?: number;
   totalPages?: number;
   size?: number;
-  content?: Array<OstatokDenezhnykhSredstv>;
+  content?: Array<EventCashFlow>;
   number?: number;
   first?: boolean;
   last?: boolean;
@@ -481,11 +481,11 @@ export type PageOstatokDenezhnykhSredstv = {
   empty?: boolean;
 };
 
-export type PageEmitent = {
+export type PageAccount = {
   totalElements?: number;
   totalPages?: number;
   size?: number;
-  content?: Array<Emitent>;
+  content?: Array<Account>;
   number?: number;
   first?: boolean;
   last?: boolean;
@@ -495,11 +495,11 @@ export type PageEmitent = {
   empty?: boolean;
 };
 
-export type PageOfitsialnyjObmennyjKurs = {
+export type PageAccountProperty = {
   totalElements?: number;
   totalPages?: number;
   size?: number;
-  content?: Array<OfitsialnyjObmennyjKurs>;
+  content?: Array<AccountProperty>;
   number?: number;
   first?: boolean;
   last?: boolean;
@@ -509,11 +509,11 @@ export type PageOfitsialnyjObmennyjKurs = {
   empty?: boolean;
 };
 
-export type PageDvizhenieDsPoSchetu = {
+export type PageAccountCash = {
   totalElements?: number;
   totalPages?: number;
   size?: number;
-  content?: Array<DvizhenieDsPoSchetu>;
+  content?: Array<AccountCash>;
   number?: number;
   first?: boolean;
   last?: boolean;
@@ -575,14 +575,14 @@ export type GetTransactionsByIdResponses = {
   /**
    * OK
    */
-  200: Sdelka;
+  200: Transaction;
 };
 
 export type GetTransactionsByIdResponse =
   GetTransactionsByIdResponses[keyof GetTransactionsByIdResponses];
 
 export type PutTransactionsByIdData = {
-  body: Sdelka;
+  body: Transaction;
   path: {
     /**
      * Внутренний идентификатор сделки
@@ -666,14 +666,14 @@ export type GetTransactionCashFlowsByIdResponses = {
   /**
    * OK
    */
-  200: DvizhenieDsPoSdelke;
+  200: TransactionCashFlow;
 };
 
 export type GetTransactionCashFlowsByIdResponse =
   GetTransactionCashFlowsByIdResponses[keyof GetTransactionCashFlowsByIdResponses];
 
 export type PutTransactionCashFlowsByIdData = {
-  body: DvizhenieDsPoSdelke;
+  body: TransactionCashFlow;
   path: {
     /**
      * Внутренний идентификатор сделки
@@ -757,14 +757,14 @@ export type GetSecurityQuotesByIdResponses = {
   /**
    * OK
    */
-  200: Kotirovka;
+  200: SecurityQuote;
 };
 
 export type GetSecurityQuotesByIdResponse =
   GetSecurityQuotesByIdResponses[keyof GetSecurityQuotesByIdResponses];
 
 export type PutSecurityQuotesByIdData = {
-  body: Kotirovka;
+  body: SecurityQuote;
   path: {
     /**
      * Номер записи о котировке
@@ -848,14 +848,14 @@ export type GetSecurityEventCashFlowsByIdResponses = {
   /**
    * OK
    */
-  200: SobytiePoBumage;
+  200: SecurityEventCashFlow;
 };
 
 export type GetSecurityEventCashFlowsByIdResponse =
   GetSecurityEventCashFlowsByIdResponses[keyof GetSecurityEventCashFlowsByIdResponses];
 
 export type PutSecurityEventCashFlowsByIdData = {
-  body: SobytiePoBumage;
+  body: SecurityEventCashFlow;
   path: {
     /**
      * Внутренний идентификатор выплаты
@@ -939,14 +939,14 @@ export type GetSecurityDescriptionsByIdResponses = {
   /**
    * OK
    */
-  200: SvojstvaInstrumenta;
+  200: SecurityDescription;
 };
 
 export type GetSecurityDescriptionsByIdResponse =
   GetSecurityDescriptionsByIdResponses[keyof GetSecurityDescriptionsByIdResponses];
 
 export type PutSecurityDescriptionsByIdData = {
-  body: SvojstvaInstrumenta;
+  body: SecurityDescription;
   path: {
     /**
      * Идентификатор
@@ -1030,14 +1030,14 @@ export type GetSecuritiesByIdResponses = {
   /**
    * OK
    */
-  200: Instrument;
+  200: Security;
 };
 
 export type GetSecuritiesByIdResponse =
   GetSecuritiesByIdResponses[keyof GetSecuritiesByIdResponses];
 
 export type PutSecuritiesByIdData = {
-  body: Instrument;
+  body: Security;
   path: {
     /**
      * Идентификатор
@@ -1068,279 +1068,6 @@ export type PutSecuritiesByIdResponses = {
 
 export type PutSecuritiesByIdResponse =
   PutSecuritiesByIdResponses[keyof PutSecuritiesByIdResponses];
-
-export type DeletePortfoliosByIdData = {
-  body?: never;
-  path: {
-    /**
-     * Номер счета
-     */
-    id: string;
-  };
-  query?: never;
-  url: '/api/v1/portfolios/{id}';
-};
-
-export type DeletePortfoliosByIdErrors = {
-  /**
-   * Internal Server Error
-   */
-  500: unknown;
-};
-
-export type DeletePortfoliosByIdResponses = {
-  /**
-   * No Content
-   */
-  204: void;
-};
-
-export type DeletePortfoliosByIdResponse =
-  DeletePortfoliosByIdResponses[keyof DeletePortfoliosByIdResponses];
-
-export type GetPortfoliosByIdData = {
-  body?: never;
-  path: {
-    /**
-     * Номер счета
-     */
-    id: string;
-  };
-  query?: never;
-  url: '/api/v1/portfolios/{id}';
-};
-
-export type GetPortfoliosByIdErrors = {
-  /**
-   * Internal Server Error
-   */
-  500: unknown;
-};
-
-export type GetPortfoliosByIdResponses = {
-  /**
-   * OK
-   */
-  200: Schet;
-};
-
-export type GetPortfoliosByIdResponse =
-  GetPortfoliosByIdResponses[keyof GetPortfoliosByIdResponses];
-
-export type PutPortfoliosByIdData = {
-  body: Schet;
-  path: {
-    /**
-     * Номер счета
-     */
-    id: string;
-  };
-  query?: never;
-  url: '/api/v1/portfolios/{id}';
-};
-
-export type PutPortfoliosByIdErrors = {
-  /**
-   * Internal Server Error
-   */
-  500: unknown;
-};
-
-export type PutPortfoliosByIdResponses = {
-  /**
-   * Created
-   */
-  201: unknown;
-  /**
-   * No Content
-   */
-  204: void;
-};
-
-export type PutPortfoliosByIdResponse =
-  PutPortfoliosByIdResponses[keyof PutPortfoliosByIdResponses];
-
-export type DeletePortfolioPropertiesByIdData = {
-  body?: never;
-  path: {
-    /**
-     * Внутренний идентификатор записи
-     */
-    id: number;
-  };
-  query?: never;
-  url: '/api/v1/portfolio-properties/{id}';
-};
-
-export type DeletePortfolioPropertiesByIdErrors = {
-  /**
-   * Internal Server Error
-   */
-  500: unknown;
-};
-
-export type DeletePortfolioPropertiesByIdResponses = {
-  /**
-   * No Content
-   */
-  204: void;
-};
-
-export type DeletePortfolioPropertiesByIdResponse =
-  DeletePortfolioPropertiesByIdResponses[keyof DeletePortfolioPropertiesByIdResponses];
-
-export type GetPortfolioPropertiesByIdData = {
-  body?: never;
-  path: {
-    /**
-     * Внутренний идентификатор записи
-     */
-    id: number;
-  };
-  query?: never;
-  url: '/api/v1/portfolio-properties/{id}';
-};
-
-export type GetPortfolioPropertiesByIdErrors = {
-  /**
-   * Internal Server Error
-   */
-  500: unknown;
-};
-
-export type GetPortfolioPropertiesByIdResponses = {
-  /**
-   * OK
-   */
-  200: SvojstvaScheta;
-};
-
-export type GetPortfolioPropertiesByIdResponse =
-  GetPortfolioPropertiesByIdResponses[keyof GetPortfolioPropertiesByIdResponses];
-
-export type PutPortfolioPropertiesByIdData = {
-  body: SvojstvaScheta;
-  path: {
-    /**
-     * Внутренний идентификатор записи
-     */
-    id: number;
-  };
-  query?: never;
-  url: '/api/v1/portfolio-properties/{id}';
-};
-
-export type PutPortfolioPropertiesByIdErrors = {
-  /**
-   * Internal Server Error
-   */
-  500: unknown;
-};
-
-export type PutPortfolioPropertiesByIdResponses = {
-  /**
-   * Created
-   */
-  201: unknown;
-  /**
-   * No Content
-   */
-  204: void;
-};
-
-export type PutPortfolioPropertiesByIdResponse =
-  PutPortfolioPropertiesByIdResponses[keyof PutPortfolioPropertiesByIdResponses];
-
-export type DeletePortfolioCashByIdData = {
-  body?: never;
-  path: {
-    /**
-     * Внутренний идентификатор записи
-     */
-    id: number;
-  };
-  query?: never;
-  url: '/api/v1/portfolio-cash/{id}';
-};
-
-export type DeletePortfolioCashByIdErrors = {
-  /**
-   * Internal Server Error
-   */
-  500: unknown;
-};
-
-export type DeletePortfolioCashByIdResponses = {
-  /**
-   * No Content
-   */
-  204: void;
-};
-
-export type DeletePortfolioCashByIdResponse =
-  DeletePortfolioCashByIdResponses[keyof DeletePortfolioCashByIdResponses];
-
-export type GetPortfolioCashByIdData = {
-  body?: never;
-  path: {
-    /**
-     * Внутренний идентификатор записи
-     */
-    id: number;
-  };
-  query?: never;
-  url: '/api/v1/portfolio-cash/{id}';
-};
-
-export type GetPortfolioCashByIdErrors = {
-  /**
-   * Internal Server Error
-   */
-  500: unknown;
-};
-
-export type GetPortfolioCashByIdResponses = {
-  /**
-   * OK
-   */
-  200: OstatokDenezhnykhSredstv;
-};
-
-export type GetPortfolioCashByIdResponse =
-  GetPortfolioCashByIdResponses[keyof GetPortfolioCashByIdResponses];
-
-export type PutPortfolioCashByIdData = {
-  body: OstatokDenezhnykhSredstv;
-  path: {
-    /**
-     * Внутренний идентификатор записи
-     */
-    id: number;
-  };
-  query?: never;
-  url: '/api/v1/portfolio-cash/{id}';
-};
-
-export type PutPortfolioCashByIdErrors = {
-  /**
-   * Internal Server Error
-   */
-  500: unknown;
-};
-
-export type PutPortfolioCashByIdResponses = {
-  /**
-   * Created
-   */
-  201: unknown;
-  /**
-   * No Content
-   */
-  204: void;
-};
-
-export type PutPortfolioCashByIdResponse =
-  PutPortfolioCashByIdResponses[keyof PutPortfolioCashByIdResponses];
 
 export type DeleteIssuersByIdData = {
   body?: never;
@@ -1394,14 +1121,14 @@ export type GetIssuersByIdResponses = {
   /**
    * OK
    */
-  200: Emitent;
+  200: Issuer;
 };
 
 export type GetIssuersByIdResponse =
   GetIssuersByIdResponses[keyof GetIssuersByIdResponses];
 
 export type PutIssuersByIdData = {
-  body: Emitent;
+  body: Issuer;
   path: {
     /**
      * Внутренний идентификатор эмитента
@@ -1499,7 +1226,7 @@ export type GetForeignExchangeRatesCurrencyPairsByCurrencyPairDatesByDateRespons
     /**
      * OK
      */
-    200: OfitsialnyjObmennyjKurs;
+    200: ForeignExchangeRate;
   };
 
 export type GetForeignExchangeRatesCurrencyPairsByCurrencyPairDatesByDateResponse =
@@ -1507,7 +1234,7 @@ export type GetForeignExchangeRatesCurrencyPairsByCurrencyPairDatesByDateRespons
 
 export type PutForeignExchangeRatesCurrencyPairsByCurrencyPairDatesByDateData =
   {
-    body: OfitsialnyjObmennyjKurs;
+    body: ForeignExchangeRate;
     path: {
       /**
        * Валютная пара
@@ -1597,14 +1324,14 @@ export type GetEventCashFlowsByIdResponses = {
   /**
    * OK
    */
-  200: DvizhenieDsPoSchetu;
+  200: EventCashFlow;
 };
 
 export type GetEventCashFlowsByIdResponse =
   GetEventCashFlowsByIdResponses[keyof GetEventCashFlowsByIdResponses];
 
 export type PutEventCashFlowsByIdData = {
-  body: DvizhenieDsPoSchetu;
+  body: EventCashFlow;
   path: {
     /**
      * Номер события
@@ -1636,18 +1363,283 @@ export type PutEventCashFlowsByIdResponses = {
 export type PutEventCashFlowsByIdResponse =
   PutEventCashFlowsByIdResponses[keyof PutEventCashFlowsByIdResponses];
 
+export type DeleteAccountsByIdData = {
+  body?: never;
+  path: {
+    /**
+     * Номер счета
+     */
+    id: string;
+  };
+  query?: never;
+  url: '/api/v1/accounts/{id}';
+};
+
+export type DeleteAccountsByIdErrors = {
+  /**
+   * Internal Server Error
+   */
+  500: unknown;
+};
+
+export type DeleteAccountsByIdResponses = {
+  /**
+   * No Content
+   */
+  204: void;
+};
+
+export type DeleteAccountsByIdResponse =
+  DeleteAccountsByIdResponses[keyof DeleteAccountsByIdResponses];
+
+export type GetAccountsByIdData = {
+  body?: never;
+  path: {
+    /**
+     * Номер счета
+     */
+    id: string;
+  };
+  query?: never;
+  url: '/api/v1/accounts/{id}';
+};
+
+export type GetAccountsByIdErrors = {
+  /**
+   * Internal Server Error
+   */
+  500: unknown;
+};
+
+export type GetAccountsByIdResponses = {
+  /**
+   * OK
+   */
+  200: Account;
+};
+
+export type GetAccountsByIdResponse =
+  GetAccountsByIdResponses[keyof GetAccountsByIdResponses];
+
+export type PutAccountsByIdData = {
+  body: Account;
+  path: {
+    /**
+     * Номер счета
+     */
+    id: string;
+  };
+  query?: never;
+  url: '/api/v1/accounts/{id}';
+};
+
+export type PutAccountsByIdErrors = {
+  /**
+   * Internal Server Error
+   */
+  500: unknown;
+};
+
+export type PutAccountsByIdResponses = {
+  /**
+   * Created
+   */
+  201: unknown;
+  /**
+   * No Content
+   */
+  204: void;
+};
+
+export type PutAccountsByIdResponse =
+  PutAccountsByIdResponses[keyof PutAccountsByIdResponses];
+
+export type DeleteAccountPropertiesByIdData = {
+  body?: never;
+  path: {
+    /**
+     * Внутренний идентификатор записи
+     */
+    id: number;
+  };
+  query?: never;
+  url: '/api/v1/account-properties/{id}';
+};
+
+export type DeleteAccountPropertiesByIdErrors = {
+  /**
+   * Internal Server Error
+   */
+  500: unknown;
+};
+
+export type DeleteAccountPropertiesByIdResponses = {
+  /**
+   * No Content
+   */
+  204: void;
+};
+
+export type DeleteAccountPropertiesByIdResponse =
+  DeleteAccountPropertiesByIdResponses[keyof DeleteAccountPropertiesByIdResponses];
+
+export type GetAccountPropertiesByIdData = {
+  body?: never;
+  path: {
+    /**
+     * Внутренний идентификатор записи
+     */
+    id: number;
+  };
+  query?: never;
+  url: '/api/v1/account-properties/{id}';
+};
+
+export type GetAccountPropertiesByIdErrors = {
+  /**
+   * Internal Server Error
+   */
+  500: unknown;
+};
+
+export type GetAccountPropertiesByIdResponses = {
+  /**
+   * OK
+   */
+  200: AccountProperty;
+};
+
+export type GetAccountPropertiesByIdResponse =
+  GetAccountPropertiesByIdResponses[keyof GetAccountPropertiesByIdResponses];
+
+export type PutAccountPropertiesByIdData = {
+  body: AccountProperty;
+  path: {
+    /**
+     * Внутренний идентификатор записи
+     */
+    id: number;
+  };
+  query?: never;
+  url: '/api/v1/account-properties/{id}';
+};
+
+export type PutAccountPropertiesByIdErrors = {
+  /**
+   * Internal Server Error
+   */
+  500: unknown;
+};
+
+export type PutAccountPropertiesByIdResponses = {
+  /**
+   * Created
+   */
+  201: unknown;
+  /**
+   * No Content
+   */
+  204: void;
+};
+
+export type PutAccountPropertiesByIdResponse =
+  PutAccountPropertiesByIdResponses[keyof PutAccountPropertiesByIdResponses];
+
+export type DeleteAccountCashByIdData = {
+  body?: never;
+  path: {
+    /**
+     * Внутренний идентификатор записи
+     */
+    id: number;
+  };
+  query?: never;
+  url: '/api/v1/account-cash/{id}';
+};
+
+export type DeleteAccountCashByIdErrors = {
+  /**
+   * Internal Server Error
+   */
+  500: unknown;
+};
+
+export type DeleteAccountCashByIdResponses = {
+  /**
+   * No Content
+   */
+  204: void;
+};
+
+export type DeleteAccountCashByIdResponse =
+  DeleteAccountCashByIdResponses[keyof DeleteAccountCashByIdResponses];
+
+export type GetAccountCashByIdData = {
+  body?: never;
+  path: {
+    /**
+     * Внутренний идентификатор записи
+     */
+    id: number;
+  };
+  query?: never;
+  url: '/api/v1/account-cash/{id}';
+};
+
+export type GetAccountCashByIdErrors = {
+  /**
+   * Internal Server Error
+   */
+  500: unknown;
+};
+
+export type GetAccountCashByIdResponses = {
+  /**
+   * OK
+   */
+  200: AccountCash;
+};
+
+export type GetAccountCashByIdResponse =
+  GetAccountCashByIdResponses[keyof GetAccountCashByIdResponses];
+
+export type PutAccountCashByIdData = {
+  body: AccountCash;
+  path: {
+    /**
+     * Внутренний идентификатор записи
+     */
+    id: number;
+  };
+  query?: never;
+  url: '/api/v1/account-cash/{id}';
+};
+
+export type PutAccountCashByIdErrors = {
+  /**
+   * Internal Server Error
+   */
+  500: unknown;
+};
+
+export type PutAccountCashByIdResponses = {
+  /**
+   * Created
+   */
+  201: unknown;
+  /**
+   * No Content
+   */
+  204: void;
+};
+
+export type PutAccountCashByIdResponse =
+  PutAccountCashByIdResponses[keyof PutAccountCashByIdResponses];
+
 export type GetTransactionsData = {
   body?: never;
   path?: never;
   query?: {
-    /**
-     * Идентификатор счета брокера
-     */
-    portfolio?: string;
-    /**
-     * Номер сделки в системе учета брокера
-     */
-    'trade-id'?: string;
     /**
      * Zero-based page index (0..N)
      */
@@ -1660,6 +1652,12 @@ export type GetTransactionsData = {
      * Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
      */
     sort?: Array<string>;
+    id?: number;
+    tradeId?: string;
+    account?: string;
+    security?: string;
+    timestamp?: string;
+    count?: number;
   };
   url: '/api/v1/transactions';
 };
@@ -1675,14 +1673,14 @@ export type GetTransactionsResponses = {
   /**
    * OK
    */
-  200: PageSdelka;
+  200: PageTransaction;
 };
 
 export type GetTransactionsResponse =
   GetTransactionsResponses[keyof GetTransactionsResponses];
 
 export type PostTransactionsData = {
-  body: Sdelka;
+  body: Transaction;
   path?: never;
   query?: never;
   url: '/api/v1/transactions';
@@ -1711,14 +1709,6 @@ export type GetTransactionCashFlowsData = {
   path?: never;
   query?: {
     /**
-     * Номер счета
-     */
-    portfolio?: string;
-    /**
-     * Номер сделки в системе учета брокера
-     */
-    'trade-id'?: string;
-    /**
      * Тип (стоимость/комиссия/НКД)
      */
     'event-type'?: number;
@@ -1734,6 +1724,11 @@ export type GetTransactionCashFlowsData = {
      * Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
      */
     sort?: Array<string>;
+    id?: number;
+    transactionId?: number;
+    cashFlowType?: string;
+    value?: number;
+    currency?: string;
   };
   url: '/api/v1/transaction-cash-flows';
 };
@@ -1749,14 +1744,14 @@ export type GetTransactionCashFlowsResponses = {
   /**
    * OK
    */
-  200: PageDvizhenieDsPoSdelke;
+  200: PageTransactionCashFlow;
 };
 
 export type GetTransactionCashFlowsResponse =
   GetTransactionCashFlowsResponses[keyof GetTransactionCashFlowsResponses];
 
 export type PostTransactionCashFlowsData = {
-  body: DvizhenieDsPoSdelke;
+  body: TransactionCashFlow;
   path?: never;
   query?: never;
   url: '/api/v1/transaction-cash-flows';
@@ -1796,6 +1791,13 @@ export type GetSecurityQuotesData = {
      * Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
      */
     sort?: Array<string>;
+    id?: number;
+    security?: string;
+    timestamp?: string;
+    quote?: number;
+    price?: number;
+    accruedInterest?: number;
+    currency?: string;
   };
   url: '/api/v1/security-quotes';
 };
@@ -1811,14 +1813,14 @@ export type GetSecurityQuotesResponses = {
   /**
    * OK
    */
-  200: PageKotirovka;
+  200: PageSecurityQuote;
 };
 
 export type GetSecurityQuotesResponse =
   GetSecurityQuotesResponses[keyof GetSecurityQuotesResponses];
 
 export type PostSecurityQuotesData = {
-  body: Kotirovka;
+  body: SecurityQuote;
   path?: never;
   query?: never;
   url: '/api/v1/security-quotes';
@@ -1858,6 +1860,14 @@ export type GetSecurityEventCashFlowsData = {
      * Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
      */
     sort?: Array<string>;
+    id?: number;
+    account?: string;
+    timestamp?: string;
+    security?: string;
+    count?: number;
+    cashFlowType?: string;
+    value?: number;
+    currency?: string;
   };
   url: '/api/v1/security-event-cash-flows';
 };
@@ -1873,14 +1883,14 @@ export type GetSecurityEventCashFlowsResponses = {
   /**
    * OK
    */
-  200: PageSobytiePoBumage;
+  200: PageSecurityEventCashFlow;
 };
 
 export type GetSecurityEventCashFlowsResponse =
   GetSecurityEventCashFlowsResponses[keyof GetSecurityEventCashFlowsResponses];
 
 export type PostSecurityEventCashFlowsData = {
-  body: SobytiePoBumage;
+  body: SecurityEventCashFlow;
   path?: never;
   query?: never;
   url: '/api/v1/security-event-cash-flows';
@@ -1920,6 +1930,9 @@ export type GetSecurityDescriptionsData = {
      * Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
      */
     sort?: Array<string>;
+    security?: number;
+    sector?: string;
+    issuer?: string;
   };
   url: '/api/v1/security-descriptions';
 };
@@ -1935,14 +1948,14 @@ export type GetSecurityDescriptionsResponses = {
   /**
    * OK
    */
-  200: PageSvojstvaInstrumenta;
+  200: PageSecurityDescription;
 };
 
 export type GetSecurityDescriptionsResponse =
   GetSecurityDescriptionsResponses[keyof GetSecurityDescriptionsResponses];
 
 export type PostSecurityDescriptionsData = {
-  body: SvojstvaInstrumenta;
+  body: SecurityDescription;
   path?: never;
   query?: never;
   url: '/api/v1/security-descriptions';
@@ -1982,6 +1995,17 @@ export type GetSecuritiesData = {
      * Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
      */
     sort?: Array<string>;
+    id?: number;
+    type?:
+      | 'STOCK'
+      | 'BOND'
+      | 'STOCK_OR_BOND'
+      | 'DERIVATIVE'
+      | 'CURRENCY_PAIR'
+      | 'ASSET';
+    isin?: string;
+    ticker?: string;
+    name?: string;
   };
   url: '/api/v1/securities';
 };
@@ -1997,14 +2021,14 @@ export type GetSecuritiesResponses = {
   /**
    * OK
    */
-  200: PageInstrument;
+  200: PageSecurity;
 };
 
 export type GetSecuritiesResponse =
   GetSecuritiesResponses[keyof GetSecuritiesResponses];
 
 export type PostSecuritiesData = {
-  body: Instrument;
+  body: Security;
   path?: never;
   query?: never;
   url: '/api/v1/securities';
@@ -2028,192 +2052,6 @@ export type PostSecuritiesResponses = {
   201: unknown;
 };
 
-export type GetPortfoliosData = {
-  body?: never;
-  path?: never;
-  query?: {
-    /**
-     * Zero-based page index (0..N)
-     */
-    page?: number;
-    /**
-     * The size of the page to be returned
-     */
-    size?: number;
-    /**
-     * Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
-     */
-    sort?: Array<string>;
-  };
-  url: '/api/v1/portfolios';
-};
-
-export type GetPortfoliosErrors = {
-  /**
-   * Internal Server Error
-   */
-  500: unknown;
-};
-
-export type GetPortfoliosResponses = {
-  /**
-   * OK
-   */
-  200: PageSchet;
-};
-
-export type GetPortfoliosResponse =
-  GetPortfoliosResponses[keyof GetPortfoliosResponses];
-
-export type PostPortfoliosData = {
-  body: Schet;
-  path?: never;
-  query?: never;
-  url: '/api/v1/portfolios';
-};
-
-export type PostPortfoliosErrors = {
-  /**
-   * Conflict
-   */
-  409: unknown;
-  /**
-   * Internal Server Error
-   */
-  500: unknown;
-};
-
-export type PostPortfoliosResponses = {
-  /**
-   * Created
-   */
-  201: unknown;
-};
-
-export type GetPortfolioPropertiesData = {
-  body?: never;
-  path?: never;
-  query?: {
-    /**
-     * Zero-based page index (0..N)
-     */
-    page?: number;
-    /**
-     * The size of the page to be returned
-     */
-    size?: number;
-    /**
-     * Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
-     */
-    sort?: Array<string>;
-  };
-  url: '/api/v1/portfolio-properties';
-};
-
-export type GetPortfolioPropertiesErrors = {
-  /**
-   * Internal Server Error
-   */
-  500: unknown;
-};
-
-export type GetPortfolioPropertiesResponses = {
-  /**
-   * OK
-   */
-  200: PageSvojstvaScheta;
-};
-
-export type GetPortfolioPropertiesResponse =
-  GetPortfolioPropertiesResponses[keyof GetPortfolioPropertiesResponses];
-
-export type PostPortfolioPropertiesData = {
-  body: SvojstvaScheta;
-  path?: never;
-  query?: never;
-  url: '/api/v1/portfolio-properties';
-};
-
-export type PostPortfolioPropertiesErrors = {
-  /**
-   * Conflict
-   */
-  409: unknown;
-  /**
-   * Internal Server Error
-   */
-  500: unknown;
-};
-
-export type PostPortfolioPropertiesResponses = {
-  /**
-   * Created
-   */
-  201: unknown;
-};
-
-export type GetPortfolioCashData = {
-  body?: never;
-  path?: never;
-  query?: {
-    /**
-     * Zero-based page index (0..N)
-     */
-    page?: number;
-    /**
-     * The size of the page to be returned
-     */
-    size?: number;
-    /**
-     * Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
-     */
-    sort?: Array<string>;
-  };
-  url: '/api/v1/portfolio-cash';
-};
-
-export type GetPortfolioCashErrors = {
-  /**
-   * Internal Server Error
-   */
-  500: unknown;
-};
-
-export type GetPortfolioCashResponses = {
-  /**
-   * OK
-   */
-  200: PageOstatokDenezhnykhSredstv;
-};
-
-export type GetPortfolioCashResponse =
-  GetPortfolioCashResponses[keyof GetPortfolioCashResponses];
-
-export type PostPortfolioCashData = {
-  body: OstatokDenezhnykhSredstv;
-  path?: never;
-  query?: never;
-  url: '/api/v1/portfolio-cash';
-};
-
-export type PostPortfolioCashErrors = {
-  /**
-   * Conflict
-   */
-  409: unknown;
-  /**
-   * Internal Server Error
-   */
-  500: unknown;
-};
-
-export type PostPortfolioCashResponses = {
-  /**
-   * Created
-   */
-  201: unknown;
-};
-
 export type GetIssuersData = {
   body?: never;
   path?: never;
@@ -2230,6 +2068,9 @@ export type GetIssuersData = {
      * Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
      */
     sort?: Array<string>;
+    id?: number;
+    taxpayerId?: string;
+    name?: string;
   };
   url: '/api/v1/issuers';
 };
@@ -2245,13 +2086,13 @@ export type GetIssuersResponses = {
   /**
    * OK
    */
-  200: PageEmitent;
+  200: PageIssuer;
 };
 
 export type GetIssuersResponse = GetIssuersResponses[keyof GetIssuersResponses];
 
 export type PostIssuersData = {
-  body: Emitent;
+  body: Issuer;
   path?: never;
   query?: never;
   url: '/api/v1/issuers';
@@ -2291,6 +2132,8 @@ export type GetForeignExchangeRatesData = {
      * Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
      */
     sort?: Array<string>;
+    pk?: string;
+    rate?: number;
   };
   url: '/api/v1/foreign-exchange-rates';
 };
@@ -2306,14 +2149,14 @@ export type GetForeignExchangeRatesResponses = {
   /**
    * OK
    */
-  200: PageOfitsialnyjObmennyjKurs;
+  200: PageForeignExchangeRate;
 };
 
 export type GetForeignExchangeRatesResponse =
   GetForeignExchangeRatesResponses[keyof GetForeignExchangeRatesResponses];
 
 export type PostForeignExchangeRatesData = {
-  body: OfitsialnyjObmennyjKurs;
+  body: ForeignExchangeRate;
   path?: never;
   query?: never;
   url: '/api/v1/foreign-exchange-rates';
@@ -2353,6 +2196,13 @@ export type GetEventCashFlowsData = {
      * Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
      */
     sort?: Array<string>;
+    id?: number;
+    account?: string;
+    timestamp?: string;
+    cashFlowType?: string;
+    value?: number;
+    currency?: string;
+    description?: string;
   };
   url: '/api/v1/event-cash-flows';
 };
@@ -2368,14 +2218,14 @@ export type GetEventCashFlowsResponses = {
   /**
    * OK
    */
-  200: PageDvizhenieDsPoSchetu;
+  200: PageEventCashFlow;
 };
 
 export type GetEventCashFlowsResponse =
   GetEventCashFlowsResponses[keyof GetEventCashFlowsResponses];
 
 export type PostEventCashFlowsData = {
-  body: DvizhenieDsPoSchetu;
+  body: EventCashFlow;
   path?: never;
   query?: never;
   url: '/api/v1/event-cash-flows';
@@ -2393,6 +2243,205 @@ export type PostEventCashFlowsErrors = {
 };
 
 export type PostEventCashFlowsResponses = {
+  /**
+   * Created
+   */
+  201: unknown;
+};
+
+export type GetAccountsData = {
+  body?: never;
+  path?: never;
+  query?: {
+    /**
+     * Zero-based page index (0..N)
+     */
+    page?: number;
+    /**
+     * The size of the page to be returned
+     */
+    size?: number;
+    /**
+     * Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
+     */
+    sort?: Array<string>;
+    id?: string;
+    enabled?: boolean;
+  };
+  url: '/api/v1/accounts';
+};
+
+export type GetAccountsErrors = {
+  /**
+   * Internal Server Error
+   */
+  500: unknown;
+};
+
+export type GetAccountsResponses = {
+  /**
+   * OK
+   */
+  200: PageAccount;
+};
+
+export type GetAccountsResponse =
+  GetAccountsResponses[keyof GetAccountsResponses];
+
+export type PostAccountsData = {
+  body: Account;
+  path?: never;
+  query?: never;
+  url: '/api/v1/accounts';
+};
+
+export type PostAccountsErrors = {
+  /**
+   * Conflict
+   */
+  409: unknown;
+  /**
+   * Internal Server Error
+   */
+  500: unknown;
+};
+
+export type PostAccountsResponses = {
+  /**
+   * Created
+   */
+  201: unknown;
+};
+
+export type GetAccountPropertiesData = {
+  body?: never;
+  path?: never;
+  query?: {
+    /**
+     * Zero-based page index (0..N)
+     */
+    page?: number;
+    /**
+     * The size of the page to be returned
+     */
+    size?: number;
+    /**
+     * Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
+     */
+    sort?: Array<string>;
+    id?: number;
+    account?: string;
+    timestamp?: string;
+    property?: string;
+    value?: string;
+  };
+  url: '/api/v1/account-properties';
+};
+
+export type GetAccountPropertiesErrors = {
+  /**
+   * Internal Server Error
+   */
+  500: unknown;
+};
+
+export type GetAccountPropertiesResponses = {
+  /**
+   * OK
+   */
+  200: PageAccountProperty;
+};
+
+export type GetAccountPropertiesResponse =
+  GetAccountPropertiesResponses[keyof GetAccountPropertiesResponses];
+
+export type PostAccountPropertiesData = {
+  body: AccountProperty;
+  path?: never;
+  query?: never;
+  url: '/api/v1/account-properties';
+};
+
+export type PostAccountPropertiesErrors = {
+  /**
+   * Conflict
+   */
+  409: unknown;
+  /**
+   * Internal Server Error
+   */
+  500: unknown;
+};
+
+export type PostAccountPropertiesResponses = {
+  /**
+   * Created
+   */
+  201: unknown;
+};
+
+export type GetAccountCashData = {
+  body?: never;
+  path?: never;
+  query?: {
+    /**
+     * Zero-based page index (0..N)
+     */
+    page?: number;
+    /**
+     * The size of the page to be returned
+     */
+    size?: number;
+    /**
+     * Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
+     */
+    sort?: Array<string>;
+    id?: number;
+    account?: string;
+    timestamp?: string;
+    market?: string;
+    value?: number;
+    currency?: string;
+  };
+  url: '/api/v1/account-cash';
+};
+
+export type GetAccountCashErrors = {
+  /**
+   * Internal Server Error
+   */
+  500: unknown;
+};
+
+export type GetAccountCashResponses = {
+  /**
+   * OK
+   */
+  200: PageAccountCash;
+};
+
+export type GetAccountCashResponse =
+  GetAccountCashResponses[keyof GetAccountCashResponses];
+
+export type PostAccountCashData = {
+  body: AccountCash;
+  path?: never;
+  query?: never;
+  url: '/api/v1/account-cash';
+};
+
+export type PostAccountCashErrors = {
+  /**
+   * Conflict
+   */
+  409: unknown;
+  /**
+   * Internal Server Error
+   */
+  500: unknown;
+};
+
+export type PostAccountCashResponses = {
   /**
    * Created
    */
@@ -2422,7 +2471,7 @@ export type GetForeignExchangeRatesCurrencyPairsByCurrencyPairResponses = {
   /**
    * OK
    */
-  200: Array<OfitsialnyjObmennyjKurs>;
+  200: Array<ForeignExchangeRate>;
 };
 
 export type GetForeignExchangeRatesCurrencyPairsByCurrencyPairResponse =

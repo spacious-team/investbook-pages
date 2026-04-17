@@ -24,7 +24,7 @@
       "description": "Дивиденды, купоны, амортизации, вариационная маржа, комиссии, налоги"
     },
     {
-      "name": "Emitentы",
+      "name": "Эмитенты",
       "description": "Информация об эмитентах"
     },
     {
@@ -44,7 +44,7 @@
       "description": "Ввод, вывод ДС, налоги, комиссии, а также дивиденды, купоны, амортизации по бумагам другого счета\n"
     },
     {
-      "name": "Instrumentы",
+      "name": "Инструменты",
       "description": "Акции, облигации, деривативы и валютные пары"
     }
   ],
@@ -75,7 +75,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Sdelka"
+                  "$ref": "#/components/schemas/Transaction"
                 }
               }
             }
@@ -108,7 +108,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Sdelka"
+                "$ref": "#/components/schemas/Transaction"
               }
             }
           },
@@ -189,7 +189,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/DvizhenieDSPoSdelke"
+                  "$ref": "#/components/schemas/TransactionCashFlow"
                 }
               }
             }
@@ -222,7 +222,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/DvizhenieDSPoSdelke"
+                "$ref": "#/components/schemas/TransactionCashFlow"
               }
             }
           },
@@ -303,7 +303,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Kotirovka"
+                  "$ref": "#/components/schemas/SecurityQuote"
                 }
               }
             }
@@ -335,7 +335,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Kotirovka"
+                "$ref": "#/components/schemas/SecurityQuote"
               }
             }
           },
@@ -415,7 +415,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SobytiePoBumage"
+                  "$ref": "#/components/schemas/SecurityEventCashFlow"
                 }
               }
             }
@@ -448,7 +448,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/SobytiePoBumage"
+                "$ref": "#/components/schemas/SecurityEventCashFlow"
               }
             }
           },
@@ -530,7 +530,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SvojstvaInstrumenta"
+                  "$ref": "#/components/schemas/SecurityDescription"
                 }
               }
             }
@@ -564,7 +564,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/SvojstvaInstrumenta"
+                "$ref": "#/components/schemas/SecurityDescription"
               }
             }
           },
@@ -623,7 +623,7 @@
     "/api/v1/securities/{id}": {
       "get": {
         "tags": [
-          "Instrumentы"
+          "Инструменты"
         ],
         "summary": "Отобразить один",
         "description": "Отобразить биржевой инструмент по внутреннему идентификатору",
@@ -647,7 +647,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Instrument"
+                  "$ref": "#/components/schemas/Security"
                 }
               }
             }
@@ -659,7 +659,7 @@
       },
       "put": {
         "tags": [
-          "Instrumentы"
+          "Инструменты"
         ],
         "summary": "Обновить",
         "description": "Добавить информацию об акции, облигации, деривативе или валютной паре",
@@ -681,7 +681,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Instrument"
+                "$ref": "#/components/schemas/Security"
               }
             }
           },
@@ -709,7 +709,7 @@
       },
       "delete": {
         "tags": [
-          "Instrumentы"
+          "Инструменты"
         ],
         "summary": "Удалить",
         "description": "Удалить сведения о биржевом инструменте и всех его сделках по всем счетам",
@@ -737,345 +737,10 @@
         }
       }
     },
-    "/api/v1/portfolios/{id}": {
-      "get": {
-        "tags": [
-          "Schetа"
-        ],
-        "summary": "Отобразить один",
-        "operationId": "getPortfoliosById",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "description": "Номер счета",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Schet"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      },
-      "put": {
-        "tags": [
-          "Schetа"
-        ],
-        "summary": "Обновить",
-        "operationId": "putPortfoliosById",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "description": "Номер счета",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Schet"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "201": {
-            "description": "Created",
-            "headers": {
-              "Location": {
-                "style": "simple",
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
-          },
-          "204": {
-            "description": "No Content"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      },
-      "delete": {
-        "tags": [
-          "Schetа"
-        ],
-        "summary": "Удалить",
-        "description": "Удалить счет и все связанные с ним данные",
-        "operationId": "deletePortfoliosById",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "description": "Номер счета",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "204": {
-            "description": "No Content"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      }
-    },
-    "/api/v1/portfolio-properties/{id}": {
-      "get": {
-        "tags": [
-          "Информация по счетам"
-        ],
-        "summary": "Отобразить один",
-        "description": "Отображает информацию по идентификатору",
-        "operationId": "getPortfolioPropertiesById",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "description": "Внутренний идентификатор записи",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/SvojstvaScheta"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      },
-      "put": {
-        "tags": [
-          "Информация по счетам"
-        ],
-        "summary": "Обновить",
-        "description": "Обновить информацию для счета",
-        "operationId": "putPortfolioPropertiesById",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "description": "Внутренний идентификатор записи",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/SvojstvaScheta"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "201": {
-            "description": "Created",
-            "headers": {
-              "Location": {
-                "style": "simple",
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
-          },
-          "204": {
-            "description": "No Content"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      },
-      "delete": {
-        "tags": [
-          "Информация по счетам"
-        ],
-        "summary": "Удалить",
-        "operationId": "deletePortfolioPropertiesById",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "description": "Внутренний идентификатор записи",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "responses": {
-          "204": {
-            "description": "No Content"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      }
-    },
-    "/api/v1/portfolio-cash/{id}": {
-      "get": {
-        "tags": [
-          "Информация по остатку денежных средств на счете"
-        ],
-        "summary": "Отобразить один",
-        "description": "Отображает информацию по идентификатору",
-        "operationId": "getPortfolioCashById",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "description": "Внутренний идентификатор записи",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/OstatokDenezhnykhSredstv"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      },
-      "put": {
-        "tags": [
-          "Информация по остатку денежных средств на счете"
-        ],
-        "summary": "Обновить",
-        "description": "Обновить информацию для счета",
-        "operationId": "putPortfolioCashById",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "description": "Внутренний идентификатор записи",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/OstatokDenezhnykhSredstv"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "201": {
-            "description": "Created",
-            "headers": {
-              "Location": {
-                "style": "simple",
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
-          },
-          "204": {
-            "description": "No Content"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      },
-      "delete": {
-        "tags": [
-          "Информация по остатку денежных средств на счете"
-        ],
-        "summary": "Удалить",
-        "operationId": "deletePortfolioCashById",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "description": "Внутренний идентификатор записи",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "responses": {
-          "204": {
-            "description": "No Content"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      }
-    },
     "/api/v1/issuers/{id}": {
       "get": {
         "tags": [
-          "Emitentы"
+          "Эмитенты"
         ],
         "summary": "Отобразить одного",
         "description": "Отобразить информацию об эмитенте по его номеру",
@@ -1098,7 +763,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Emitent"
+                  "$ref": "#/components/schemas/Issuer"
                 }
               }
             }
@@ -1110,7 +775,7 @@
       },
       "put": {
         "tags": [
-          "Emitentы"
+          "Эмитенты"
         ],
         "summary": "Обновить сведения",
         "operationId": "putIssuersById",
@@ -1130,7 +795,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Emitent"
+                "$ref": "#/components/schemas/Issuer"
               }
             }
           },
@@ -1158,7 +823,7 @@
       },
       "delete": {
         "tags": [
-          "Emitentы"
+          "Эмитенты"
         ],
         "summary": "Удалить",
         "description": "Удаляет сведения об эмитенте из БД",
@@ -1221,7 +886,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/OfitsialnyjObmennyjKurs"
+                  "$ref": "#/components/schemas/ForeignExchangeRate"
                 }
               }
             }
@@ -1265,7 +930,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/OfitsialnyjObmennyjKurs"
+                "$ref": "#/components/schemas/ForeignExchangeRate"
               }
             }
           },
@@ -1357,7 +1022,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/DvizhenieDSPoSchetu"
+                  "$ref": "#/components/schemas/EventCashFlow"
                 }
               }
             }
@@ -1390,7 +1055,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/DvizhenieDSPoSchetu"
+                "$ref": "#/components/schemas/EventCashFlow"
               }
             }
           },
@@ -1445,6 +1110,341 @@
         }
       }
     },
+    "/api/v1/accounts/{id}": {
+      "get": {
+        "tags": [
+          "Счета"
+        ],
+        "summary": "Отобразить один",
+        "operationId": "getAccountsById",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Номер счета",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Account"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Счета"
+        ],
+        "summary": "Обновить",
+        "operationId": "putAccountsById",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Номер счета",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Account"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "headers": {
+              "Location": {
+                "style": "simple",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Счета"
+        ],
+        "summary": "Удалить",
+        "description": "Удалить счет и все связанные с ним данные",
+        "operationId": "deleteAccountsById",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Номер счета",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/v1/account-properties/{id}": {
+      "get": {
+        "tags": [
+          "Информация по счетам"
+        ],
+        "summary": "Отобразить один",
+        "description": "Отображает информацию по идентификатору",
+        "operationId": "getAccountPropertiesById",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Внутренний идентификатор записи",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AccountProperty"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Информация по счетам"
+        ],
+        "summary": "Обновить",
+        "description": "Обновить информацию для счета",
+        "operationId": "putAccountPropertiesById",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Внутренний идентификатор записи",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AccountProperty"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "headers": {
+              "Location": {
+                "style": "simple",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Информация по счетам"
+        ],
+        "summary": "Удалить",
+        "operationId": "deleteAccountPropertiesById",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Внутренний идентификатор записи",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/v1/account-cash/{id}": {
+      "get": {
+        "tags": [
+          "Информация по остатку денежных средств на счете"
+        ],
+        "summary": "Отобразить один",
+        "description": "Отображает информацию по идентификатору",
+        "operationId": "getAccountCashById",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Внутренний идентификатор записи",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AccountCash"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Информация по остатку денежных средств на счете"
+        ],
+        "summary": "Обновить",
+        "description": "Обновить информацию для счета",
+        "operationId": "putAccountCashById",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Внутренний идентификатор записи",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AccountCash"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "headers": {
+              "Location": {
+                "style": "simple",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Информация по остатку денежных средств на счете"
+        ],
+        "summary": "Удалить",
+        "operationId": "deleteAccountCashById",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Внутренний идентификатор записи",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
     "/api/v1/transactions": {
       "get": {
         "tags": [
@@ -1454,24 +1454,6 @@
         "description": "Отображает сделки по счетам",
         "operationId": "getTransactions",
         "parameters": [
-          {
-            "name": "portfolio",
-            "in": "query",
-            "description": "Идентификатор счета брокера",
-            "required": false,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "trade-id",
-            "in": "query",
-            "description": "Номер сделки в системе учета брокера",
-            "required": false,
-            "schema": {
-              "type": "string"
-            }
-          },
           {
             "name": "page",
             "in": "query",
@@ -1500,6 +1482,51 @@
                 "type": "string"
               }
             }
+          },
+          {
+            "name": "id",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "tradeId",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "account",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "security",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "timestamp",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "count",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
           }
         ],
         "responses": {
@@ -1508,7 +1535,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/PageSdelka"
+                  "$ref": "#/components/schemas/PageTransaction"
                 }
               }
             }
@@ -1529,7 +1556,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Sdelka"
+                "$ref": "#/components/schemas/Transaction"
               }
             }
           },
@@ -1565,24 +1592,6 @@
         "description": "Отобразить информацию о сделках",
         "operationId": "getTransactionCashFlows",
         "parameters": [
-          {
-            "name": "portfolio",
-            "in": "query",
-            "description": "Номер счета",
-            "required": false,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "trade-id",
-            "in": "query",
-            "description": "Номер сделки в системе учета брокера",
-            "required": false,
-            "schema": {
-              "type": "string"
-            }
-          },
           {
             "name": "event-type",
             "in": "query",
@@ -1622,6 +1631,43 @@
                 "type": "string"
               }
             }
+          },
+          {
+            "name": "id",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "transactionId",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "cashFlowType",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "value",
+            "in": "query",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "currency",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {
@@ -1630,7 +1676,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/PageDvizhenieDSPoSdelke"
+                  "$ref": "#/components/schemas/PageTransactionCashFlow"
                 }
               }
             }
@@ -1651,7 +1697,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/DvizhenieDSPoSdelke"
+                "$ref": "#/components/schemas/TransactionCashFlow"
               }
             }
           },
@@ -1715,6 +1761,57 @@
                 "type": "string"
               }
             }
+          },
+          {
+            "name": "id",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "security",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "timestamp",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "quote",
+            "in": "query",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "price",
+            "in": "query",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "accruedInterest",
+            "in": "query",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "currency",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {
@@ -1723,7 +1820,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/PageKotirovka"
+                  "$ref": "#/components/schemas/PageSecurityQuote"
                 }
               }
             }
@@ -1743,7 +1840,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Kotirovka"
+                "$ref": "#/components/schemas/SecurityQuote"
               }
             }
           },
@@ -1807,6 +1904,65 @@
                 "type": "string"
               }
             }
+          },
+          {
+            "name": "id",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "account",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "timestamp",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "security",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "count",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "cashFlowType",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "value",
+            "in": "query",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "currency",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {
@@ -1815,7 +1971,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/PageSobytiePoBumage"
+                  "$ref": "#/components/schemas/PageSecurityEventCashFlow"
                 }
               }
             }
@@ -1836,7 +1992,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/SobytiePoBumage"
+                "$ref": "#/components/schemas/SecurityEventCashFlow"
               }
             }
           },
@@ -1900,6 +2056,28 @@
                 "type": "string"
               }
             }
+          },
+          {
+            "name": "security",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "sector",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "issuer",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {
@@ -1908,7 +2086,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/PageSvojstvaInstrumenta"
+                  "$ref": "#/components/schemas/PageSecurityDescription"
                 }
               }
             }
@@ -1929,7 +2107,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/SvojstvaInstrumenta"
+                "$ref": "#/components/schemas/SecurityDescription"
               }
             }
           },
@@ -1959,7 +2137,7 @@
     "/api/v1/securities": {
       "get": {
         "tags": [
-          "Instrumentы"
+          "Инструменты"
         ],
         "summary": "Отобразить все",
         "description": "Отобразить все биржевые инструменты",
@@ -1993,6 +2171,50 @@
                 "type": "string"
               }
             }
+          },
+          {
+            "name": "id",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "type",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "STOCK",
+                "BOND",
+                "STOCK_OR_BOND",
+                "DERIVATIVE",
+                "CURRENCY_PAIR",
+                "ASSET"
+              ]
+            }
+          },
+          {
+            "name": "isin",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "ticker",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {
@@ -2001,7 +2223,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/PageInstrument"
+                  "$ref": "#/components/schemas/PageSecurity"
                 }
               }
             }
@@ -2013,7 +2235,7 @@
       },
       "post": {
         "tags": [
-          "Instrumentы"
+          "Инструменты"
         ],
         "summary": "Добавить",
         "description": "Добавить информацию об акции, облигации, деривативе или валютной паре",
@@ -2022,284 +2244,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Instrument"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "201": {
-            "description": "Created",
-            "headers": {
-              "Location": {
-                "style": "simple",
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
-          },
-          "409": {
-            "description": "Conflict"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      }
-    },
-    "/api/v1/portfolios": {
-      "get": {
-        "tags": [
-          "Schetа"
-        ],
-        "summary": "Отобразить все",
-        "operationId": "getPortfolios",
-        "parameters": [
-          {
-            "name": "page",
-            "in": "query",
-            "description": "Zero-based page index (0..N)",
-            "schema": {
-              "type": "integer",
-              "default": 0
-            }
-          },
-          {
-            "name": "size",
-            "in": "query",
-            "description": "The size of the page to be returned",
-            "schema": {
-              "type": "integer",
-              "default": 20
-            }
-          },
-          {
-            "name": "sort",
-            "in": "query",
-            "description": "Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.",
-            "schema": {
-              "type": "array",
-              "items": {
-                "type": "string"
-              }
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/PageSchet"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      },
-      "post": {
-        "tags": [
-          "Schetа"
-        ],
-        "summary": "Добавить",
-        "operationId": "postPortfolios",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Schet"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "201": {
-            "description": "Created",
-            "headers": {
-              "Location": {
-                "style": "simple",
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
-          },
-          "409": {
-            "description": "Conflict"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      }
-    },
-    "/api/v1/portfolio-properties": {
-      "get": {
-        "tags": [
-          "Информация по счетам"
-        ],
-        "summary": "Отобразить все",
-        "description": "Отображает всю имеющуюся информацию обо всех счетах",
-        "operationId": "getPortfolioProperties",
-        "parameters": [
-          {
-            "name": "page",
-            "in": "query",
-            "description": "Zero-based page index (0..N)",
-            "schema": {
-              "type": "integer",
-              "default": 0
-            }
-          },
-          {
-            "name": "size",
-            "in": "query",
-            "description": "The size of the page to be returned",
-            "schema": {
-              "type": "integer",
-              "default": 20
-            }
-          },
-          {
-            "name": "sort",
-            "in": "query",
-            "description": "Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.",
-            "schema": {
-              "type": "array",
-              "items": {
-                "type": "string"
-              }
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/PageSvojstvaScheta"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      },
-      "post": {
-        "tags": [
-          "Информация по счетам"
-        ],
-        "summary": "Добавить",
-        "description": "Добавить информацию для конкретного счета",
-        "operationId": "postPortfolioProperties",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/SvojstvaScheta"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "201": {
-            "description": "Created",
-            "headers": {
-              "Location": {
-                "style": "simple",
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
-          },
-          "409": {
-            "description": "Conflict"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      }
-    },
-    "/api/v1/portfolio-cash": {
-      "get": {
-        "tags": [
-          "Информация по остатку денежных средств на счете"
-        ],
-        "summary": "Отобразить все",
-        "description": "Отображает всю информацию обо всех счетах",
-        "operationId": "getPortfolioCash",
-        "parameters": [
-          {
-            "name": "page",
-            "in": "query",
-            "description": "Zero-based page index (0..N)",
-            "schema": {
-              "type": "integer",
-              "default": 0
-            }
-          },
-          {
-            "name": "size",
-            "in": "query",
-            "description": "The size of the page to be returned",
-            "schema": {
-              "type": "integer",
-              "default": 20
-            }
-          },
-          {
-            "name": "sort",
-            "in": "query",
-            "description": "Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.",
-            "schema": {
-              "type": "array",
-              "items": {
-                "type": "string"
-              }
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/PageOstatokDenezhnykhSredstv"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      },
-      "post": {
-        "tags": [
-          "Информация по остатку денежных средств на счете"
-        ],
-        "summary": "Добавить",
-        "description": "Добавить информацию для конкретного счета",
-        "operationId": "postPortfolioCash",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/OstatokDenezhnykhSredstv"
+                "$ref": "#/components/schemas/Security"
               }
             }
           },
@@ -2329,7 +2274,7 @@
     "/api/v1/issuers": {
       "get": {
         "tags": [
-          "Emitentы"
+          "Эмитенты"
         ],
         "summary": "Отобразить всех",
         "operationId": "getIssuers",
@@ -2362,6 +2307,28 @@
                 "type": "string"
               }
             }
+          },
+          {
+            "name": "id",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "taxpayerId",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {
@@ -2370,7 +2337,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/PageEmitent"
+                  "$ref": "#/components/schemas/PageIssuer"
                 }
               }
             }
@@ -2382,7 +2349,7 @@
       },
       "post": {
         "tags": [
-          "Emitentы"
+          "Эмитенты"
         ],
         "summary": "Добавить",
         "operationId": "postIssuers",
@@ -2390,7 +2357,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Emitent"
+                "$ref": "#/components/schemas/Issuer"
               }
             }
           },
@@ -2454,6 +2421,20 @@
                 "type": "string"
               }
             }
+          },
+          {
+            "name": "pk",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "rate",
+            "in": "query",
+            "schema": {
+              "type": "number"
+            }
           }
         ],
         "responses": {
@@ -2462,7 +2443,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/PageOfitsialnyjObmennyjKurs"
+                  "$ref": "#/components/schemas/PageForeignExchangeRate"
                 }
               }
             }
@@ -2482,7 +2463,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/OfitsialnyjObmennyjKurs"
+                "$ref": "#/components/schemas/ForeignExchangeRate"
               }
             }
           },
@@ -2546,6 +2527,57 @@
                 "type": "string"
               }
             }
+          },
+          {
+            "name": "id",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "account",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "timestamp",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "cashFlowType",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "value",
+            "in": "query",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "currency",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "description",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {
@@ -2554,7 +2586,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/PageDvizhenieDSPoSchetu"
+                  "$ref": "#/components/schemas/PageEventCashFlow"
                 }
               }
             }
@@ -2575,7 +2607,379 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/DvizhenieDSPoSchetu"
+                "$ref": "#/components/schemas/EventCashFlow"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "headers": {
+              "Location": {
+                "style": "simple",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/v1/accounts": {
+      "get": {
+        "tags": [
+          "Счета"
+        ],
+        "summary": "Отобразить все",
+        "operationId": "getAccounts",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Zero-based page index (0..N)",
+            "schema": {
+              "type": "integer",
+              "default": 0
+            }
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "description": "The size of the page to be returned",
+            "schema": {
+              "type": "integer",
+              "default": 20
+            }
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "description": "Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "id",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "enabled",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PageAccount"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Счета"
+        ],
+        "summary": "Добавить",
+        "operationId": "postAccounts",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Account"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "headers": {
+              "Location": {
+                "style": "simple",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/v1/account-properties": {
+      "get": {
+        "tags": [
+          "Информация по счетам"
+        ],
+        "summary": "Отобразить все",
+        "description": "Отображает всю имеющуюся информацию обо всех счетах",
+        "operationId": "getAccountProperties",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Zero-based page index (0..N)",
+            "schema": {
+              "type": "integer",
+              "default": 0
+            }
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "description": "The size of the page to be returned",
+            "schema": {
+              "type": "integer",
+              "default": 20
+            }
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "description": "Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "id",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "account",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "timestamp",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "property",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "value",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PageAccountProperty"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Информация по счетам"
+        ],
+        "summary": "Добавить",
+        "description": "Добавить информацию для конкретного счета",
+        "operationId": "postAccountProperties",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AccountProperty"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "headers": {
+              "Location": {
+                "style": "simple",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/v1/account-cash": {
+      "get": {
+        "tags": [
+          "Информация по остатку денежных средств на счете"
+        ],
+        "summary": "Отобразить все",
+        "description": "Отображает всю информацию обо всех счетах",
+        "operationId": "getAccountCash",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Zero-based page index (0..N)",
+            "schema": {
+              "type": "integer",
+              "default": 0
+            }
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "description": "The size of the page to be returned",
+            "schema": {
+              "type": "integer",
+              "default": 20
+            }
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "description": "Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "id",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "account",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "timestamp",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "market",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "value",
+            "in": "query",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "currency",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PageAccountCash"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Информация по остатку денежных средств на счете"
+        ],
+        "summary": "Добавить",
+        "description": "Добавить информацию для конкретного счета",
+        "operationId": "postAccountCash",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AccountCash"
               }
             }
           },
@@ -2629,7 +3033,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/OfitsialnyjObmennyjKurs"
+                    "$ref": "#/components/schemas/ForeignExchangeRate"
                   }
                 }
               }
@@ -2739,7 +3143,7 @@
   },
   "components": {
     "schemas": {
-      "Sdelka": {
+      "Transaction": {
         "type": "object",
         "properties": {
           "id": {
@@ -2748,7 +3152,7 @@
             "description": "Внутренний идентификатор сделки",
             "example": 123
           },
-          "portfolio": {
+          "account": {
             "type": "string",
             "description": "Номер счета в системе учета брокера",
             "example": "10200I",
@@ -2757,7 +3161,7 @@
           "security": {
             "type": "integer",
             "format": "int32",
-            "description": "Instrument",
+            "description": "Инструмент",
             "example": 123
           },
           "timestamp": {
@@ -2780,14 +3184,14 @@
           }
         },
         "required": [
+          "account",
           "count",
-          "portfolio",
           "security",
           "timestamp",
           "trade-id"
         ]
       },
-      "DvizhenieDSPoSdelke": {
+      "TransactionCashFlow": {
         "type": "object",
         "properties": {
           "id": {
@@ -2841,7 +3245,7 @@
           "value"
         ]
       },
-      "Kotirovka": {
+      "SecurityQuote": {
         "type": "object",
         "properties": {
           "id": {
@@ -2853,7 +3257,7 @@
           "security": {
             "type": "integer",
             "format": "int32",
-            "description": "Instrument",
+            "description": "Инструмент",
             "example": 123
           },
           "timestamp": {
@@ -2864,12 +3268,12 @@
           },
           "quote": {
             "type": "number",
-            "description": "Kotirovka (для облигаций - в процентах, деривативы - в пунктах)",
+            "description": "Котировка (для облигаций - в процентах, деривативы - в пунктах)",
             "example": 4800.2
           },
           "price": {
             "type": "number",
-            "description": "Kotirovka (в валюте, только для облигаций и деривативов)",
+            "description": "Котировка (в валюте, только для облигаций и деривативов)",
             "example": 1020.3
           },
           "accrued-interest": {
@@ -2889,7 +3293,7 @@
           "timestamp"
         ]
       },
-      "SobytiePoBumage": {
+      "SecurityEventCashFlow": {
         "type": "object",
         "description": "Дивиденды, купоны, амортизация, вариационная маржа, налоги, комиссии",
         "properties": {
@@ -2899,7 +3303,7 @@
             "description": "Внутренний идентификатор записи",
             "example": 222
           },
-          "portfolio": {
+          "account": {
             "type": "string",
             "description": "Номер счета в системе учета брокера",
             "example": "10200I",
@@ -2914,7 +3318,7 @@
           "security": {
             "type": "integer",
             "format": "int32",
-            "description": "Instrument",
+            "description": "Инструмент",
             "example": 123
           },
           "count": {
@@ -2957,15 +3361,15 @@
           }
         },
         "required": [
+          "account",
           "count",
           "event-type",
-          "portfolio",
           "security",
           "timestamp",
           "value"
         ]
       },
-      "SvojstvaInstrumenta": {
+      "SecurityDescription": {
         "type": "object",
         "description": "Информация об инструменте",
         "properties": {
@@ -2991,7 +3395,7 @@
           "security"
         ]
       },
-      "Instrument": {
+      "Security": {
         "type": "object",
         "description": "Акция, облигация, валютная пара, фьючерс, опцион или произвольный актив",
         "properties": {
@@ -3035,114 +3439,7 @@
           "type"
         ]
       },
-      "Schet": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "description": "Номер счета в системе учета брокера",
-            "example": "10200I",
-            "minLength": 1
-          },
-          "enabled": {
-            "type": "boolean",
-            "description": "Признак активного счета: если false то счет исключается из аналитического расчета"
-          }
-        },
-        "required": [
-          "enabled",
-          "id"
-        ]
-      },
-      "SvojstvaScheta": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int32",
-            "description": "Внутренний идентификатор записи",
-            "example": 111
-          },
-          "portfolio": {
-            "type": "string",
-            "description": "Номер счета",
-            "example": "10200I",
-            "minLength": 1
-          },
-          "timestamp": {
-            "type": "string",
-            "format": "date-time",
-            "description": "Информация актуальна на время",
-            "example": "2021-01-01T12:00:00+03:00"
-          },
-          "property": {
-            "type": "string",
-            "description": "Свойство портфеля",
-            "enum": [
-              "TOTAL_ASSETS_RUB",
-              "TOTAL_ASSETS_USD"
-            ],
-            "example": "TOTAL_ASSETS_RUB"
-          },
-          "value": {
-            "type": "string",
-            "description": "Значение свойства",
-            "example": 100.2
-          }
-        },
-        "required": [
-          "portfolio",
-          "property",
-          "value"
-        ]
-      },
-      "OstatokDenezhnykhSredstv": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int32",
-            "description": "Внутренний идентификатор",
-            "example": 123
-          },
-          "portfolio": {
-            "type": "string",
-            "description": "Номер счета в системе учета брокера",
-            "example": "10200I",
-            "minLength": 1
-          },
-          "timestamp": {
-            "type": "string",
-            "format": "date-time",
-            "description": "Значение актуально на дату",
-            "example": "2021-01-23T12:00:00+03:00"
-          },
-          "market": {
-            "type": "string",
-            "description": "Рынок",
-            "example": "Фондовый"
-          },
-          "value": {
-            "type": "number",
-            "description": "OstatokDenezhnykhSredstv",
-            "example": 102.3
-          },
-          "currency": {
-            "type": "string",
-            "description": "Валюта",
-            "example": "RUB",
-            "minLength": 1
-          }
-        },
-        "required": [
-          "currency",
-          "market",
-          "portfolio",
-          "timestamp",
-          "value"
-        ]
-      },
-      "Emitent": {
+      "Issuer": {
         "type": "object",
         "properties": {
           "id": {
@@ -3166,7 +3463,7 @@
           "name"
         ]
       },
-      "OfitsialnyjObmennyjKurs": {
+      "ForeignExchangeRate": {
         "type": "object",
         "properties": {
           "date": {
@@ -3193,7 +3490,7 @@
           "rate"
         ]
       },
-      "DvizhenieDSPoSchetu": {
+      "EventCashFlow": {
         "type": "object",
         "description": "Ввод и вывод ДС, налоги, комиссии, а также выплаты по инструментам другого счета",
         "properties": {
@@ -3203,7 +3500,7 @@
             "description": "Идентификатор записи",
             "example": 123
           },
-          "portfolio": {
+          "account": {
             "type": "string",
             "description": "Номер счета",
             "example": "10200I",
@@ -3254,39 +3551,120 @@
           }
         },
         "required": [
+          "account",
           "event-type",
-          "portfolio",
           "timestamp",
           "value"
         ]
       },
-      "PageableObject": {
+      "Account": {
         "type": "object",
         "properties": {
-          "offset": {
-            "type": "integer",
-            "format": "int64"
+          "id": {
+            "type": "string",
+            "description": "Номер счета в системе учета брокера",
+            "example": "10200I",
+            "minLength": 1
           },
-          "sort": {
-            "$ref": "#/components/schemas/SortObject"
-          },
-          "paged": {
-            "type": "boolean"
-          },
-          "pageNumber": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "pageSize": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "unpaged": {
-            "type": "boolean"
+          "enabled": {
+            "type": "boolean",
+            "description": "Признак активного счета: если false то счет исключается из аналитического расчета"
           }
-        }
+        },
+        "required": [
+          "enabled",
+          "id"
+        ]
       },
-      "PageSdelka": {
+      "AccountProperty": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32",
+            "description": "Внутренний идентификатор записи",
+            "example": 111
+          },
+          "account": {
+            "type": "string",
+            "description": "Номер счета",
+            "example": "10200I",
+            "minLength": 1
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Информация актуальна на время",
+            "example": "2021-01-01T12:00:00+03:00"
+          },
+          "property": {
+            "type": "string",
+            "description": "Свойство портфеля",
+            "enum": [
+              "TOTAL_ASSETS_RUB",
+              "TOTAL_ASSETS_USD"
+            ],
+            "example": "TOTAL_ASSETS_RUB"
+          },
+          "value": {
+            "type": "string",
+            "description": "Значение свойства",
+            "example": 100.2
+          }
+        },
+        "required": [
+          "account",
+          "property",
+          "value"
+        ]
+      },
+      "AccountCash": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32",
+            "description": "Внутренний идентификатор",
+            "example": 123
+          },
+          "account": {
+            "type": "string",
+            "description": "Номер счета в системе учета брокера",
+            "example": "10200I",
+            "minLength": 1
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Значение актуально на дату",
+            "example": "2021-01-23T12:00:00+03:00"
+          },
+          "market": {
+            "type": "string",
+            "description": "Рынок",
+            "example": "Фондовый"
+          },
+          "value": {
+            "type": "number",
+            "description": "Остаток денежных средств",
+            "example": 102.3
+          },
+          "currency": {
+            "type": "string",
+            "description": "Валюта",
+            "example": "RUB",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "account",
+          "currency",
+          "market",
+          "timestamp",
+          "value"
+        ]
+      },
+      "PageTransaction": {
         "type": "object",
         "properties": {
           "totalElements": {
@@ -3304,7 +3682,7 @@
           "content": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/Sdelka"
+              "$ref": "#/components/schemas/Transaction"
             }
           },
           "number": {
@@ -3329,6 +3707,32 @@
           },
           "empty": {
             "type": "boolean"
+          }
+        }
+      },
+      "PageableObject": {
+        "type": "object",
+        "properties": {
+          "offset": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "unpaged": {
+            "type": "boolean"
+          },
+          "sort": {
+            "$ref": "#/components/schemas/SortObject"
+          },
+          "paged": {
+            "type": "boolean"
+          },
+          "pageNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
           }
         }
       },
@@ -3346,7 +3750,7 @@
           }
         }
       },
-      "PageDvizhenieDSPoSdelke": {
+      "PageTransactionCashFlow": {
         "type": "object",
         "properties": {
           "totalElements": {
@@ -3364,7 +3768,7 @@
           "content": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/DvizhenieDSPoSdelke"
+              "$ref": "#/components/schemas/TransactionCashFlow"
             }
           },
           "number": {
@@ -3392,7 +3796,7 @@
           }
         }
       },
-      "PageKotirovka": {
+      "PageSecurityQuote": {
         "type": "object",
         "properties": {
           "totalElements": {
@@ -3410,7 +3814,7 @@
           "content": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/Kotirovka"
+              "$ref": "#/components/schemas/SecurityQuote"
             }
           },
           "number": {
@@ -3438,7 +3842,7 @@
           }
         }
       },
-      "PageSobytiePoBumage": {
+      "PageSecurityEventCashFlow": {
         "type": "object",
         "properties": {
           "totalElements": {
@@ -3456,7 +3860,7 @@
           "content": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/SobytiePoBumage"
+              "$ref": "#/components/schemas/SecurityEventCashFlow"
             }
           },
           "number": {
@@ -3484,7 +3888,7 @@
           }
         }
       },
-      "PageSvojstvaInstrumenta": {
+      "PageSecurityDescription": {
         "type": "object",
         "properties": {
           "totalElements": {
@@ -3502,7 +3906,7 @@
           "content": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/SvojstvaInstrumenta"
+              "$ref": "#/components/schemas/SecurityDescription"
             }
           },
           "number": {
@@ -3530,7 +3934,7 @@
           }
         }
       },
-      "PageInstrument": {
+      "PageSecurity": {
         "type": "object",
         "properties": {
           "totalElements": {
@@ -3548,7 +3952,7 @@
           "content": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/Instrument"
+              "$ref": "#/components/schemas/Security"
             }
           },
           "number": {
@@ -3576,7 +3980,7 @@
           }
         }
       },
-      "PageSchet": {
+      "PageIssuer": {
         "type": "object",
         "properties": {
           "totalElements": {
@@ -3594,7 +3998,7 @@
           "content": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/Schet"
+              "$ref": "#/components/schemas/Issuer"
             }
           },
           "number": {
@@ -3622,7 +4026,7 @@
           }
         }
       },
-      "PageSvojstvaScheta": {
+      "PageForeignExchangeRate": {
         "type": "object",
         "properties": {
           "totalElements": {
@@ -3640,7 +4044,7 @@
           "content": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/SvojstvaScheta"
+              "$ref": "#/components/schemas/ForeignExchangeRate"
             }
           },
           "number": {
@@ -3668,7 +4072,7 @@
           }
         }
       },
-      "PageOstatokDenezhnykhSredstv": {
+      "PageEventCashFlow": {
         "type": "object",
         "properties": {
           "totalElements": {
@@ -3686,7 +4090,7 @@
           "content": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/OstatokDenezhnykhSredstv"
+              "$ref": "#/components/schemas/EventCashFlow"
             }
           },
           "number": {
@@ -3714,7 +4118,7 @@
           }
         }
       },
-      "PageEmitent": {
+      "PageAccount": {
         "type": "object",
         "properties": {
           "totalElements": {
@@ -3732,7 +4136,7 @@
           "content": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/Emitent"
+              "$ref": "#/components/schemas/Account"
             }
           },
           "number": {
@@ -3760,7 +4164,7 @@
           }
         }
       },
-      "PageOfitsialnyjObmennyjKurs": {
+      "PageAccountProperty": {
         "type": "object",
         "properties": {
           "totalElements": {
@@ -3778,7 +4182,7 @@
           "content": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/OfitsialnyjObmennyjKurs"
+              "$ref": "#/components/schemas/AccountProperty"
             }
           },
           "number": {
@@ -3806,7 +4210,7 @@
           }
         }
       },
-      "PageDvizhenieDSPoSchetu": {
+      "PageAccountCash": {
         "type": "object",
         "properties": {
           "totalElements": {
@@ -3824,7 +4228,7 @@
           "content": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/DvizhenieDSPoSchetu"
+              "$ref": "#/components/schemas/AccountCash"
             }
           },
           "number": {
