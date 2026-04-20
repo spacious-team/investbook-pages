@@ -13,6 +13,12 @@
     "upload": "Загрузить отчёты брокера",
     "forms": "Формы"
   },
+  "statsStrip": {
+    "assets": "Активы",
+    "transactions": "Сделки",
+    "accounts": "Счета",
+    "cash": "Деньги"
+  },
   "header": {
     "menu": {
       "updates": "Обновления",

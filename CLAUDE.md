@@ -74,9 +74,10 @@ npx nx build common-ui
 
 ### Styling setup
 
-- Tailwind entry point: `apps/local/src/index.css` — imports `tailwindcss`, `tw-animate-css`, and adds `@source` directives to scan `libs/common-ui/src`
+- Tailwind entry point: `apps/local/src/index.css` — imports `tailwindcss`, `tw-animate-css`, the palette, and adds `@source` directives to scan `libs/common-ui/src`
 - shadcn/ui config: `components.json` at repo root
-- OKLCH design tokens (zinc palette, light + dark) defined in `index.css`
+- **Color palette:** OKLCH design tokens (light + dark) live in `libs/common-ui/src/styles/theme.css` — this is the single source of truth for all CSS custom properties
+- **Adding colors:** always add new tokens to `libs/common-ui/src/styles/theme.css` (both `:root` and `.dark`), then expose via `--color-<name>: var(--<name>)` inside `@theme inline` in `apps/local/src/index.css`. Never hardcode color values in components.
 - `cn` utility (`clsx` + `tailwind-merge`): `libs/common-ui/src/lib/utils.ts`, re-exported from `@investbook-pages/common-ui`
 - Vite integration via `@tailwindcss/vite` plugin
 

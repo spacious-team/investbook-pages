@@ -12,6 +12,7 @@ import {
   SidebarMenuItem,
   SidebarProvider,
   SidebarTrigger,
+  TooltipProvider,
 } from '@investbook-pages/common-ui';
 import { useTranslation } from '@investbook-pages/products';
 import {
@@ -23,6 +24,7 @@ import {
 } from 'lucide-react';
 import { NavLink, Outlet, useLocation } from 'react-router-dom';
 import Header from 'widgets/Header/Header';
+import PortfolioStatsStrip from 'widgets/PortfolioStatsStrip/PortfolioStatsStrip';
 
 export default function MainLayout() {
   const { t } = useTranslation();
@@ -37,51 +39,54 @@ export default function MainLayout() {
   ];
 
   return (
-    <SidebarProvider>
-      <Sidebar collapsible="icon">
-        <SidebarHeader>
-          <NavLink
-            to="/"
-            className="flex items-center gap-2 px-2 py-1 text-sidebar-foreground hover:opacity-80 transition-opacity"
-          >
-            <Logo size={28} className="shrink-0" />
-            <span className="font-semibold text-sm truncate group-data-[state=collapsed]:hidden">
-              Investbook
-            </span>
-          </NavLink>
-        </SidebarHeader>
-        <SidebarContent>
-          <SidebarGroup>
-            <SidebarGroupContent>
-              <SidebarMenu>
-                {navItems.map(({ to, label, icon: Icon }) => (
-                  <SidebarMenuItem key={to}>
-                    <SidebarMenuButton
-                      asChild
-                      isActive={pathname === to}
-                      tooltip={label}
-                    >
-                      <NavLink to={to}>
-                        <Icon />
-                        <span>{label}</span>
-                      </NavLink>
-                    </SidebarMenuButton>
-                  </SidebarMenuItem>
-                ))}
-              </SidebarMenu>
-            </SidebarGroupContent>
-          </SidebarGroup>
-        </SidebarContent>
-        <SidebarFooter>
-          <SidebarTrigger />
-        </SidebarFooter>
-      </Sidebar>
-      <SidebarInset>
-        <Header />
-        <main className="flex-1 overflow-y-auto">
-          <Outlet />
-        </main>
-      </SidebarInset>
-    </SidebarProvider>
+    <TooltipProvider>
+      <SidebarProvider>
+        <Sidebar collapsible="icon">
+          <SidebarHeader>
+            <NavLink
+              to="/"
+              className="flex items-center gap-2 px-2 py-1 text-sidebar-foreground hover:opacity-80 transition-opacity"
+            >
+              <Logo size={28} className="shrink-0" />
+              <span className="font-semibold text-sm truncate group-data-[state=collapsed]:hidden">
+                Investbook
+              </span>
+            </NavLink>
+          </SidebarHeader>
+          <SidebarContent>
+            <SidebarGroup>
+              <SidebarGroupContent>
+                <SidebarMenu>
+                  {navItems.map(({ to, label, icon: Icon }) => (
+                    <SidebarMenuItem key={to}>
+                      <SidebarMenuButton
+                        asChild
+                        isActive={pathname === to}
+                        tooltip={label}
+                      >
+                        <NavLink to={to}>
+                          <Icon />
+                          <span>{label}</span>
+                        </NavLink>
+                      </SidebarMenuButton>
+                    </SidebarMenuItem>
+                  ))}
+                </SidebarMenu>
+              </SidebarGroupContent>
+            </SidebarGroup>
+          </SidebarContent>
+          <SidebarFooter>
+            <SidebarTrigger />
+          </SidebarFooter>
+        </Sidebar>
+        <SidebarInset>
+          <Header />
+          <PortfolioStatsStrip />
+          <main className="flex-1 overflow-y-auto">
+            <Outlet />
+          </main>
+        </SidebarInset>
+      </SidebarProvider>
+    </TooltipProvider>
   );
 }
