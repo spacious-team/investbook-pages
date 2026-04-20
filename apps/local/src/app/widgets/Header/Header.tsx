@@ -14,15 +14,144 @@ import {
   Sun,
   SunMoon,
 } from 'lucide-react';
+import {
+  SidebarTrigger,
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from '@investbook-pages/common-ui';
 import { useTranslation } from '@investbook-pages/products';
 import { useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+
+// ─── Mock data (replace with real query when endpoint is ready) ───────────────
+
+const mockStats = {
+  assets: 145_328,
+  transactions: 16,
+  accounts: ['demo', 'demo-gold', 'demo-us', 'demo-eur', 'demo-usd'],
+  cash: 24_928,
+};
+
+const ACCOUNTS_LIMIT = 3;
+
+function formatCurrency(value: number) {
+  return value.toLocaleString('ru-RU') + '\u00a0₽';
+}
+
+// ─── Stat building blocks ─────────────────────────────────────────────────────
+
+function StatDivider() {
+  return <div className="h-7 w-px shrink-0 bg-primary-foreground/20 mx-1" />;
+}
+
+function StatLink({ label, value }: { label: string; value: string }) {
+  return (
+    <Link
+      to="/portfolio"
+      className="flex flex-col gap-0.5 rounded px-2 py-1 transition-colors hover:bg-primary-foreground/10"
+    >
+      <span className="text-[10px] uppercase tracking-wide text-primary-foreground/60">
+        {label}
+      </span>
+      <span className="text-[13px] font-semibold text-primary-foreground">
+        {value}
+      </span>
+    </Link>
+  );
+}
+
+function AccountsStat({
+  label,
+  visibleAccounts,
+  hiddenAccounts,
+}: {
+  label: string;
+  visibleAccounts: string[];
+  hiddenAccounts: string[];
+}) {
+  const navigate = useNavigate();
+
+  return (
+    <div
+      className="flex flex-col gap-0.5 rounded px-2 py-1 transition-colors hover:bg-primary-foreground/10 cursor-pointer"
+      onClick={() => navigate('/portfolio')}
+    >
+      <span className="text-[10px] uppercase tracking-wide text-primary-foreground/60">
+        {label}
+      </span>
+      <div className="flex items-center gap-1.5">
+        <span className="text-[13px] font-semibold text-primary-foreground">
+          {visibleAccounts.join('\u00a0·\u00a0')}
+        </span>
+        {hiddenAccounts.length > 0 && (
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <span
+                onClick={(e) => e.stopPropagation()}
+                className="rounded border border-primary-foreground/30 bg-primary-foreground/20 px-1.5 py-0.5 text-[11px] font-semibold text-primary-foreground"
+              >
+                +{hiddenAccounts.length}
+              </span>
+            </TooltipTrigger>
+            <TooltipContent>
+              {hiddenAccounts.map((account) => (
+                <div key={account}>{account}</div>
+              ))}
+            </TooltipContent>
+          </Tooltip>
+        )}
+      </div>
+    </div>
+  );
+}
+
+// ─── Stats layouts ────────────────────────────────────────────────────────────
+
+function StatsRow({
+  t,
+  visibleAccounts,
+  hiddenAccounts,
+}: {
+  t: (key: string) => string;
+  visibleAccounts: string[];
+  hiddenAccounts: string[];
+}) {
+  return (
+    <>
+      <StatLink
+        label={t('statsStrip.assets')}
+        value={formatCurrency(mockStats.assets)}
+      />
+      <StatDivider />
+      <StatLink
+        label={t('statsStrip.transactions')}
+        value={String(mockStats.transactions)}
+      />
+      <StatDivider />
+      <AccountsStat
+        label={t('statsStrip.accounts')}
+        visibleAccounts={visibleAccounts}
+        hiddenAccounts={hiddenAccounts}
+      />
+      <StatDivider />
+      <StatLink
+        label={t('statsStrip.cash')}
+        value={formatCurrency(mockStats.cash)}
+      />
+    </>
+  );
+}
+
+// ─── Menu constants ───────────────────────────────────────────────────────────
 
 const itemClass =
   'flex w-full items-center gap-2 rounded-sm px-2 py-1.5 text-sm text-left cursor-pointer outline-none transition-colors hover:bg-accent hover:text-accent-foreground [&_svg]:size-4 [&_svg]:shrink-0';
 
 const panelClass =
   'min-w-44 rounded-md border bg-popover p-1 text-popover-foreground shadow-md';
+
+// ─── Header ───────────────────────────────────────────────────────────────────
 
 export default function Header() {
   const { pathname } = useLocation();
@@ -92,75 +221,114 @@ export default function Header() {
     setIsDark(dark);
   };
 
-  return (
-    <header className="w-full bg-primary text-primary-foreground py-4 px-6">
-      <div className="flex items-center justify-between">
-        <h1 className="text-xl font-bold">{title}</h1>
+  const visibleAccounts = mockStats.accounts.slice(0, ACCOUNTS_LIMIT);
+  const hiddenAccounts = mockStats.accounts.slice(ACCOUNTS_LIMIT);
 
-        {/* Hover menu — CSS-based to avoid flicker */}
-        <div className="relative group/menu">
-          <button className="flex items-center rounded-md p-1 hover:bg-primary-foreground/10 transition-colors cursor-pointer outline-none">
-            <CircleUser className="size-6" />
-          </button>
+  const userMenu = (
+    /* pt-1 creates a seamless bridge between button and panel */
+    <div className="relative group/menu">
+      <button className="flex items-center rounded-md p-1 hover:bg-primary-foreground/10 transition-colors cursor-pointer outline-none">
+        <CircleUser className="size-6" />
+      </button>
 
-          {/* pt-1 creates a seamless bridge between button and panel */}
-          <div className="absolute right-0 top-full pt-1 invisible opacity-0 group-hover/menu:visible group-hover/menu:opacity-100 transition-[opacity,visibility] duration-100 z-50">
-            <div className={panelClass}>
-              {menuItems.map(({ label, icon: Icon, href }) => (
-                <a
-                  key={label}
-                  href={href}
-                  target={href.startsWith('/') ? '_self' : '_blank'}
-                  rel="noreferrer"
-                  className={itemClass}
-                >
-                  <Icon />
-                  {label}
-                </a>
-              ))}
+      <div className="absolute right-0 top-full pt-1 invisible opacity-0 group-hover/menu:visible group-hover/menu:opacity-100 transition-[opacity,visibility] duration-100 z-50">
+        <div className={panelClass}>
+          {menuItems.map(({ label, icon: Icon, href }) => (
+            <a
+              key={label}
+              href={href}
+              target={href.startsWith('/') ? '_self' : '_blank'}
+              rel="noreferrer"
+              className={itemClass}
+            >
+              <Icon />
+              {label}
+            </a>
+          ))}
 
-              {/* Theme submenu */}
-              <div className="relative group/theme">
-                <button className={itemClass}>
-                  <SunMoon />
-                  {t('header.theme')}
-                  <ChevronLeft className="ml-auto" />
+          {/* Theme submenu */}
+          <div className="relative group/theme">
+            <button className={itemClass}>
+              <SunMoon />
+              {t('header.theme')}
+              <ChevronLeft className="ml-auto" />
+            </button>
+
+            {/* pr-1 bridges the gap to the submenu panel */}
+            <div className="absolute right-full top-0 pr-1 z-50 invisible opacity-0 group-hover/theme:visible group-hover/theme:opacity-100 transition-[opacity,visibility] duration-100">
+              <div className={panelClass}>
+                <button className={itemClass} onClick={() => applyTheme(false)}>
+                  <Sun />
+                  {t('header.themeLight')}
+                  {!isDark && <Check className="ml-auto" />}
                 </button>
-
-                {/* pl-1 bridges the gap to the submenu panel */}
-                <div className="absolute right-full top-0 pr-1 z-50 invisible opacity-0 group-hover/theme:visible group-hover/theme:opacity-100 transition-[opacity,visibility] duration-100">
-                  <div className={panelClass}>
-                    <button
-                      className={itemClass}
-                      onClick={() => applyTheme(false)}
-                    >
-                      <Sun />
-                      {t('header.themeLight')}
-                      {!isDark && <Check className="ml-auto" />}
-                    </button>
-                    <button
-                      className={itemClass}
-                      onClick={() => applyTheme(true)}
-                    >
-                      <Moon />
-                      {t('header.themeDark')}
-                      {isDark && <Check className="ml-auto" />}
-                    </button>
-                  </div>
-                </div>
+                <button className={itemClass} onClick={() => applyTheme(true)}>
+                  <Moon />
+                  {t('header.themeDark')}
+                  {isDark && <Check className="ml-auto" />}
+                </button>
               </div>
-
-              <div className="-mx-1 my-1 h-px bg-border" />
-              <button
-                className={itemClass}
-                onClick={() => console.log('logout')}
-              >
-                <LogOut />
-                {t('header.logout')}
-              </button>
             </div>
           </div>
+
+          <div className="-mx-1 my-1 h-px bg-border" />
+          <button className={itemClass} onClick={() => console.log('logout')}>
+            <LogOut />
+            {t('header.logout')}
+          </button>
         </div>
+      </div>
+    </div>
+  );
+
+  return (
+    <header className="w-full bg-primary text-primary-foreground px-6">
+      {/* ── Row 1: title · [stats on lg] · user menu ── */}
+      <div className="flex items-center gap-3 py-4">
+        <SidebarTrigger className="md:hidden text-primary-foreground hover:bg-primary-foreground/10" />
+        <h1 className="text-xl font-bold shrink-0">{title}</h1>
+
+        {/* Right side: stats (lg only) + user menu */}
+        <div className="ml-auto flex items-center gap-2">
+          <div className="hidden lg:flex items-center gap-1">
+            <StatsRow
+              t={t}
+              visibleAccounts={visibleAccounts}
+              hiddenAccounts={hiddenAccounts}
+            />
+          </div>
+          {userMenu}
+        </div>
+      </div>
+
+      {/* ── Row 2: stats strip — medium screens only ── */}
+      <div className="hidden md:flex lg:hidden items-center gap-1 pb-4 pt-1 border-t border-primary-foreground/20">
+        <StatsRow
+          t={t}
+          visibleAccounts={visibleAccounts}
+          hiddenAccounts={hiddenAccounts}
+        />
+      </div>
+
+      {/* ── Row 2: stats 2×2 grid — mobile only ── */}
+      <div className="md:hidden grid grid-cols-2 gap-x-2 gap-y-1 pb-4 pt-1 border-t border-primary-foreground/20">
+        <StatLink
+          label={t('statsStrip.assets')}
+          value={formatCurrency(mockStats.assets)}
+        />
+        <StatLink
+          label={t('statsStrip.transactions')}
+          value={String(mockStats.transactions)}
+        />
+        <AccountsStat
+          label={t('statsStrip.accounts')}
+          visibleAccounts={visibleAccounts}
+          hiddenAccounts={hiddenAccounts}
+        />
+        <StatLink
+          label={t('statsStrip.cash')}
+          value={formatCurrency(mockStats.cash)}
+        />
       </div>
     </header>
   );
