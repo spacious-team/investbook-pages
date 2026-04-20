@@ -7,7 +7,7 @@ i18n.use(initReactI18next).init({
   fallbackLng: 'ru',
   resources: { ru: { translation: ru } },
   interpolation: { escapeValue: false },
-  initImmediate: false,
+  initAsync: false,
 });
 
 export { useTranslation } from 'react-i18next';

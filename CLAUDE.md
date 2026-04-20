@@ -67,6 +67,8 @@ npx nx build common-ui
 - **Tailwind CSS v4** + **shadcn/ui** (new-york style, zinc base color) for styling — use Tailwind utility classes; `cn()` helper from `@investbook-pages/common-ui` for conditional class merging
 - **shadcn/ui components are built on individual `@radix-ui/*` packages** — always use individual Radix UI packages (e.g. `@radix-ui/react-dialog`, `@radix-ui/react-slot`) as the primitive layer; do NOT use the monolithic `radix-ui` package, `@base-ui/react`, or other component libraries
 - **React Router v7** — `createBrowserRouter` pattern
+- **Zustand** — app-level client state manager. Store: `apps/local/src/app/store.ts`, exported as `useAppStore`. Extend `AppState` interface as features are added. No provider required.
+- **TanStack Query v5** — server state and data fetching. Singleton `QueryClient` in `apps/local/src/app/query-client.ts`. `QueryClientProvider` wraps the app in `main.tsx`. `ReactQueryDevtools` active in dev only (`import.meta.env.DEV`).
 - **Vitest** + **@testing-library/react** for tests
 - **Nx 22** for monorepo task orchestration and caching
 
@@ -101,7 +103,7 @@ Do **not** write tests unless the user explicitly asks for them. This project us
 The project uses `react-i18next` with a single Russian locale. No other languages are planned.
 
 - **Translation file:** `libs/products/src/i18n/ru.json` — single source of truth for all UI strings, organised by area (`nav`, `pageTitles`, `header`, `header.menu`)
-- **Init module:** `libs/products/src/i18n/index.ts` — initialises i18next synchronously (`initImmediate: false`) and re-exports `useTranslation`
+- **Init module:** `libs/products/src/i18n/index.ts` — initialises i18next synchronously (`initAsync: false`) and re-exports `useTranslation`
 - **Import:** `import { useTranslation } from '@investbook-pages/products'`
 - **Usage:** call `const { t } = useTranslation()` inside the component, then `t('pageTitles.portfolio')` etc.
 
