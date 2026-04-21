@@ -98,6 +98,8 @@ Do **not** write tests unless the user explicitly asks for them. This project us
 - New business logic goes in `libs/products/src/lib/` and must be re-exported from `libs/products/src/index.ts`
 - Nx generators default to `none` for styling (no CSS-in-JS), `eslint`, `vite`, and `vitest` — use these defaults when scaffolding new apps/libs
 - New shadcn/ui components: run `npx shadcn add <component>` from repo root; components land in `libs/common-ui/src/lib/` and must be re-exported from `libs/common-ui/src/index.ts`
+- **Tooltips on interactive elements:** use `AdaptiveTooltip` / `AdaptiveTooltipTrigger` / `AdaptiveTooltipContent` from `@investbook-pages/common-ui` instead of plain `Tooltip`. It renders `Tooltip` on hover-capable devices and `Popover` (click/tap) on touch. Use plain `Tooltip` only for purely decorative/non-interactive hints where touch support is irrelevant.
+- **Active states:** whenever you add `hover:bg-*` or `hover:text-*` to a clickable element, always add a matching `active:bg-*` / `active:text-*` with higher contrast (e.g. `hover:bg-primary-foreground/10` → `active:bg-primary-foreground/20`). This gives tactile click feedback, especially on touch.
 
 ## Internationalisation (i18n)
 

@@ -13,6 +13,7 @@ import {
   SunMoon,
 } from 'lucide-react';
 import {
+  Button,
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
@@ -24,9 +25,9 @@ import {
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
   SidebarTrigger,
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
+  AdaptiveTooltip,
+  AdaptiveTooltipContent,
+  AdaptiveTooltipTrigger,
 } from '@investbook-pages/common-ui';
 import { useTranslation } from '@investbook-pages/products';
 import { useState } from 'react';
@@ -57,7 +58,7 @@ function StatLink({ label, value }: { label: string; value: string }) {
   return (
     <Link
       to="/portfolio"
-      className="flex flex-col gap-0.5 rounded px-2 py-1 transition-colors hover:bg-primary-foreground/10"
+      className="flex flex-col gap-0.5 rounded px-2 py-1 transition-colors hover:bg-primary-foreground/10 active:bg-primary-foreground/20"
     >
       <span className="text-[10px] uppercase tracking-wide text-primary-foreground/60">
         {label}
@@ -82,7 +83,7 @@ function AccountsStat({
 
   return (
     <div
-      className="flex flex-col gap-0.5 rounded px-2 py-1 transition-colors hover:bg-primary-foreground/10 cursor-pointer"
+      className="flex flex-col gap-0.5 rounded px-2 py-1 transition-colors hover:bg-primary-foreground/10 active:bg-primary-foreground/20 cursor-pointer"
       onClick={() => navigate('/portfolio')}
     >
       <span className="text-[10px] uppercase tracking-wide text-primary-foreground/60">
@@ -93,21 +94,21 @@ function AccountsStat({
           {visibleAccounts.join('\u00a0·\u00a0')}
         </span>
         {hiddenAccounts.length > 0 && (
-          <Tooltip>
-            <TooltipTrigger asChild>
+          <AdaptiveTooltip>
+            <AdaptiveTooltipTrigger asChild>
               <span
                 onClick={(e) => e.stopPropagation()}
                 className="rounded border border-primary-foreground/30 bg-primary-foreground/20 px-1.5 py-0.5 text-[11px] font-semibold text-primary-foreground"
               >
                 +{hiddenAccounts.length}
               </span>
-            </TooltipTrigger>
-            <TooltipContent>
+            </AdaptiveTooltipTrigger>
+            <AdaptiveTooltipContent>
               {hiddenAccounts.map((account) => (
                 <div key={account}>{account}</div>
               ))}
-            </TooltipContent>
-          </Tooltip>
+            </AdaptiveTooltipContent>
+          </AdaptiveTooltip>
         )}
       </div>
     </div>
@@ -227,9 +228,13 @@ export default function Header() {
   const userMenu = (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <button className="flex items-center rounded-md p-1 hover:bg-primary-foreground/10 transition-colors cursor-pointer outline-none">
+        <Button
+          variant="ghost"
+          size="icon-sm"
+          className="text-primary-foreground hover:bg-primary-foreground/10 dark:hover:bg-primary-foreground/10 active:bg-primary-foreground/20 dark:active:bg-primary-foreground/20"
+        >
           <CircleUser className="size-6" />
-        </button>
+        </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="min-w-44">
         {menuItems.map(({ label, icon: Icon, href }) => (
@@ -280,7 +285,7 @@ export default function Header() {
     <header className="w-full bg-primary text-primary-foreground px-6">
       {/* ── Row 1: title · [stats on lg] · user menu ── */}
       <div className="flex items-center gap-3 py-4">
-        <SidebarTrigger className="md:hidden text-primary-foreground hover:bg-primary-foreground/10" />
+        <SidebarTrigger className="md:hidden text-primary-foreground hover:bg-primary-foreground/10 active:bg-primary-foreground/20" />
         <h1 className="text-xl font-bold shrink-0">{title}</h1>
 
         {/* Right side: stats (lg only) + user menu */}
