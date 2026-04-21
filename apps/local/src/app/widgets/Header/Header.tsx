@@ -1,7 +1,5 @@
 import {
   Bug,
-  Check,
-  ChevronLeft,
   CircleUser,
   ExternalLink,
   HelpCircle,
@@ -15,6 +13,16 @@ import {
   SunMoon,
 } from 'lucide-react';
 import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
+  DropdownMenuSeparator,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
+  DropdownMenuTrigger,
   SidebarTrigger,
   Tooltip,
   TooltipContent,
@@ -143,14 +151,6 @@ function StatsRow({
   );
 }
 
-// ─── Menu constants ───────────────────────────────────────────────────────────
-
-const itemClass =
-  'flex w-full items-center gap-2 rounded-sm px-2 py-1.5 text-sm text-left cursor-pointer outline-none transition-colors hover:bg-accent hover:text-accent-foreground [&_svg]:size-4 [&_svg]:shrink-0';
-
-const panelClass =
-  'min-w-44 rounded-md border bg-popover p-1 text-popover-foreground shadow-md';
-
 // ─── Header ───────────────────────────────────────────────────────────────────
 
 export default function Header() {
@@ -225,60 +225,55 @@ export default function Header() {
   const hiddenAccounts = mockStats.accounts.slice(ACCOUNTS_LIMIT);
 
   const userMenu = (
-    /* pt-1 creates a seamless bridge between button and panel */
-    <div className="relative group/menu">
-      <button className="flex items-center rounded-md p-1 hover:bg-primary-foreground/10 transition-colors cursor-pointer outline-none">
-        <CircleUser className="size-6" />
-      </button>
-
-      <div className="absolute right-0 top-full pt-1 invisible opacity-0 group-hover/menu:visible group-hover/menu:opacity-100 transition-[opacity,visibility] duration-100 z-50">
-        <div className={panelClass}>
-          {menuItems.map(({ label, icon: Icon, href }) => (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <button className="flex items-center rounded-md p-1 hover:bg-primary-foreground/10 transition-colors cursor-pointer outline-none">
+          <CircleUser className="size-6" />
+        </button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="end" className="min-w-44">
+        {menuItems.map(({ label, icon: Icon, href }) => (
+          <DropdownMenuItem key={label} asChild>
             <a
-              key={label}
               href={href}
               target={href.startsWith('/') ? '_self' : '_blank'}
               rel="noreferrer"
-              className={itemClass}
             >
               <Icon />
               {label}
             </a>
-          ))}
+          </DropdownMenuItem>
+        ))}
 
-          {/* Theme submenu */}
-          <div className="relative group/theme">
-            <button className={itemClass}>
-              <SunMoon />
-              {t('header.theme')}
-              <ChevronLeft className="ml-auto" />
-            </button>
+        <DropdownMenuSub>
+          <DropdownMenuSubTrigger>
+            <SunMoon className="size-4" />
+            {t('header.theme')}
+          </DropdownMenuSubTrigger>
+          <DropdownMenuSubContent>
+            <DropdownMenuRadioGroup
+              value={isDark ? 'dark' : 'light'}
+              onValueChange={(v) => applyTheme(v === 'dark')}
+            >
+              <DropdownMenuRadioItem value="light">
+                <Sun />
+                {t('header.themeLight')}
+              </DropdownMenuRadioItem>
+              <DropdownMenuRadioItem value="dark">
+                <Moon />
+                {t('header.themeDark')}
+              </DropdownMenuRadioItem>
+            </DropdownMenuRadioGroup>
+          </DropdownMenuSubContent>
+        </DropdownMenuSub>
 
-            {/* pr-1 bridges the gap to the submenu panel */}
-            <div className="absolute right-full top-0 pr-1 z-50 invisible opacity-0 group-hover/theme:visible group-hover/theme:opacity-100 transition-[opacity,visibility] duration-100">
-              <div className={panelClass}>
-                <button className={itemClass} onClick={() => applyTheme(false)}>
-                  <Sun />
-                  {t('header.themeLight')}
-                  {!isDark && <Check className="ml-auto" />}
-                </button>
-                <button className={itemClass} onClick={() => applyTheme(true)}>
-                  <Moon />
-                  {t('header.themeDark')}
-                  {isDark && <Check className="ml-auto" />}
-                </button>
-              </div>
-            </div>
-          </div>
-
-          <div className="-mx-1 my-1 h-px bg-border" />
-          <button className={itemClass} onClick={() => console.log('logout')}>
-            <LogOut />
-            {t('header.logout')}
-          </button>
-        </div>
-      </div>
-    </div>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem onClick={() => console.log('logout')}>
+          <LogOut />
+          {t('header.logout')}
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
   );
 
   return (
