@@ -118,6 +118,20 @@ function buildOperationId(method, path) {
   return method.toLowerCase() + segments.join('');
 }
 
+// Recursively sort all object keys alphabetically for deterministic output.
+// Arrays and primitives are left as-is.
+function sortObjectKeys(value) {
+  if (Array.isArray(value)) return value.map(sortObjectKeys);
+  if (value !== null && typeof value === 'object') {
+    return Object.fromEntries(
+      Object.keys(value)
+        .sort()
+        .map((k) => [k, sortObjectKeys(value[k])]),
+    );
+  }
+  return value;
+}
+
 // ─── Main ─────────────────────────────────────────────────────────────────────
 
 console.log(`Fetching spec from ${SPEC_URL}…`);
@@ -187,6 +201,7 @@ for (const [path, pathItem] of Object.entries(paths)) {
 
 console.log(`Generated operationIds for ${operationCount} operation(s).`);
 
-// 4. Write output
-writeFileSync(OUTPUT_FILE, JSON.stringify(transformedSpec, null, 2) + '\n');
+// 4. Sort all object keys for deterministic output, then write
+const sortedSpec = sortObjectKeys(transformedSpec);
+writeFileSync(OUTPUT_FILE, JSON.stringify(sortedSpec, null, 2) + '\n');
 console.log(`Wrote ${OUTPUT_FILE}`);

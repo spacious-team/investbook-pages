@@ -213,103 +213,33 @@ export type Options<
 };
 
 /**
- * Удалить
+ * Отобразить все
  *
- * Удаляет указанную сделку
+ * Отображает всю информацию обо всех счетах
  */
-export const deleteTransactionsById = <ThrowOnError extends boolean = false>(
-  options: Options<DeleteTransactionsByIdData, ThrowOnError>,
+export const getAccountCash = <ThrowOnError extends boolean = false>(
+  options?: Options<GetAccountCashData, ThrowOnError>,
 ) =>
-  (options.client ?? client).delete<
-    DeleteTransactionsByIdResponses,
-    DeleteTransactionsByIdErrors,
+  (options?.client ?? client).get<
+    GetAccountCashResponses,
+    GetAccountCashErrors,
     ThrowOnError
-  >({ url: '/api/v1/transactions/{id}', ...options });
+  >({ url: '/api/v1/account-cash', ...options });
 
 /**
- * Отобразить одну
+ * Добавить
  *
- * Отображает одну сделку
+ * Добавить информацию для конкретного счета
  */
-export const getTransactionsById = <ThrowOnError extends boolean = false>(
-  options: Options<GetTransactionsByIdData, ThrowOnError>,
+export const postAccountCash = <ThrowOnError extends boolean = false>(
+  options: Options<PostAccountCashData, ThrowOnError>,
 ) =>
-  (options.client ?? client).get<
-    GetTransactionsByIdResponses,
-    GetTransactionsByIdErrors,
-    ThrowOnError
-  >({ url: '/api/v1/transactions/{id}', ...options });
-
-/**
- * Обновить параметры
- *
- * Обновляет параметры указанной сделки
- */
-export const putTransactionsById = <ThrowOnError extends boolean = false>(
-  options: Options<PutTransactionsByIdData, ThrowOnError>,
-) =>
-  (options.client ?? client).put<
-    PutTransactionsByIdResponses,
-    PutTransactionsByIdErrors,
+  (options.client ?? client).post<
+    PostAccountCashResponses,
+    PostAccountCashErrors,
     ThrowOnError
   >({
-    url: '/api/v1/transactions/{id}',
-    ...options,
-    headers: {
-      'Content-Type': 'application/json',
-      ...options.headers,
-    },
-  });
-
-/**
- * Удалить
- *
- * Удалить информацию об об объемах движения ДС по сделке. Сама сделка не удаляется, ее нужно удалить своим API
- *
- */
-export const deleteTransactionCashFlowsById = <
-  ThrowOnError extends boolean = false,
->(
-  options: Options<DeleteTransactionCashFlowsByIdData, ThrowOnError>,
-) =>
-  (options.client ?? client).delete<
-    DeleteTransactionCashFlowsByIdResponses,
-    DeleteTransactionCashFlowsByIdErrors,
-    ThrowOnError
-  >({ url: '/api/v1/transaction-cash-flows/{id}', ...options });
-
-/**
- * Отобразить одну
- *
- * Отобразить информацию о конкретной сделке
- */
-export const getTransactionCashFlowsById = <
-  ThrowOnError extends boolean = false,
->(
-  options: Options<GetTransactionCashFlowsByIdData, ThrowOnError>,
-) =>
-  (options.client ?? client).get<
-    GetTransactionCashFlowsByIdResponses,
-    GetTransactionCashFlowsByIdErrors,
-    ThrowOnError
-  >({ url: '/api/v1/transaction-cash-flows/{id}', ...options });
-
-/**
- * Обновить
- *
- * Обновить информацию об об объемах движения ДС по сделке
- */
-export const putTransactionCashFlowsById = <
-  ThrowOnError extends boolean = false,
->(
-  options: Options<PutTransactionCashFlowsByIdData, ThrowOnError>,
-) =>
-  (options.client ?? client).put<
-    PutTransactionCashFlowsByIdResponses,
-    PutTransactionCashFlowsByIdErrors,
-    ThrowOnError
-  >({
-    url: '/api/v1/transaction-cash-flows/{id}',
+    url: '/api/v1/account-cash',
     ...options,
     headers: {
       'Content-Type': 'application/json',
@@ -320,151 +250,78 @@ export const putTransactionCashFlowsById = <
 /**
  * Удалить
  */
-export const deleteSecurityQuotesById = <ThrowOnError extends boolean = false>(
-  options: Options<DeleteSecurityQuotesByIdData, ThrowOnError>,
+export const deleteAccountCashById = <ThrowOnError extends boolean = false>(
+  options: Options<DeleteAccountCashByIdData, ThrowOnError>,
 ) =>
   (options.client ?? client).delete<
-    DeleteSecurityQuotesByIdResponses,
-    DeleteSecurityQuotesByIdErrors,
+    DeleteAccountCashByIdResponses,
+    DeleteAccountCashByIdErrors,
     ThrowOnError
-  >({ url: '/api/v1/security-quotes/{id}', ...options });
-
-/**
- * Отобразить одну
- *
- * Отобразить котировку по номеру записи
- */
-export const getSecurityQuotesById = <ThrowOnError extends boolean = false>(
-  options: Options<GetSecurityQuotesByIdData, ThrowOnError>,
-) =>
-  (options.client ?? client).get<
-    GetSecurityQuotesByIdResponses,
-    GetSecurityQuotesByIdErrors,
-    ThrowOnError
-  >({ url: '/api/v1/security-quotes/{id}', ...options });
-
-/**
- * Обновить
- */
-export const putSecurityQuotesById = <ThrowOnError extends boolean = false>(
-  options: Options<PutSecurityQuotesByIdData, ThrowOnError>,
-) =>
-  (options.client ?? client).put<
-    PutSecurityQuotesByIdResponses,
-    PutSecurityQuotesByIdErrors,
-    ThrowOnError
-  >({
-    url: '/api/v1/security-quotes/{id}',
-    ...options,
-    headers: {
-      'Content-Type': 'application/json',
-      ...options.headers,
-    },
-  });
-
-/**
- * Удалить
- *
- * Удалить информацию о выплате
- */
-export const deleteSecurityEventCashFlowsById = <
-  ThrowOnError extends boolean = false,
->(
-  options: Options<DeleteSecurityEventCashFlowsByIdData, ThrowOnError>,
-) =>
-  (options.client ?? client).delete<
-    DeleteSecurityEventCashFlowsByIdResponses,
-    DeleteSecurityEventCashFlowsByIdErrors,
-    ThrowOnError
-  >({ url: '/api/v1/security-event-cash-flows/{id}', ...options });
-
-/**
- * Отобразить одну
- *
- * Отобразить выплату по идентификатору
- */
-export const getSecurityEventCashFlowsById = <
-  ThrowOnError extends boolean = false,
->(
-  options: Options<GetSecurityEventCashFlowsByIdData, ThrowOnError>,
-) =>
-  (options.client ?? client).get<
-    GetSecurityEventCashFlowsByIdResponses,
-    GetSecurityEventCashFlowsByIdErrors,
-    ThrowOnError
-  >({ url: '/api/v1/security-event-cash-flows/{id}', ...options });
-
-/**
- * Обновить
- *
- * Модифицировать информацию о выплате
- */
-export const putSecurityEventCashFlowsById = <
-  ThrowOnError extends boolean = false,
->(
-  options: Options<PutSecurityEventCashFlowsByIdData, ThrowOnError>,
-) =>
-  (options.client ?? client).put<
-    PutSecurityEventCashFlowsByIdResponses,
-    PutSecurityEventCashFlowsByIdErrors,
-    ThrowOnError
-  >({
-    url: '/api/v1/security-event-cash-flows/{id}',
-    ...options,
-    headers: {
-      'Content-Type': 'application/json',
-      ...options.headers,
-    },
-  });
-
-/**
- * Удалить
- *
- * Удалить информацию по инструменту
- */
-export const deleteSecurityDescriptionsById = <
-  ThrowOnError extends boolean = false,
->(
-  options: Options<DeleteSecurityDescriptionsByIdData, ThrowOnError>,
-) =>
-  (options.client ?? client).delete<
-    DeleteSecurityDescriptionsByIdResponses,
-    DeleteSecurityDescriptionsByIdErrors,
-    ThrowOnError
-  >({ url: '/api/v1/security-descriptions/{id}', ...options });
+  >({ url: '/api/v1/account-cash/{id}', ...options });
 
 /**
  * Отобразить один
  *
- * Отобразить информацию по инструменту
+ * Отображает информацию по идентификатору
  */
-export const getSecurityDescriptionsById = <
-  ThrowOnError extends boolean = false,
->(
-  options: Options<GetSecurityDescriptionsByIdData, ThrowOnError>,
+export const getAccountCashById = <ThrowOnError extends boolean = false>(
+  options: Options<GetAccountCashByIdData, ThrowOnError>,
 ) =>
   (options.client ?? client).get<
-    GetSecurityDescriptionsByIdResponses,
-    GetSecurityDescriptionsByIdErrors,
+    GetAccountCashByIdResponses,
+    GetAccountCashByIdErrors,
     ThrowOnError
-  >({ url: '/api/v1/security-descriptions/{id}', ...options });
+  >({ url: '/api/v1/account-cash/{id}', ...options });
 
 /**
  * Обновить
  *
- * Добавить информацию об акции, облигации, деривативе или валютной паре
+ * Обновить информацию для счета
  */
-export const putSecurityDescriptionsById = <
-  ThrowOnError extends boolean = false,
->(
-  options: Options<PutSecurityDescriptionsByIdData, ThrowOnError>,
+export const putAccountCashById = <ThrowOnError extends boolean = false>(
+  options: Options<PutAccountCashByIdData, ThrowOnError>,
 ) =>
   (options.client ?? client).put<
-    PutSecurityDescriptionsByIdResponses,
-    PutSecurityDescriptionsByIdErrors,
+    PutAccountCashByIdResponses,
+    PutAccountCashByIdErrors,
     ThrowOnError
   >({
-    url: '/api/v1/security-descriptions/{id}',
+    url: '/api/v1/account-cash/{id}',
+    ...options,
+    headers: {
+      'Content-Type': 'application/json',
+      ...options.headers,
+    },
+  });
+
+/**
+ * Отобразить все
+ *
+ * Отображает всю имеющуюся информацию обо всех счетах
+ */
+export const getAccountProperties = <ThrowOnError extends boolean = false>(
+  options?: Options<GetAccountPropertiesData, ThrowOnError>,
+) =>
+  (options?.client ?? client).get<
+    GetAccountPropertiesResponses,
+    GetAccountPropertiesErrors,
+    ThrowOnError
+  >({ url: '/api/v1/account-properties', ...options });
+
+/**
+ * Добавить
+ *
+ * Добавить информацию для конкретного счета
+ */
+export const postAccountProperties = <ThrowOnError extends boolean = false>(
+  options: Options<PostAccountPropertiesData, ThrowOnError>,
+) =>
+  (options.client ?? client).post<
+    PostAccountPropertiesResponses,
+    PostAccountPropertiesErrors,
+    ThrowOnError
+  >({
+    url: '/api/v1/account-properties',
     ...options,
     headers: {
       'Content-Type': 'application/json',
@@ -474,46 +331,77 @@ export const putSecurityDescriptionsById = <
 
 /**
  * Удалить
- *
- * Удалить сведения о биржевом инструменте и всех его сделках по всем счетам
  */
-export const deleteSecuritiesById = <ThrowOnError extends boolean = false>(
-  options: Options<DeleteSecuritiesByIdData, ThrowOnError>,
+export const deleteAccountPropertiesById = <
+  ThrowOnError extends boolean = false,
+>(
+  options: Options<DeleteAccountPropertiesByIdData, ThrowOnError>,
 ) =>
   (options.client ?? client).delete<
-    DeleteSecuritiesByIdResponses,
-    DeleteSecuritiesByIdErrors,
+    DeleteAccountPropertiesByIdResponses,
+    DeleteAccountPropertiesByIdErrors,
     ThrowOnError
-  >({ url: '/api/v1/securities/{id}', ...options });
+  >({ url: '/api/v1/account-properties/{id}', ...options });
 
 /**
  * Отобразить один
  *
- * Отобразить биржевой инструмент по внутреннему идентификатору
+ * Отображает информацию по идентификатору
  */
-export const getSecuritiesById = <ThrowOnError extends boolean = false>(
-  options: Options<GetSecuritiesByIdData, ThrowOnError>,
+export const getAccountPropertiesById = <ThrowOnError extends boolean = false>(
+  options: Options<GetAccountPropertiesByIdData, ThrowOnError>,
 ) =>
   (options.client ?? client).get<
-    GetSecuritiesByIdResponses,
-    GetSecuritiesByIdErrors,
+    GetAccountPropertiesByIdResponses,
+    GetAccountPropertiesByIdErrors,
     ThrowOnError
-  >({ url: '/api/v1/securities/{id}', ...options });
+  >({ url: '/api/v1/account-properties/{id}', ...options });
 
 /**
  * Обновить
  *
- * Добавить информацию об акции, облигации, деривативе или валютной паре
+ * Обновить информацию для счета
  */
-export const putSecuritiesById = <ThrowOnError extends boolean = false>(
-  options: Options<PutSecuritiesByIdData, ThrowOnError>,
+export const putAccountPropertiesById = <ThrowOnError extends boolean = false>(
+  options: Options<PutAccountPropertiesByIdData, ThrowOnError>,
 ) =>
   (options.client ?? client).put<
-    PutSecuritiesByIdResponses,
-    PutSecuritiesByIdErrors,
+    PutAccountPropertiesByIdResponses,
+    PutAccountPropertiesByIdErrors,
     ThrowOnError
   >({
-    url: '/api/v1/securities/{id}',
+    url: '/api/v1/account-properties/{id}',
+    ...options,
+    headers: {
+      'Content-Type': 'application/json',
+      ...options.headers,
+    },
+  });
+
+/**
+ * Отобразить все
+ */
+export const getAccounts = <ThrowOnError extends boolean = false>(
+  options?: Options<GetAccountsData, ThrowOnError>,
+) =>
+  (options?.client ?? client).get<
+    GetAccountsResponses,
+    GetAccountsErrors,
+    ThrowOnError
+  >({ url: '/api/v1/accounts', ...options });
+
+/**
+ * Добавить
+ */
+export const postAccounts = <ThrowOnError extends boolean = false>(
+  options: Options<PostAccountsData, ThrowOnError>,
+) =>
+  (options.client ?? client).post<
+    PostAccountsResponses,
+    PostAccountsErrors,
+    ThrowOnError
+  >({
+    url: '/api/v1/accounts',
     ...options,
     headers: {
       'Content-Type': 'application/json',
@@ -524,48 +412,209 @@ export const putSecuritiesById = <ThrowOnError extends boolean = false>(
 /**
  * Удалить
  *
- * Удаляет сведения об эмитенте из БД
+ * Удалить счет и все связанные с ним данные
  */
-export const deleteIssuersById = <ThrowOnError extends boolean = false>(
-  options: Options<DeleteIssuersByIdData, ThrowOnError>,
+export const deleteAccountsById = <ThrowOnError extends boolean = false>(
+  options: Options<DeleteAccountsByIdData, ThrowOnError>,
 ) =>
   (options.client ?? client).delete<
-    DeleteIssuersByIdResponses,
-    DeleteIssuersByIdErrors,
+    DeleteAccountsByIdResponses,
+    DeleteAccountsByIdErrors,
     ThrowOnError
-  >({ url: '/api/v1/issuers/{id}', ...options });
+  >({ url: '/api/v1/accounts/{id}', ...options });
 
 /**
- * Отобразить одного
- *
- * Отобразить информацию об эмитенте по его номеру
+ * Отобразить один
  */
-export const getIssuersById = <ThrowOnError extends boolean = false>(
-  options: Options<GetIssuersByIdData, ThrowOnError>,
+export const getAccountsById = <ThrowOnError extends boolean = false>(
+  options: Options<GetAccountsByIdData, ThrowOnError>,
 ) =>
   (options.client ?? client).get<
-    GetIssuersByIdResponses,
-    GetIssuersByIdErrors,
+    GetAccountsByIdResponses,
+    GetAccountsByIdErrors,
     ThrowOnError
-  >({ url: '/api/v1/issuers/{id}', ...options });
+  >({ url: '/api/v1/accounts/{id}', ...options });
 
 /**
- * Обновить сведения
+ * Обновить
  */
-export const putIssuersById = <ThrowOnError extends boolean = false>(
-  options: Options<PutIssuersByIdData, ThrowOnError>,
+export const putAccountsById = <ThrowOnError extends boolean = false>(
+  options: Options<PutAccountsByIdData, ThrowOnError>,
 ) =>
   (options.client ?? client).put<
-    PutIssuersByIdResponses,
-    PutIssuersByIdErrors,
+    PutAccountsByIdResponses,
+    PutAccountsByIdErrors,
     ThrowOnError
   >({
-    url: '/api/v1/issuers/{id}',
+    url: '/api/v1/accounts/{id}',
     ...options,
     headers: {
       'Content-Type': 'application/json',
       ...options.headers,
     },
+  });
+
+/**
+ * Отобразить все
+ */
+export const getCashFlowTypes = <ThrowOnError extends boolean = false>(
+  options?: Options<GetCashFlowTypesData, ThrowOnError>,
+) =>
+  (options?.client ?? client).get<
+    GetCashFlowTypesResponses,
+    GetCashFlowTypesErrors,
+    ThrowOnError
+  >({ url: '/api/v1/cash-flow-types', ...options });
+
+/**
+ * Отобразить по идентификатору
+ */
+export const getCashFlowTypesById = <ThrowOnError extends boolean = false>(
+  options: Options<GetCashFlowTypesByIdData, ThrowOnError>,
+) =>
+  (options.client ?? client).get<
+    GetCashFlowTypesByIdResponses,
+    GetCashFlowTypesByIdErrors,
+    ThrowOnError
+  >({ url: '/api/v1/cash-flow-types/{id}', ...options });
+
+/**
+ * Отобразить все
+ *
+ * Отображает все выплаты по всем счетам
+ */
+export const getEventCashFlows = <ThrowOnError extends boolean = false>(
+  options?: Options<GetEventCashFlowsData, ThrowOnError>,
+) =>
+  (options?.client ?? client).get<
+    GetEventCashFlowsResponses,
+    GetEventCashFlowsErrors,
+    ThrowOnError
+  >({ url: '/api/v1/event-cash-flows', ...options });
+
+/**
+ * Добавить
+ *
+ * Сохранить информацию
+ */
+export const postEventCashFlows = <ThrowOnError extends boolean = false>(
+  options: Options<PostEventCashFlowsData, ThrowOnError>,
+) =>
+  (options.client ?? client).post<
+    PostEventCashFlowsResponses,
+    PostEventCashFlowsErrors,
+    ThrowOnError
+  >({
+    url: '/api/v1/event-cash-flows',
+    ...options,
+    headers: {
+      'Content-Type': 'application/json',
+      ...options.headers,
+    },
+  });
+
+/**
+ * Удалить
+ *
+ * Удалить информацию из БД
+ */
+export const deleteEventCashFlowsById = <ThrowOnError extends boolean = false>(
+  options: Options<DeleteEventCashFlowsByIdData, ThrowOnError>,
+) =>
+  (options.client ?? client).delete<
+    DeleteEventCashFlowsByIdResponses,
+    DeleteEventCashFlowsByIdErrors,
+    ThrowOnError
+  >({ url: '/api/v1/event-cash-flows/{id}', ...options });
+
+/**
+ * Отобразить одну
+ *
+ * Отобразить выплату по ее номеру
+ */
+export const getEventCashFlowsById = <ThrowOnError extends boolean = false>(
+  options: Options<GetEventCashFlowsByIdData, ThrowOnError>,
+) =>
+  (options.client ?? client).get<
+    GetEventCashFlowsByIdResponses,
+    GetEventCashFlowsByIdErrors,
+    ThrowOnError
+  >({ url: '/api/v1/event-cash-flows/{id}', ...options });
+
+/**
+ * Обновить
+ *
+ * Модифицировать информацию
+ */
+export const putEventCashFlowsById = <ThrowOnError extends boolean = false>(
+  options: Options<PutEventCashFlowsByIdData, ThrowOnError>,
+) =>
+  (options.client ?? client).put<
+    PutEventCashFlowsByIdResponses,
+    PutEventCashFlowsByIdErrors,
+    ThrowOnError
+  >({
+    url: '/api/v1/event-cash-flows/{id}',
+    ...options,
+    headers: {
+      'Content-Type': 'application/json',
+      ...options.headers,
+    },
+  });
+
+/**
+ * Отобразить все
+ *
+ * Отображает всю имеющуюся информацию по обменным курсам
+ */
+export const getForeignExchangeRates = <ThrowOnError extends boolean = false>(
+  options?: Options<GetForeignExchangeRatesData, ThrowOnError>,
+) =>
+  (options?.client ?? client).get<
+    GetForeignExchangeRatesResponses,
+    GetForeignExchangeRatesErrors,
+    ThrowOnError
+  >({ url: '/api/v1/foreign-exchange-rates', ...options });
+
+/**
+ * Добавить
+ */
+export const postForeignExchangeRates = <ThrowOnError extends boolean = false>(
+  options: Options<PostForeignExchangeRatesData, ThrowOnError>,
+) =>
+  (options.client ?? client).post<
+    PostForeignExchangeRatesResponses,
+    PostForeignExchangeRatesErrors,
+    ThrowOnError
+  >({
+    url: '/api/v1/foreign-exchange-rates',
+    ...options,
+    headers: {
+      'Content-Type': 'application/json',
+      ...options.headers,
+    },
+  });
+
+/**
+ * Отобразить по валюте
+ *
+ * Отображает всю имеющуюся информацию по обменному курсу заданной валютной пары
+ */
+export const getForeignExchangeRatesCurrencyPairsByCurrencyPair = <
+  ThrowOnError extends boolean = false,
+>(
+  options: Options<
+    GetForeignExchangeRatesCurrencyPairsByCurrencyPairData,
+    ThrowOnError
+  >,
+) =>
+  (options.client ?? client).get<
+    GetForeignExchangeRatesCurrencyPairsByCurrencyPairResponses,
+    GetForeignExchangeRatesCurrencyPairsByCurrencyPairErrors,
+    ThrowOnError
+  >({
+    url: '/api/v1/foreign-exchange-rates/currency-pairs/{currency-pair}',
+    ...options,
   });
 
 /**
@@ -636,223 +685,29 @@ export const putForeignExchangeRatesCurrencyPairsByCurrencyPairDatesByDate = <
   });
 
 /**
- * Удалить
- *
- * Удалить информацию из БД
+ * Отобразить всех
  */
-export const deleteEventCashFlowsById = <ThrowOnError extends boolean = false>(
-  options: Options<DeleteEventCashFlowsByIdData, ThrowOnError>,
-) =>
-  (options.client ?? client).delete<
-    DeleteEventCashFlowsByIdResponses,
-    DeleteEventCashFlowsByIdErrors,
-    ThrowOnError
-  >({ url: '/api/v1/event-cash-flows/{id}', ...options });
-
-/**
- * Отобразить одну
- *
- * Отобразить выплату по ее номеру
- */
-export const getEventCashFlowsById = <ThrowOnError extends boolean = false>(
-  options: Options<GetEventCashFlowsByIdData, ThrowOnError>,
-) =>
-  (options.client ?? client).get<
-    GetEventCashFlowsByIdResponses,
-    GetEventCashFlowsByIdErrors,
-    ThrowOnError
-  >({ url: '/api/v1/event-cash-flows/{id}', ...options });
-
-/**
- * Обновить
- *
- * Модифицировать информацию
- */
-export const putEventCashFlowsById = <ThrowOnError extends boolean = false>(
-  options: Options<PutEventCashFlowsByIdData, ThrowOnError>,
-) =>
-  (options.client ?? client).put<
-    PutEventCashFlowsByIdResponses,
-    PutEventCashFlowsByIdErrors,
-    ThrowOnError
-  >({
-    url: '/api/v1/event-cash-flows/{id}',
-    ...options,
-    headers: {
-      'Content-Type': 'application/json',
-      ...options.headers,
-    },
-  });
-
-/**
- * Удалить
- *
- * Удалить счет и все связанные с ним данные
- */
-export const deleteAccountsById = <ThrowOnError extends boolean = false>(
-  options: Options<DeleteAccountsByIdData, ThrowOnError>,
-) =>
-  (options.client ?? client).delete<
-    DeleteAccountsByIdResponses,
-    DeleteAccountsByIdErrors,
-    ThrowOnError
-  >({ url: '/api/v1/accounts/{id}', ...options });
-
-/**
- * Отобразить один
- */
-export const getAccountsById = <ThrowOnError extends boolean = false>(
-  options: Options<GetAccountsByIdData, ThrowOnError>,
-) =>
-  (options.client ?? client).get<
-    GetAccountsByIdResponses,
-    GetAccountsByIdErrors,
-    ThrowOnError
-  >({ url: '/api/v1/accounts/{id}', ...options });
-
-/**
- * Обновить
- */
-export const putAccountsById = <ThrowOnError extends boolean = false>(
-  options: Options<PutAccountsByIdData, ThrowOnError>,
-) =>
-  (options.client ?? client).put<
-    PutAccountsByIdResponses,
-    PutAccountsByIdErrors,
-    ThrowOnError
-  >({
-    url: '/api/v1/accounts/{id}',
-    ...options,
-    headers: {
-      'Content-Type': 'application/json',
-      ...options.headers,
-    },
-  });
-
-/**
- * Удалить
- */
-export const deleteAccountPropertiesById = <
-  ThrowOnError extends boolean = false,
->(
-  options: Options<DeleteAccountPropertiesByIdData, ThrowOnError>,
-) =>
-  (options.client ?? client).delete<
-    DeleteAccountPropertiesByIdResponses,
-    DeleteAccountPropertiesByIdErrors,
-    ThrowOnError
-  >({ url: '/api/v1/account-properties/{id}', ...options });
-
-/**
- * Отобразить один
- *
- * Отображает информацию по идентификатору
- */
-export const getAccountPropertiesById = <ThrowOnError extends boolean = false>(
-  options: Options<GetAccountPropertiesByIdData, ThrowOnError>,
-) =>
-  (options.client ?? client).get<
-    GetAccountPropertiesByIdResponses,
-    GetAccountPropertiesByIdErrors,
-    ThrowOnError
-  >({ url: '/api/v1/account-properties/{id}', ...options });
-
-/**
- * Обновить
- *
- * Обновить информацию для счета
- */
-export const putAccountPropertiesById = <ThrowOnError extends boolean = false>(
-  options: Options<PutAccountPropertiesByIdData, ThrowOnError>,
-) =>
-  (options.client ?? client).put<
-    PutAccountPropertiesByIdResponses,
-    PutAccountPropertiesByIdErrors,
-    ThrowOnError
-  >({
-    url: '/api/v1/account-properties/{id}',
-    ...options,
-    headers: {
-      'Content-Type': 'application/json',
-      ...options.headers,
-    },
-  });
-
-/**
- * Удалить
- */
-export const deleteAccountCashById = <ThrowOnError extends boolean = false>(
-  options: Options<DeleteAccountCashByIdData, ThrowOnError>,
-) =>
-  (options.client ?? client).delete<
-    DeleteAccountCashByIdResponses,
-    DeleteAccountCashByIdErrors,
-    ThrowOnError
-  >({ url: '/api/v1/account-cash/{id}', ...options });
-
-/**
- * Отобразить один
- *
- * Отображает информацию по идентификатору
- */
-export const getAccountCashById = <ThrowOnError extends boolean = false>(
-  options: Options<GetAccountCashByIdData, ThrowOnError>,
-) =>
-  (options.client ?? client).get<
-    GetAccountCashByIdResponses,
-    GetAccountCashByIdErrors,
-    ThrowOnError
-  >({ url: '/api/v1/account-cash/{id}', ...options });
-
-/**
- * Обновить
- *
- * Обновить информацию для счета
- */
-export const putAccountCashById = <ThrowOnError extends boolean = false>(
-  options: Options<PutAccountCashByIdData, ThrowOnError>,
-) =>
-  (options.client ?? client).put<
-    PutAccountCashByIdResponses,
-    PutAccountCashByIdErrors,
-    ThrowOnError
-  >({
-    url: '/api/v1/account-cash/{id}',
-    ...options,
-    headers: {
-      'Content-Type': 'application/json',
-      ...options.headers,
-    },
-  });
-
-/**
- * Отобразить по фильтру
- *
- * Отображает сделки по счетам
- */
-export const getTransactions = <ThrowOnError extends boolean = false>(
-  options?: Options<GetTransactionsData, ThrowOnError>,
+export const getIssuers = <ThrowOnError extends boolean = false>(
+  options?: Options<GetIssuersData, ThrowOnError>,
 ) =>
   (options?.client ?? client).get<
-    GetTransactionsResponses,
-    GetTransactionsErrors,
+    GetIssuersResponses,
+    GetIssuersErrors,
     ThrowOnError
-  >({ url: '/api/v1/transactions', ...options });
+  >({ url: '/api/v1/issuers', ...options });
 
 /**
  * Добавить
- *
- * Сохраняет новую сделку
  */
-export const postTransactions = <ThrowOnError extends boolean = false>(
-  options: Options<PostTransactionsData, ThrowOnError>,
+export const postIssuers = <ThrowOnError extends boolean = false>(
+  options: Options<PostIssuersData, ThrowOnError>,
 ) =>
   (options.client ?? client).post<
-    PostTransactionsResponses,
-    PostTransactionsErrors,
+    PostIssuersResponses,
+    PostIssuersErrors,
     ThrowOnError
   >({
-    url: '/api/v1/transactions',
+    url: '/api/v1/issuers',
     ...options,
     headers: {
       'Content-Type': 'application/json',
@@ -861,33 +716,45 @@ export const postTransactions = <ThrowOnError extends boolean = false>(
   });
 
 /**
- * Отобразить по фильтру
+ * Удалить
  *
- * Отобразить информацию о сделках
+ * Удаляет сведения об эмитенте из БД
  */
-export const getTransactionCashFlows = <ThrowOnError extends boolean = false>(
-  options?: Options<GetTransactionCashFlowsData, ThrowOnError>,
+export const deleteIssuersById = <ThrowOnError extends boolean = false>(
+  options: Options<DeleteIssuersByIdData, ThrowOnError>,
 ) =>
-  (options?.client ?? client).get<
-    GetTransactionCashFlowsResponses,
-    GetTransactionCashFlowsErrors,
+  (options.client ?? client).delete<
+    DeleteIssuersByIdResponses,
+    DeleteIssuersByIdErrors,
     ThrowOnError
-  >({ url: '/api/v1/transaction-cash-flows', ...options });
+  >({ url: '/api/v1/issuers/{id}', ...options });
 
 /**
- * Добавить
+ * Отобразить одного
  *
- * Добавить информацию об об объемах движения ДС по сделке
+ * Отобразить информацию об эмитенте по его номеру
  */
-export const postTransactionCashFlows = <ThrowOnError extends boolean = false>(
-  options: Options<PostTransactionCashFlowsData, ThrowOnError>,
+export const getIssuersById = <ThrowOnError extends boolean = false>(
+  options: Options<GetIssuersByIdData, ThrowOnError>,
 ) =>
-  (options.client ?? client).post<
-    PostTransactionCashFlowsResponses,
-    PostTransactionCashFlowsErrors,
+  (options.client ?? client).get<
+    GetIssuersByIdResponses,
+    GetIssuersByIdErrors,
+    ThrowOnError
+  >({ url: '/api/v1/issuers/{id}', ...options });
+
+/**
+ * Обновить сведения
+ */
+export const putIssuersById = <ThrowOnError extends boolean = false>(
+  options: Options<PutIssuersByIdData, ThrowOnError>,
+) =>
+  (options.client ?? client).put<
+    PutIssuersByIdResponses,
+    PutIssuersByIdErrors,
     ThrowOnError
   >({
-    url: '/api/v1/transaction-cash-flows',
+    url: '/api/v1/issuers/{id}',
     ...options,
     headers: {
       'Content-Type': 'application/json',
@@ -898,29 +765,170 @@ export const postTransactionCashFlows = <ThrowOnError extends boolean = false>(
 /**
  * Отобразить все
  *
- * Отобразить всю историю котировок по всем инструментам
+ * Отобразить все биржевые инструменты
  */
-export const getSecurityQuotes = <ThrowOnError extends boolean = false>(
-  options?: Options<GetSecurityQuotesData, ThrowOnError>,
+export const getSecurities = <ThrowOnError extends boolean = false>(
+  options?: Options<GetSecuritiesData, ThrowOnError>,
 ) =>
   (options?.client ?? client).get<
-    GetSecurityQuotesResponses,
-    GetSecurityQuotesErrors,
+    GetSecuritiesResponses,
+    GetSecuritiesErrors,
     ThrowOnError
-  >({ url: '/api/v1/security-quotes', ...options });
+  >({ url: '/api/v1/securities', ...options });
 
 /**
  * Добавить
+ *
+ * Добавить информацию об акции, облигации, деривативе или валютной паре
  */
-export const postSecurityQuotes = <ThrowOnError extends boolean = false>(
-  options: Options<PostSecurityQuotesData, ThrowOnError>,
+export const postSecurities = <ThrowOnError extends boolean = false>(
+  options: Options<PostSecuritiesData, ThrowOnError>,
 ) =>
   (options.client ?? client).post<
-    PostSecurityQuotesResponses,
-    PostSecurityQuotesErrors,
+    PostSecuritiesResponses,
+    PostSecuritiesErrors,
     ThrowOnError
   >({
-    url: '/api/v1/security-quotes',
+    url: '/api/v1/securities',
+    ...options,
+    headers: {
+      'Content-Type': 'application/json',
+      ...options.headers,
+    },
+  });
+
+/**
+ * Удалить
+ *
+ * Удалить сведения о биржевом инструменте и всех его сделках по всем счетам
+ */
+export const deleteSecuritiesById = <ThrowOnError extends boolean = false>(
+  options: Options<DeleteSecuritiesByIdData, ThrowOnError>,
+) =>
+  (options.client ?? client).delete<
+    DeleteSecuritiesByIdResponses,
+    DeleteSecuritiesByIdErrors,
+    ThrowOnError
+  >({ url: '/api/v1/securities/{id}', ...options });
+
+/**
+ * Отобразить один
+ *
+ * Отобразить биржевой инструмент по внутреннему идентификатору
+ */
+export const getSecuritiesById = <ThrowOnError extends boolean = false>(
+  options: Options<GetSecuritiesByIdData, ThrowOnError>,
+) =>
+  (options.client ?? client).get<
+    GetSecuritiesByIdResponses,
+    GetSecuritiesByIdErrors,
+    ThrowOnError
+  >({ url: '/api/v1/securities/{id}', ...options });
+
+/**
+ * Обновить
+ *
+ * Добавить информацию об акции, облигации, деривативе или валютной паре
+ */
+export const putSecuritiesById = <ThrowOnError extends boolean = false>(
+  options: Options<PutSecuritiesByIdData, ThrowOnError>,
+) =>
+  (options.client ?? client).put<
+    PutSecuritiesByIdResponses,
+    PutSecuritiesByIdErrors,
+    ThrowOnError
+  >({
+    url: '/api/v1/securities/{id}',
+    ...options,
+    headers: {
+      'Content-Type': 'application/json',
+      ...options.headers,
+    },
+  });
+
+/**
+ * Отобразить все
+ *
+ * Отобразить информацию по всем инструментам
+ */
+export const getSecurityDescriptions = <ThrowOnError extends boolean = false>(
+  options?: Options<GetSecurityDescriptionsData, ThrowOnError>,
+) =>
+  (options?.client ?? client).get<
+    GetSecurityDescriptionsResponses,
+    GetSecurityDescriptionsErrors,
+    ThrowOnError
+  >({ url: '/api/v1/security-descriptions', ...options });
+
+/**
+ * Добавить
+ *
+ * Добавить информацию об акции, облигации, деривативе или валютной паре
+ */
+export const postSecurityDescriptions = <ThrowOnError extends boolean = false>(
+  options: Options<PostSecurityDescriptionsData, ThrowOnError>,
+) =>
+  (options.client ?? client).post<
+    PostSecurityDescriptionsResponses,
+    PostSecurityDescriptionsErrors,
+    ThrowOnError
+  >({
+    url: '/api/v1/security-descriptions',
+    ...options,
+    headers: {
+      'Content-Type': 'application/json',
+      ...options.headers,
+    },
+  });
+
+/**
+ * Удалить
+ *
+ * Удалить информацию по инструменту
+ */
+export const deleteSecurityDescriptionsById = <
+  ThrowOnError extends boolean = false,
+>(
+  options: Options<DeleteSecurityDescriptionsByIdData, ThrowOnError>,
+) =>
+  (options.client ?? client).delete<
+    DeleteSecurityDescriptionsByIdResponses,
+    DeleteSecurityDescriptionsByIdErrors,
+    ThrowOnError
+  >({ url: '/api/v1/security-descriptions/{id}', ...options });
+
+/**
+ * Отобразить один
+ *
+ * Отобразить информацию по инструменту
+ */
+export const getSecurityDescriptionsById = <
+  ThrowOnError extends boolean = false,
+>(
+  options: Options<GetSecurityDescriptionsByIdData, ThrowOnError>,
+) =>
+  (options.client ?? client).get<
+    GetSecurityDescriptionsByIdResponses,
+    GetSecurityDescriptionsByIdErrors,
+    ThrowOnError
+  >({ url: '/api/v1/security-descriptions/{id}', ...options });
+
+/**
+ * Обновить
+ *
+ * Добавить информацию об акции, облигации, деривативе или валютной паре
+ */
+export const putSecurityDescriptionsById = <
+  ThrowOnError extends boolean = false,
+>(
+  options: Options<PutSecurityDescriptionsByIdData, ThrowOnError>,
+) =>
+  (options.client ?? client).put<
+    PutSecurityDescriptionsByIdResponses,
+    PutSecurityDescriptionsByIdErrors,
+    ThrowOnError
+  >({
+    url: '/api/v1/security-descriptions/{id}',
     ...options,
     headers: {
       'Content-Type': 'application/json',
@@ -966,317 +974,309 @@ export const postSecurityEventCashFlows = <
   });
 
 /**
- * Отобразить все
+ * Удалить
  *
- * Отобразить информацию по всем инструментам
+ * Удалить информацию о выплате
  */
-export const getSecurityDescriptions = <ThrowOnError extends boolean = false>(
-  options?: Options<GetSecurityDescriptionsData, ThrowOnError>,
-) =>
-  (options?.client ?? client).get<
-    GetSecurityDescriptionsResponses,
-    GetSecurityDescriptionsErrors,
-    ThrowOnError
-  >({ url: '/api/v1/security-descriptions', ...options });
-
-/**
- * Добавить
- *
- * Добавить информацию об акции, облигации, деривативе или валютной паре
- */
-export const postSecurityDescriptions = <ThrowOnError extends boolean = false>(
-  options: Options<PostSecurityDescriptionsData, ThrowOnError>,
-) =>
-  (options.client ?? client).post<
-    PostSecurityDescriptionsResponses,
-    PostSecurityDescriptionsErrors,
-    ThrowOnError
-  >({
-    url: '/api/v1/security-descriptions',
-    ...options,
-    headers: {
-      'Content-Type': 'application/json',
-      ...options.headers,
-    },
-  });
-
-/**
- * Отобразить все
- *
- * Отобразить все биржевые инструменты
- */
-export const getSecurities = <ThrowOnError extends boolean = false>(
-  options?: Options<GetSecuritiesData, ThrowOnError>,
-) =>
-  (options?.client ?? client).get<
-    GetSecuritiesResponses,
-    GetSecuritiesErrors,
-    ThrowOnError
-  >({ url: '/api/v1/securities', ...options });
-
-/**
- * Добавить
- *
- * Добавить информацию об акции, облигации, деривативе или валютной паре
- */
-export const postSecurities = <ThrowOnError extends boolean = false>(
-  options: Options<PostSecuritiesData, ThrowOnError>,
-) =>
-  (options.client ?? client).post<
-    PostSecuritiesResponses,
-    PostSecuritiesErrors,
-    ThrowOnError
-  >({
-    url: '/api/v1/securities',
-    ...options,
-    headers: {
-      'Content-Type': 'application/json',
-      ...options.headers,
-    },
-  });
-
-/**
- * Отобразить всех
- */
-export const getIssuers = <ThrowOnError extends boolean = false>(
-  options?: Options<GetIssuersData, ThrowOnError>,
-) =>
-  (options?.client ?? client).get<
-    GetIssuersResponses,
-    GetIssuersErrors,
-    ThrowOnError
-  >({ url: '/api/v1/issuers', ...options });
-
-/**
- * Добавить
- */
-export const postIssuers = <ThrowOnError extends boolean = false>(
-  options: Options<PostIssuersData, ThrowOnError>,
-) =>
-  (options.client ?? client).post<
-    PostIssuersResponses,
-    PostIssuersErrors,
-    ThrowOnError
-  >({
-    url: '/api/v1/issuers',
-    ...options,
-    headers: {
-      'Content-Type': 'application/json',
-      ...options.headers,
-    },
-  });
-
-/**
- * Отобразить все
- *
- * Отображает всю имеющуюся информацию по обменным курсам
- */
-export const getForeignExchangeRates = <ThrowOnError extends boolean = false>(
-  options?: Options<GetForeignExchangeRatesData, ThrowOnError>,
-) =>
-  (options?.client ?? client).get<
-    GetForeignExchangeRatesResponses,
-    GetForeignExchangeRatesErrors,
-    ThrowOnError
-  >({ url: '/api/v1/foreign-exchange-rates', ...options });
-
-/**
- * Добавить
- */
-export const postForeignExchangeRates = <ThrowOnError extends boolean = false>(
-  options: Options<PostForeignExchangeRatesData, ThrowOnError>,
-) =>
-  (options.client ?? client).post<
-    PostForeignExchangeRatesResponses,
-    PostForeignExchangeRatesErrors,
-    ThrowOnError
-  >({
-    url: '/api/v1/foreign-exchange-rates',
-    ...options,
-    headers: {
-      'Content-Type': 'application/json',
-      ...options.headers,
-    },
-  });
-
-/**
- * Отобразить все
- *
- * Отображает все выплаты по всем счетам
- */
-export const getEventCashFlows = <ThrowOnError extends boolean = false>(
-  options?: Options<GetEventCashFlowsData, ThrowOnError>,
-) =>
-  (options?.client ?? client).get<
-    GetEventCashFlowsResponses,
-    GetEventCashFlowsErrors,
-    ThrowOnError
-  >({ url: '/api/v1/event-cash-flows', ...options });
-
-/**
- * Добавить
- *
- * Сохранить информацию
- */
-export const postEventCashFlows = <ThrowOnError extends boolean = false>(
-  options: Options<PostEventCashFlowsData, ThrowOnError>,
-) =>
-  (options.client ?? client).post<
-    PostEventCashFlowsResponses,
-    PostEventCashFlowsErrors,
-    ThrowOnError
-  >({
-    url: '/api/v1/event-cash-flows',
-    ...options,
-    headers: {
-      'Content-Type': 'application/json',
-      ...options.headers,
-    },
-  });
-
-/**
- * Отобразить все
- */
-export const getAccounts = <ThrowOnError extends boolean = false>(
-  options?: Options<GetAccountsData, ThrowOnError>,
-) =>
-  (options?.client ?? client).get<
-    GetAccountsResponses,
-    GetAccountsErrors,
-    ThrowOnError
-  >({ url: '/api/v1/accounts', ...options });
-
-/**
- * Добавить
- */
-export const postAccounts = <ThrowOnError extends boolean = false>(
-  options: Options<PostAccountsData, ThrowOnError>,
-) =>
-  (options.client ?? client).post<
-    PostAccountsResponses,
-    PostAccountsErrors,
-    ThrowOnError
-  >({
-    url: '/api/v1/accounts',
-    ...options,
-    headers: {
-      'Content-Type': 'application/json',
-      ...options.headers,
-    },
-  });
-
-/**
- * Отобразить все
- *
- * Отображает всю имеющуюся информацию обо всех счетах
- */
-export const getAccountProperties = <ThrowOnError extends boolean = false>(
-  options?: Options<GetAccountPropertiesData, ThrowOnError>,
-) =>
-  (options?.client ?? client).get<
-    GetAccountPropertiesResponses,
-    GetAccountPropertiesErrors,
-    ThrowOnError
-  >({ url: '/api/v1/account-properties', ...options });
-
-/**
- * Добавить
- *
- * Добавить информацию для конкретного счета
- */
-export const postAccountProperties = <ThrowOnError extends boolean = false>(
-  options: Options<PostAccountPropertiesData, ThrowOnError>,
-) =>
-  (options.client ?? client).post<
-    PostAccountPropertiesResponses,
-    PostAccountPropertiesErrors,
-    ThrowOnError
-  >({
-    url: '/api/v1/account-properties',
-    ...options,
-    headers: {
-      'Content-Type': 'application/json',
-      ...options.headers,
-    },
-  });
-
-/**
- * Отобразить все
- *
- * Отображает всю информацию обо всех счетах
- */
-export const getAccountCash = <ThrowOnError extends boolean = false>(
-  options?: Options<GetAccountCashData, ThrowOnError>,
-) =>
-  (options?.client ?? client).get<
-    GetAccountCashResponses,
-    GetAccountCashErrors,
-    ThrowOnError
-  >({ url: '/api/v1/account-cash', ...options });
-
-/**
- * Добавить
- *
- * Добавить информацию для конкретного счета
- */
-export const postAccountCash = <ThrowOnError extends boolean = false>(
-  options: Options<PostAccountCashData, ThrowOnError>,
-) =>
-  (options.client ?? client).post<
-    PostAccountCashResponses,
-    PostAccountCashErrors,
-    ThrowOnError
-  >({
-    url: '/api/v1/account-cash',
-    ...options,
-    headers: {
-      'Content-Type': 'application/json',
-      ...options.headers,
-    },
-  });
-
-/**
- * Отобразить по валюте
- *
- * Отображает всю имеющуюся информацию по обменному курсу заданной валютной пары
- */
-export const getForeignExchangeRatesCurrencyPairsByCurrencyPair = <
+export const deleteSecurityEventCashFlowsById = <
   ThrowOnError extends boolean = false,
 >(
-  options: Options<
-    GetForeignExchangeRatesCurrencyPairsByCurrencyPairData,
+  options: Options<DeleteSecurityEventCashFlowsByIdData, ThrowOnError>,
+) =>
+  (options.client ?? client).delete<
+    DeleteSecurityEventCashFlowsByIdResponses,
+    DeleteSecurityEventCashFlowsByIdErrors,
     ThrowOnError
-  >,
+  >({ url: '/api/v1/security-event-cash-flows/{id}', ...options });
+
+/**
+ * Отобразить одну
+ *
+ * Отобразить выплату по идентификатору
+ */
+export const getSecurityEventCashFlowsById = <
+  ThrowOnError extends boolean = false,
+>(
+  options: Options<GetSecurityEventCashFlowsByIdData, ThrowOnError>,
 ) =>
   (options.client ?? client).get<
-    GetForeignExchangeRatesCurrencyPairsByCurrencyPairResponses,
-    GetForeignExchangeRatesCurrencyPairsByCurrencyPairErrors,
+    GetSecurityEventCashFlowsByIdResponses,
+    GetSecurityEventCashFlowsByIdErrors,
+    ThrowOnError
+  >({ url: '/api/v1/security-event-cash-flows/{id}', ...options });
+
+/**
+ * Обновить
+ *
+ * Модифицировать информацию о выплате
+ */
+export const putSecurityEventCashFlowsById = <
+  ThrowOnError extends boolean = false,
+>(
+  options: Options<PutSecurityEventCashFlowsByIdData, ThrowOnError>,
+) =>
+  (options.client ?? client).put<
+    PutSecurityEventCashFlowsByIdResponses,
+    PutSecurityEventCashFlowsByIdErrors,
     ThrowOnError
   >({
-    url: '/api/v1/foreign-exchange-rates/currency-pairs/{currency-pair}',
+    url: '/api/v1/security-event-cash-flows/{id}',
     ...options,
+    headers: {
+      'Content-Type': 'application/json',
+      ...options.headers,
+    },
   });
 
 /**
  * Отобразить все
+ *
+ * Отобразить всю историю котировок по всем инструментам
  */
-export const getCashFlowTypes = <ThrowOnError extends boolean = false>(
-  options?: Options<GetCashFlowTypesData, ThrowOnError>,
+export const getSecurityQuotes = <ThrowOnError extends boolean = false>(
+  options?: Options<GetSecurityQuotesData, ThrowOnError>,
 ) =>
   (options?.client ?? client).get<
-    GetCashFlowTypesResponses,
-    GetCashFlowTypesErrors,
+    GetSecurityQuotesResponses,
+    GetSecurityQuotesErrors,
     ThrowOnError
-  >({ url: '/api/v1/cash-flow-types', ...options });
+  >({ url: '/api/v1/security-quotes', ...options });
 
 /**
- * Отобразить по идентификатору
+ * Добавить
  */
-export const getCashFlowTypesById = <ThrowOnError extends boolean = false>(
-  options: Options<GetCashFlowTypesByIdData, ThrowOnError>,
+export const postSecurityQuotes = <ThrowOnError extends boolean = false>(
+  options: Options<PostSecurityQuotesData, ThrowOnError>,
+) =>
+  (options.client ?? client).post<
+    PostSecurityQuotesResponses,
+    PostSecurityQuotesErrors,
+    ThrowOnError
+  >({
+    url: '/api/v1/security-quotes',
+    ...options,
+    headers: {
+      'Content-Type': 'application/json',
+      ...options.headers,
+    },
+  });
+
+/**
+ * Удалить
+ */
+export const deleteSecurityQuotesById = <ThrowOnError extends boolean = false>(
+  options: Options<DeleteSecurityQuotesByIdData, ThrowOnError>,
+) =>
+  (options.client ?? client).delete<
+    DeleteSecurityQuotesByIdResponses,
+    DeleteSecurityQuotesByIdErrors,
+    ThrowOnError
+  >({ url: '/api/v1/security-quotes/{id}', ...options });
+
+/**
+ * Отобразить одну
+ *
+ * Отобразить котировку по номеру записи
+ */
+export const getSecurityQuotesById = <ThrowOnError extends boolean = false>(
+  options: Options<GetSecurityQuotesByIdData, ThrowOnError>,
 ) =>
   (options.client ?? client).get<
-    GetCashFlowTypesByIdResponses,
-    GetCashFlowTypesByIdErrors,
+    GetSecurityQuotesByIdResponses,
+    GetSecurityQuotesByIdErrors,
     ThrowOnError
-  >({ url: '/api/v1/cash-flow-types/{id}', ...options });
+  >({ url: '/api/v1/security-quotes/{id}', ...options });
+
+/**
+ * Обновить
+ */
+export const putSecurityQuotesById = <ThrowOnError extends boolean = false>(
+  options: Options<PutSecurityQuotesByIdData, ThrowOnError>,
+) =>
+  (options.client ?? client).put<
+    PutSecurityQuotesByIdResponses,
+    PutSecurityQuotesByIdErrors,
+    ThrowOnError
+  >({
+    url: '/api/v1/security-quotes/{id}',
+    ...options,
+    headers: {
+      'Content-Type': 'application/json',
+      ...options.headers,
+    },
+  });
+
+/**
+ * Отобразить по фильтру
+ *
+ * Отобразить информацию о сделках
+ */
+export const getTransactionCashFlows = <ThrowOnError extends boolean = false>(
+  options?: Options<GetTransactionCashFlowsData, ThrowOnError>,
+) =>
+  (options?.client ?? client).get<
+    GetTransactionCashFlowsResponses,
+    GetTransactionCashFlowsErrors,
+    ThrowOnError
+  >({ url: '/api/v1/transaction-cash-flows', ...options });
+
+/**
+ * Добавить
+ *
+ * Добавить информацию об об объемах движения ДС по сделке
+ */
+export const postTransactionCashFlows = <ThrowOnError extends boolean = false>(
+  options: Options<PostTransactionCashFlowsData, ThrowOnError>,
+) =>
+  (options.client ?? client).post<
+    PostTransactionCashFlowsResponses,
+    PostTransactionCashFlowsErrors,
+    ThrowOnError
+  >({
+    url: '/api/v1/transaction-cash-flows',
+    ...options,
+    headers: {
+      'Content-Type': 'application/json',
+      ...options.headers,
+    },
+  });
+
+/**
+ * Удалить
+ *
+ * Удалить информацию об об объемах движения ДС по сделке. Сама сделка не удаляется, ее нужно удалить своим API
+ *
+ */
+export const deleteTransactionCashFlowsById = <
+  ThrowOnError extends boolean = false,
+>(
+  options: Options<DeleteTransactionCashFlowsByIdData, ThrowOnError>,
+) =>
+  (options.client ?? client).delete<
+    DeleteTransactionCashFlowsByIdResponses,
+    DeleteTransactionCashFlowsByIdErrors,
+    ThrowOnError
+  >({ url: '/api/v1/transaction-cash-flows/{id}', ...options });
+
+/**
+ * Отобразить одну
+ *
+ * Отобразить информацию о конкретной сделке
+ */
+export const getTransactionCashFlowsById = <
+  ThrowOnError extends boolean = false,
+>(
+  options: Options<GetTransactionCashFlowsByIdData, ThrowOnError>,
+) =>
+  (options.client ?? client).get<
+    GetTransactionCashFlowsByIdResponses,
+    GetTransactionCashFlowsByIdErrors,
+    ThrowOnError
+  >({ url: '/api/v1/transaction-cash-flows/{id}', ...options });
+
+/**
+ * Обновить
+ *
+ * Обновить информацию об об объемах движения ДС по сделке
+ */
+export const putTransactionCashFlowsById = <
+  ThrowOnError extends boolean = false,
+>(
+  options: Options<PutTransactionCashFlowsByIdData, ThrowOnError>,
+) =>
+  (options.client ?? client).put<
+    PutTransactionCashFlowsByIdResponses,
+    PutTransactionCashFlowsByIdErrors,
+    ThrowOnError
+  >({
+    url: '/api/v1/transaction-cash-flows/{id}',
+    ...options,
+    headers: {
+      'Content-Type': 'application/json',
+      ...options.headers,
+    },
+  });
+
+/**
+ * Отобразить по фильтру
+ *
+ * Отображает сделки по счетам
+ */
+export const getTransactions = <ThrowOnError extends boolean = false>(
+  options?: Options<GetTransactionsData, ThrowOnError>,
+) =>
+  (options?.client ?? client).get<
+    GetTransactionsResponses,
+    GetTransactionsErrors,
+    ThrowOnError
+  >({ url: '/api/v1/transactions', ...options });
+
+/**
+ * Добавить
+ *
+ * Сохраняет новую сделку
+ */
+export const postTransactions = <ThrowOnError extends boolean = false>(
+  options: Options<PostTransactionsData, ThrowOnError>,
+) =>
+  (options.client ?? client).post<
+    PostTransactionsResponses,
+    PostTransactionsErrors,
+    ThrowOnError
+  >({
+    url: '/api/v1/transactions',
+    ...options,
+    headers: {
+      'Content-Type': 'application/json',
+      ...options.headers,
+    },
+  });
+
+/**
+ * Удалить
+ *
+ * Удаляет указанную сделку
+ */
+export const deleteTransactionsById = <ThrowOnError extends boolean = false>(
+  options: Options<DeleteTransactionsByIdData, ThrowOnError>,
+) =>
+  (options.client ?? client).delete<
+    DeleteTransactionsByIdResponses,
+    DeleteTransactionsByIdErrors,
+    ThrowOnError
+  >({ url: '/api/v1/transactions/{id}', ...options });
+
+/**
+ * Отобразить одну
+ *
+ * Отображает одну сделку
+ */
+export const getTransactionsById = <ThrowOnError extends boolean = false>(
+  options: Options<GetTransactionsByIdData, ThrowOnError>,
+) =>
+  (options.client ?? client).get<
+    GetTransactionsByIdResponses,
+    GetTransactionsByIdErrors,
+    ThrowOnError
+  >({ url: '/api/v1/transactions/{id}', ...options });
+
+/**
+ * Обновить параметры
+ *
+ * Обновляет параметры указанной сделки
+ */
+export const putTransactionsById = <ThrowOnError extends boolean = false>(
+  options: Options<PutTransactionsByIdData, ThrowOnError>,
+) =>
+  (options.client ?? client).put<
+    PutTransactionsByIdResponses,
+    PutTransactionsByIdErrors,
+    ThrowOnError
+  >({
+    url: '/api/v1/transactions/{id}',
+    ...options,
+    headers: {
+      'Content-Type': 'application/json',
+      ...options.headers,
+    },
+  });

@@ -4,231 +4,65 @@ export type ClientOptions = {
   baseUrl: 'http://localhost:2030' | (string & {});
 };
 
-export type Transaction = {
+export type Account = {
   /**
-   * Внутренний идентификатор сделки
+   * Признак активного счета: если false то счет исключается из аналитического расчета
    */
-  id?: number;
+  enabled: boolean;
+  /**
+   * Номер счета в системе учета брокера
+   */
+  id: string;
+};
+
+export type AccountCash = {
   /**
    * Номер счета в системе учета брокера
    */
   account: string;
   /**
-   * Инструмент
-   */
-  security: number;
-  /**
-   * Время сделки
-   */
-  timestamp: string;
-  /**
-   * Количество бумаг (контрактов), шт
-   */
-  count: number;
-  /**
-   * Номер сделки в системе учета брокера
-   */
-  'trade-id': string;
-};
-
-export type TransactionCashFlow = {
-  /**
-   * Внутренний идентификатор записи
-   */
-  id?: number;
-  /**
-   * Сумма по событию
-   */
-  value: number;
-  /**
    * Валюта
    */
-  currency?: string;
+  currency: string;
   /**
-   * Внутренний идентификатор сделки
-   */
-  'transaction-id': number;
-  /**
-   * Тип события (стоимость бумаг без НКД, НКД, комиссия)
-   */
-  'event-type':
-    | 'CASH'
-    | 'PRICE'
-    | 'ACCRUED_INTEREST'
-    | 'FEE'
-    | 'AMORTIZATION'
-    | 'REDEMPTION'
-    | 'COUPON'
-    | 'DIVIDEND'
-    | 'DERIVATIVE_PROFIT'
-    | 'MARGIN'
-    | 'TAX'
-    | 'FORECAST_TAX'
-    | 'DERIVATIVE_PRICE'
-    | 'DERIVATIVE_QUOTE';
-};
-
-export type SecurityQuote = {
-  /**
-   * Внутренний идентификатор записи
+   * Внутренний идентификатор
    */
   id?: number;
   /**
-   * Инструмент
+   * Рынок
    */
-  security: number;
+  market: string;
   /**
-   * Время
+   * Значение актуально на дату
    */
   timestamp: string;
   /**
-   * Котировка (для облигаций - в процентах, деривативы - в пунктах)
+   * Остаток денежных средств
    */
-  quote: number;
-  /**
-   * Котировка (в валюте, только для облигаций и деривативов)
-   */
-  price?: number;
-  /**
-   * НКД (в валюте, только для облигаций)
-   */
-  'accrued-interest'?: number;
-  /**
-   * Валюта котировки для акций, облигаций, произвольных активов и опционально для деривативов
-   */
-  currency?: string;
+  value: number;
 };
 
-/**
- * Дивиденды, купоны, амортизация, вариационная маржа, налоги, комиссии
- */
-export type SecurityEventCashFlow = {
+export type AccountProperty = {
   /**
-   * Внутренний идентификатор записи
-   */
-  id?: number;
-  /**
-   * Номер счета в системе учета брокера
+   * Номер счета
    */
   account: string;
   /**
-   * Время события
-   */
-  timestamp: string;
-  /**
-   * Инструмент
-   */
-  security: number;
-  /**
-   * Количество бумаг (контрактов)
-   */
-  count: number;
-  /**
-   * Сумма
-   */
-  value: number;
-  /**
-   * Валюта
-   */
-  currency?: string;
-  /**
-   * Тип события
-   */
-  'event-type':
-    | 'CASH'
-    | 'PRICE'
-    | 'ACCRUED_INTEREST'
-    | 'FEE'
-    | 'AMORTIZATION'
-    | 'REDEMPTION'
-    | 'COUPON'
-    | 'DIVIDEND'
-    | 'DERIVATIVE_PROFIT'
-    | 'MARGIN'
-    | 'TAX'
-    | 'FORECAST_TAX'
-    | 'DERIVATIVE_PRICE'
-    | 'DERIVATIVE_QUOTE';
-};
-
-/**
- * Информация об инструменте
- */
-export type SecurityDescription = {
-  /**
-   * Внутренний идентификатор инструмента
-   */
-  security: number;
-  /**
-   * Сектор экономики (опционально)
-   */
-  sector?: string;
-  /**
-   * Внутренний идентификатор эмитента (опционально)
-   */
-  issuer?: number;
-};
-
-/**
- * Акция, облигация, валютная пара, фьючерс, опцион или произвольный актив
- */
-export type Security = {
-  /**
-   * Внутренний идентификатор инструмента
+   * Внутренний идентификатор записи
    */
   id?: number;
   /**
-   * Тип ценной бумаги
+   * Свойство портфеля
    */
-  type:
-    | 'STOCK'
-    | 'BOND'
-    | 'STOCK_OR_BOND'
-    | 'DERIVATIVE'
-    | 'CURRENCY_PAIR'
-    | 'ASSET';
+  property: 'TOTAL_ASSETS_RUB' | 'TOTAL_ASSETS_USD';
   /**
-   * ISIN акций и облигаций (опционально)
+   * Информация актуальна на время
    */
-  isin?: string;
+  timestamp?: string;
   /**
-   * Тикер (опционально)
+   * Значение свойства
    */
-  ticker?: string;
-  /**
-   * Наименование (опционально)
-   */
-  name?: string;
-};
-
-export type Issuer = {
-  /**
-   * Внутренний идентификатор эмитента
-   */
-  id?: number;
-  /**
-   * Идентификатор налогоплательщика (Россия - ИНН, США - EIN и т.д.)
-   */
-  taxpayerId?: string;
-  /**
-   * Наименование
-   */
-  name: string;
-};
-
-export type ForeignExchangeRate = {
-  /**
-   * Дата
-   */
-  date: string;
-  /**
-   * Значение обменного курса
-   */
-  rate: number;
-  /**
-   * Валютная пара, для курса доллара в рублях - USDRUB
-   */
-  'currency-pair': string;
+  value: string;
 };
 
 /**
@@ -236,21 +70,9 @@ export type ForeignExchangeRate = {
  */
 export type EventCashFlow = {
   /**
-   * Идентификатор записи
-   */
-  id?: number;
-  /**
    * Номер счета
    */
   account: string;
-  /**
-   * Время события
-   */
-  timestamp: string;
-  /**
-   * Значение
-   */
-  value: number;
   /**
    * Валюта
    */
@@ -277,90 +99,358 @@ export type EventCashFlow = {
     | 'FORECAST_TAX'
     | 'DERIVATIVE_PRICE'
     | 'DERIVATIVE_QUOTE';
+  /**
+   * Идентификатор записи
+   */
+  id?: number;
+  /**
+   * Время события
+   */
+  timestamp: string;
+  /**
+   * Значение
+   */
+  value: number;
 };
 
-export type Account = {
+export type ForeignExchangeRate = {
+  /**
+   * Валютная пара, для курса доллара в рублях - USDRUB
+   */
+  'currency-pair': string;
+  /**
+   * Дата
+   */
+  date: string;
+  /**
+   * Значение обменного курса
+   */
+  rate: number;
+};
+
+export type Issuer = {
+  /**
+   * Внутренний идентификатор эмитента
+   */
+  id?: number;
+  /**
+   * Наименование
+   */
+  name: string;
+  /**
+   * Идентификатор налогоплательщика (Россия - ИНН, США - EIN и т.д.)
+   */
+  taxpayerId?: string;
+};
+
+export type PageAccount = {
+  content?: Array<Account>;
+  empty?: boolean;
+  first?: boolean;
+  last?: boolean;
+  number?: number;
+  numberOfElements?: number;
+  pageable?: PageableObject;
+  size?: number;
+  sort?: SortObject;
+  totalElements?: number;
+  totalPages?: number;
+};
+
+export type PageAccountCash = {
+  content?: Array<AccountCash>;
+  empty?: boolean;
+  first?: boolean;
+  last?: boolean;
+  number?: number;
+  numberOfElements?: number;
+  pageable?: PageableObject;
+  size?: number;
+  sort?: SortObject;
+  totalElements?: number;
+  totalPages?: number;
+};
+
+export type PageAccountProperty = {
+  content?: Array<AccountProperty>;
+  empty?: boolean;
+  first?: boolean;
+  last?: boolean;
+  number?: number;
+  numberOfElements?: number;
+  pageable?: PageableObject;
+  size?: number;
+  sort?: SortObject;
+  totalElements?: number;
+  totalPages?: number;
+};
+
+export type PageEventCashFlow = {
+  content?: Array<EventCashFlow>;
+  empty?: boolean;
+  first?: boolean;
+  last?: boolean;
+  number?: number;
+  numberOfElements?: number;
+  pageable?: PageableObject;
+  size?: number;
+  sort?: SortObject;
+  totalElements?: number;
+  totalPages?: number;
+};
+
+export type PageForeignExchangeRate = {
+  content?: Array<ForeignExchangeRate>;
+  empty?: boolean;
+  first?: boolean;
+  last?: boolean;
+  number?: number;
+  numberOfElements?: number;
+  pageable?: PageableObject;
+  size?: number;
+  sort?: SortObject;
+  totalElements?: number;
+  totalPages?: number;
+};
+
+export type PageIssuer = {
+  content?: Array<Issuer>;
+  empty?: boolean;
+  first?: boolean;
+  last?: boolean;
+  number?: number;
+  numberOfElements?: number;
+  pageable?: PageableObject;
+  size?: number;
+  sort?: SortObject;
+  totalElements?: number;
+  totalPages?: number;
+};
+
+export type PageSecurity = {
+  content?: Array<Security>;
+  empty?: boolean;
+  first?: boolean;
+  last?: boolean;
+  number?: number;
+  numberOfElements?: number;
+  pageable?: PageableObject;
+  size?: number;
+  sort?: SortObject;
+  totalElements?: number;
+  totalPages?: number;
+};
+
+export type PageSecurityDescription = {
+  content?: Array<SecurityDescription>;
+  empty?: boolean;
+  first?: boolean;
+  last?: boolean;
+  number?: number;
+  numberOfElements?: number;
+  pageable?: PageableObject;
+  size?: number;
+  sort?: SortObject;
+  totalElements?: number;
+  totalPages?: number;
+};
+
+export type PageSecurityEventCashFlow = {
+  content?: Array<SecurityEventCashFlow>;
+  empty?: boolean;
+  first?: boolean;
+  last?: boolean;
+  number?: number;
+  numberOfElements?: number;
+  pageable?: PageableObject;
+  size?: number;
+  sort?: SortObject;
+  totalElements?: number;
+  totalPages?: number;
+};
+
+export type PageSecurityQuote = {
+  content?: Array<SecurityQuote>;
+  empty?: boolean;
+  first?: boolean;
+  last?: boolean;
+  number?: number;
+  numberOfElements?: number;
+  pageable?: PageableObject;
+  size?: number;
+  sort?: SortObject;
+  totalElements?: number;
+  totalPages?: number;
+};
+
+export type PageTransaction = {
+  content?: Array<Transaction>;
+  empty?: boolean;
+  first?: boolean;
+  last?: boolean;
+  number?: number;
+  numberOfElements?: number;
+  pageable?: PageableObject;
+  size?: number;
+  sort?: SortObject;
+  totalElements?: number;
+  totalPages?: number;
+};
+
+export type PageTransactionCashFlow = {
+  content?: Array<TransactionCashFlow>;
+  empty?: boolean;
+  first?: boolean;
+  last?: boolean;
+  number?: number;
+  numberOfElements?: number;
+  pageable?: PageableObject;
+  size?: number;
+  sort?: SortObject;
+  totalElements?: number;
+  totalPages?: number;
+};
+
+export type PageableObject = {
+  offset?: number;
+  pageNumber?: number;
+  pageSize?: number;
+  paged?: boolean;
+  sort?: SortObject;
+  unpaged?: boolean;
+};
+
+/**
+ * Акция, облигация, валютная пара, фьючерс, опцион или произвольный актив
+ */
+export type Security = {
+  /**
+   * Внутренний идентификатор инструмента
+   */
+  id?: number;
+  /**
+   * ISIN акций и облигаций (опционально)
+   */
+  isin?: string;
+  /**
+   * Наименование (опционально)
+   */
+  name?: string;
+  /**
+   * Тикер (опционально)
+   */
+  ticker?: string;
+  /**
+   * Тип ценной бумаги
+   */
+  type:
+    | 'STOCK'
+    | 'BOND'
+    | 'STOCK_OR_BOND'
+    | 'DERIVATIVE'
+    | 'CURRENCY_PAIR'
+    | 'ASSET';
+};
+
+/**
+ * Информация об инструменте
+ */
+export type SecurityDescription = {
+  /**
+   * Внутренний идентификатор эмитента (опционально)
+   */
+  issuer?: number;
+  /**
+   * Сектор экономики (опционально)
+   */
+  sector?: string;
+  /**
+   * Внутренний идентификатор инструмента
+   */
+  security: number;
+};
+
+/**
+ * Дивиденды, купоны, амортизация, вариационная маржа, налоги, комиссии
+ */
+export type SecurityEventCashFlow = {
   /**
    * Номер счета в системе учета брокера
    */
-  id: string;
+  account: string;
   /**
-   * Признак активного счета: если false то счет исключается из аналитического расчета
+   * Количество бумаг (контрактов)
    */
-  enabled: boolean;
-};
-
-export type AccountProperty = {
+  count: number;
+  /**
+   * Валюта
+   */
+  currency?: string;
+  /**
+   * Тип события
+   */
+  'event-type':
+    | 'CASH'
+    | 'PRICE'
+    | 'ACCRUED_INTEREST'
+    | 'FEE'
+    | 'AMORTIZATION'
+    | 'REDEMPTION'
+    | 'COUPON'
+    | 'DIVIDEND'
+    | 'DERIVATIVE_PROFIT'
+    | 'MARGIN'
+    | 'TAX'
+    | 'FORECAST_TAX'
+    | 'DERIVATIVE_PRICE'
+    | 'DERIVATIVE_QUOTE';
   /**
    * Внутренний идентификатор записи
    */
   id?: number;
   /**
-   * Номер счета
+   * Инструмент
    */
-  account: string;
+  security: number;
   /**
-   * Информация актуальна на время
-   */
-  timestamp?: string;
-  /**
-   * Свойство портфеля
-   */
-  property: 'TOTAL_ASSETS_RUB' | 'TOTAL_ASSETS_USD';
-  /**
-   * Значение свойства
-   */
-  value: string;
-};
-
-export type AccountCash = {
-  /**
-   * Внутренний идентификатор
-   */
-  id?: number;
-  /**
-   * Номер счета в системе учета брокера
-   */
-  account: string;
-  /**
-   * Значение актуально на дату
+   * Время события
    */
   timestamp: string;
   /**
-   * Рынок
-   */
-  market: string;
-  /**
-   * Остаток денежных средств
+   * Сумма
    */
   value: number;
+};
+
+export type SecurityQuote = {
   /**
-   * Валюта
+   * НКД (в валюте, только для облигаций)
    */
-  currency: string;
-};
-
-export type PageTransaction = {
-  totalElements?: number;
-  totalPages?: number;
-  size?: number;
-  content?: Array<Transaction>;
-  number?: number;
-  first?: boolean;
-  last?: boolean;
-  numberOfElements?: number;
-  sort?: SortObject;
-  pageable?: PageableObject;
-  empty?: boolean;
-};
-
-export type PageableObject = {
-  offset?: number;
-  unpaged?: boolean;
-  sort?: SortObject;
-  paged?: boolean;
-  pageNumber?: number;
-  pageSize?: number;
+  'accrued-interest'?: number;
+  /**
+   * Валюта котировки для акций, облигаций, произвольных активов и опционально для деривативов
+   */
+  currency?: string;
+  /**
+   * Внутренний идентификатор записи
+   */
+  id?: number;
+  /**
+   * Котировка (в валюте, только для облигаций и деривативов)
+   */
+  price?: number;
+  /**
+   * Котировка (для облигаций - в процентах, деривативы - в пунктах)
+   */
+  quote: number;
+  /**
+   * Инструмент
+   */
+  security: number;
+  /**
+   * Время
+   */
+  timestamp: string;
 };
 
 export type SortObject = {
@@ -369,238 +459,216 @@ export type SortObject = {
   unsorted?: boolean;
 };
 
-export type PageTransactionCashFlow = {
-  totalElements?: number;
-  totalPages?: number;
-  size?: number;
-  content?: Array<TransactionCashFlow>;
-  number?: number;
-  first?: boolean;
-  last?: boolean;
-  numberOfElements?: number;
-  sort?: SortObject;
-  pageable?: PageableObject;
-  empty?: boolean;
+export type Transaction = {
+  /**
+   * Номер счета в системе учета брокера
+   */
+  account: string;
+  /**
+   * Количество бумаг (контрактов), шт
+   */
+  count: number;
+  /**
+   * Внутренний идентификатор сделки
+   */
+  id?: number;
+  /**
+   * Инструмент
+   */
+  security: number;
+  /**
+   * Время сделки
+   */
+  timestamp: string;
+  /**
+   * Номер сделки в системе учета брокера
+   */
+  'trade-id': string;
 };
 
-export type PageSecurityQuote = {
-  totalElements?: number;
-  totalPages?: number;
-  size?: number;
-  content?: Array<SecurityQuote>;
-  number?: number;
-  first?: boolean;
-  last?: boolean;
-  numberOfElements?: number;
-  sort?: SortObject;
-  pageable?: PageableObject;
-  empty?: boolean;
+export type TransactionCashFlow = {
+  /**
+   * Валюта
+   */
+  currency?: string;
+  /**
+   * Тип события (стоимость бумаг без НКД, НКД, комиссия)
+   */
+  'event-type':
+    | 'CASH'
+    | 'PRICE'
+    | 'ACCRUED_INTEREST'
+    | 'FEE'
+    | 'AMORTIZATION'
+    | 'REDEMPTION'
+    | 'COUPON'
+    | 'DIVIDEND'
+    | 'DERIVATIVE_PROFIT'
+    | 'MARGIN'
+    | 'TAX'
+    | 'FORECAST_TAX'
+    | 'DERIVATIVE_PRICE'
+    | 'DERIVATIVE_QUOTE';
+  /**
+   * Внутренний идентификатор записи
+   */
+  id?: number;
+  /**
+   * Внутренний идентификатор сделки
+   */
+  'transaction-id': number;
+  /**
+   * Сумма по событию
+   */
+  value: number;
 };
 
-export type PageSecurityEventCashFlow = {
-  totalElements?: number;
-  totalPages?: number;
-  size?: number;
-  content?: Array<SecurityEventCashFlow>;
-  number?: number;
-  first?: boolean;
-  last?: boolean;
-  numberOfElements?: number;
-  sort?: SortObject;
-  pageable?: PageableObject;
-  empty?: boolean;
-};
-
-export type PageSecurityDescription = {
-  totalElements?: number;
-  totalPages?: number;
-  size?: number;
-  content?: Array<SecurityDescription>;
-  number?: number;
-  first?: boolean;
-  last?: boolean;
-  numberOfElements?: number;
-  sort?: SortObject;
-  pageable?: PageableObject;
-  empty?: boolean;
-};
-
-export type PageSecurity = {
-  totalElements?: number;
-  totalPages?: number;
-  size?: number;
-  content?: Array<Security>;
-  number?: number;
-  first?: boolean;
-  last?: boolean;
-  numberOfElements?: number;
-  sort?: SortObject;
-  pageable?: PageableObject;
-  empty?: boolean;
-};
-
-export type PageIssuer = {
-  totalElements?: number;
-  totalPages?: number;
-  size?: number;
-  content?: Array<Issuer>;
-  number?: number;
-  first?: boolean;
-  last?: boolean;
-  numberOfElements?: number;
-  sort?: SortObject;
-  pageable?: PageableObject;
-  empty?: boolean;
-};
-
-export type PageForeignExchangeRate = {
-  totalElements?: number;
-  totalPages?: number;
-  size?: number;
-  content?: Array<ForeignExchangeRate>;
-  number?: number;
-  first?: boolean;
-  last?: boolean;
-  numberOfElements?: number;
-  sort?: SortObject;
-  pageable?: PageableObject;
-  empty?: boolean;
-};
-
-export type PageEventCashFlow = {
-  totalElements?: number;
-  totalPages?: number;
-  size?: number;
-  content?: Array<EventCashFlow>;
-  number?: number;
-  first?: boolean;
-  last?: boolean;
-  numberOfElements?: number;
-  sort?: SortObject;
-  pageable?: PageableObject;
-  empty?: boolean;
-};
-
-export type PageAccount = {
-  totalElements?: number;
-  totalPages?: number;
-  size?: number;
-  content?: Array<Account>;
-  number?: number;
-  first?: boolean;
-  last?: boolean;
-  numberOfElements?: number;
-  sort?: SortObject;
-  pageable?: PageableObject;
-  empty?: boolean;
-};
-
-export type PageAccountProperty = {
-  totalElements?: number;
-  totalPages?: number;
-  size?: number;
-  content?: Array<AccountProperty>;
-  number?: number;
-  first?: boolean;
-  last?: boolean;
-  numberOfElements?: number;
-  sort?: SortObject;
-  pageable?: PageableObject;
-  empty?: boolean;
-};
-
-export type PageAccountCash = {
-  totalElements?: number;
-  totalPages?: number;
-  size?: number;
-  content?: Array<AccountCash>;
-  number?: number;
-  first?: boolean;
-  last?: boolean;
-  numberOfElements?: number;
-  sort?: SortObject;
-  pageable?: PageableObject;
-  empty?: boolean;
-};
-
-export type DeleteTransactionsByIdData = {
+export type GetAccountCashData = {
   body?: never;
-  path: {
+  path?: never;
+  query?: {
     /**
-     * Внутренний идентификатор сделки
+     * Zero-based page index (0..N)
      */
-    id: number;
+    page?: number;
+    /**
+     * The size of the page to be returned
+     */
+    size?: number;
+    /**
+     * Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
+     */
+    sort?: Array<string>;
+    id?: number;
+    account?: string;
+    timestamp?: string;
+    market?: string;
+    value?: number;
+    currency?: string;
   };
-  query?: never;
-  url: '/api/v1/transactions/{id}';
+  url: '/api/v1/account-cash';
 };
 
-export type DeleteTransactionsByIdErrors = {
+export type GetAccountCashErrors = {
   /**
    * Internal Server Error
    */
   500: unknown;
 };
 
-export type DeleteTransactionsByIdResponses = {
+export type GetAccountCashResponses = {
+  /**
+   * OK
+   */
+  200: PageAccountCash;
+};
+
+export type GetAccountCashResponse =
+  GetAccountCashResponses[keyof GetAccountCashResponses];
+
+export type PostAccountCashData = {
+  body: AccountCash;
+  path?: never;
+  query?: never;
+  url: '/api/v1/account-cash';
+};
+
+export type PostAccountCashErrors = {
+  /**
+   * Conflict
+   */
+  409: unknown;
+  /**
+   * Internal Server Error
+   */
+  500: unknown;
+};
+
+export type PostAccountCashResponses = {
+  /**
+   * Created
+   */
+  201: unknown;
+};
+
+export type DeleteAccountCashByIdData = {
+  body?: never;
+  path: {
+    /**
+     * Внутренний идентификатор записи
+     */
+    id: number;
+  };
+  query?: never;
+  url: '/api/v1/account-cash/{id}';
+};
+
+export type DeleteAccountCashByIdErrors = {
+  /**
+   * Internal Server Error
+   */
+  500: unknown;
+};
+
+export type DeleteAccountCashByIdResponses = {
   /**
    * No Content
    */
   204: void;
 };
 
-export type DeleteTransactionsByIdResponse =
-  DeleteTransactionsByIdResponses[keyof DeleteTransactionsByIdResponses];
+export type DeleteAccountCashByIdResponse =
+  DeleteAccountCashByIdResponses[keyof DeleteAccountCashByIdResponses];
 
-export type GetTransactionsByIdData = {
+export type GetAccountCashByIdData = {
   body?: never;
   path: {
     /**
-     * Внутренний идентификатор сделки
+     * Внутренний идентификатор записи
      */
     id: number;
   };
   query?: never;
-  url: '/api/v1/transactions/{id}';
+  url: '/api/v1/account-cash/{id}';
 };
 
-export type GetTransactionsByIdErrors = {
+export type GetAccountCashByIdErrors = {
   /**
    * Internal Server Error
    */
   500: unknown;
 };
 
-export type GetTransactionsByIdResponses = {
+export type GetAccountCashByIdResponses = {
   /**
    * OK
    */
-  200: Transaction;
+  200: AccountCash;
 };
 
-export type GetTransactionsByIdResponse =
-  GetTransactionsByIdResponses[keyof GetTransactionsByIdResponses];
+export type GetAccountCashByIdResponse =
+  GetAccountCashByIdResponses[keyof GetAccountCashByIdResponses];
 
-export type PutTransactionsByIdData = {
-  body: Transaction;
+export type PutAccountCashByIdData = {
+  body: AccountCash;
   path: {
     /**
-     * Внутренний идентификатор сделки
+     * Внутренний идентификатор записи
      */
     id: number;
   };
   query?: never;
-  url: '/api/v1/transactions/{id}';
+  url: '/api/v1/account-cash/{id}';
 };
 
-export type PutTransactionsByIdErrors = {
+export type PutAccountCashByIdErrors = {
   /**
    * Internal Server Error
    */
   500: unknown;
 };
 
-export type PutTransactionsByIdResponses = {
+export type PutAccountCashByIdResponses = {
   /**
    * Created
    */
@@ -611,87 +679,154 @@ export type PutTransactionsByIdResponses = {
   204: void;
 };
 
-export type PutTransactionsByIdResponse =
-  PutTransactionsByIdResponses[keyof PutTransactionsByIdResponses];
+export type PutAccountCashByIdResponse =
+  PutAccountCashByIdResponses[keyof PutAccountCashByIdResponses];
 
-export type DeleteTransactionCashFlowsByIdData = {
+export type GetAccountPropertiesData = {
   body?: never;
-  path: {
+  path?: never;
+  query?: {
     /**
-     * Внутренний идентификатор сделки
+     * Zero-based page index (0..N)
      */
-    id: number;
+    page?: number;
+    /**
+     * The size of the page to be returned
+     */
+    size?: number;
+    /**
+     * Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
+     */
+    sort?: Array<string>;
+    id?: number;
+    account?: string;
+    timestamp?: string;
+    property?: string;
+    value?: string;
   };
-  query?: never;
-  url: '/api/v1/transaction-cash-flows/{id}';
+  url: '/api/v1/account-properties';
 };
 
-export type DeleteTransactionCashFlowsByIdErrors = {
+export type GetAccountPropertiesErrors = {
   /**
    * Internal Server Error
    */
   500: unknown;
 };
 
-export type DeleteTransactionCashFlowsByIdResponses = {
+export type GetAccountPropertiesResponses = {
+  /**
+   * OK
+   */
+  200: PageAccountProperty;
+};
+
+export type GetAccountPropertiesResponse =
+  GetAccountPropertiesResponses[keyof GetAccountPropertiesResponses];
+
+export type PostAccountPropertiesData = {
+  body: AccountProperty;
+  path?: never;
+  query?: never;
+  url: '/api/v1/account-properties';
+};
+
+export type PostAccountPropertiesErrors = {
+  /**
+   * Conflict
+   */
+  409: unknown;
+  /**
+   * Internal Server Error
+   */
+  500: unknown;
+};
+
+export type PostAccountPropertiesResponses = {
+  /**
+   * Created
+   */
+  201: unknown;
+};
+
+export type DeleteAccountPropertiesByIdData = {
+  body?: never;
+  path: {
+    /**
+     * Внутренний идентификатор записи
+     */
+    id: number;
+  };
+  query?: never;
+  url: '/api/v1/account-properties/{id}';
+};
+
+export type DeleteAccountPropertiesByIdErrors = {
+  /**
+   * Internal Server Error
+   */
+  500: unknown;
+};
+
+export type DeleteAccountPropertiesByIdResponses = {
   /**
    * No Content
    */
   204: void;
 };
 
-export type DeleteTransactionCashFlowsByIdResponse =
-  DeleteTransactionCashFlowsByIdResponses[keyof DeleteTransactionCashFlowsByIdResponses];
+export type DeleteAccountPropertiesByIdResponse =
+  DeleteAccountPropertiesByIdResponses[keyof DeleteAccountPropertiesByIdResponses];
 
-export type GetTransactionCashFlowsByIdData = {
+export type GetAccountPropertiesByIdData = {
   body?: never;
   path: {
     /**
-     * Внутренний идентификатор сделки
+     * Внутренний идентификатор записи
      */
     id: number;
   };
   query?: never;
-  url: '/api/v1/transaction-cash-flows/{id}';
+  url: '/api/v1/account-properties/{id}';
 };
 
-export type GetTransactionCashFlowsByIdErrors = {
+export type GetAccountPropertiesByIdErrors = {
   /**
    * Internal Server Error
    */
   500: unknown;
 };
 
-export type GetTransactionCashFlowsByIdResponses = {
+export type GetAccountPropertiesByIdResponses = {
   /**
    * OK
    */
-  200: TransactionCashFlow;
+  200: AccountProperty;
 };
 
-export type GetTransactionCashFlowsByIdResponse =
-  GetTransactionCashFlowsByIdResponses[keyof GetTransactionCashFlowsByIdResponses];
+export type GetAccountPropertiesByIdResponse =
+  GetAccountPropertiesByIdResponses[keyof GetAccountPropertiesByIdResponses];
 
-export type PutTransactionCashFlowsByIdData = {
-  body: TransactionCashFlow;
+export type PutAccountPropertiesByIdData = {
+  body: AccountProperty;
   path: {
     /**
-     * Внутренний идентификатор сделки
+     * Внутренний идентификатор записи
      */
     id: number;
   };
   query?: never;
-  url: '/api/v1/transaction-cash-flows/{id}';
+  url: '/api/v1/account-properties/{id}';
 };
 
-export type PutTransactionCashFlowsByIdErrors = {
+export type PutAccountPropertiesByIdErrors = {
   /**
    * Internal Server Error
    */
   500: unknown;
 };
 
-export type PutTransactionCashFlowsByIdResponses = {
+export type PutAccountPropertiesByIdResponses = {
   /**
    * Created
    */
@@ -702,87 +837,151 @@ export type PutTransactionCashFlowsByIdResponses = {
   204: void;
 };
 
-export type PutTransactionCashFlowsByIdResponse =
-  PutTransactionCashFlowsByIdResponses[keyof PutTransactionCashFlowsByIdResponses];
+export type PutAccountPropertiesByIdResponse =
+  PutAccountPropertiesByIdResponses[keyof PutAccountPropertiesByIdResponses];
 
-export type DeleteSecurityQuotesByIdData = {
+export type GetAccountsData = {
   body?: never;
-  path: {
+  path?: never;
+  query?: {
     /**
-     * Номер записи о котировке
+     * Zero-based page index (0..N)
      */
-    id: number;
+    page?: number;
+    /**
+     * The size of the page to be returned
+     */
+    size?: number;
+    /**
+     * Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
+     */
+    sort?: Array<string>;
+    id?: string;
+    enabled?: boolean;
   };
-  query?: never;
-  url: '/api/v1/security-quotes/{id}';
+  url: '/api/v1/accounts';
 };
 
-export type DeleteSecurityQuotesByIdErrors = {
+export type GetAccountsErrors = {
   /**
    * Internal Server Error
    */
   500: unknown;
 };
 
-export type DeleteSecurityQuotesByIdResponses = {
+export type GetAccountsResponses = {
+  /**
+   * OK
+   */
+  200: PageAccount;
+};
+
+export type GetAccountsResponse =
+  GetAccountsResponses[keyof GetAccountsResponses];
+
+export type PostAccountsData = {
+  body: Account;
+  path?: never;
+  query?: never;
+  url: '/api/v1/accounts';
+};
+
+export type PostAccountsErrors = {
+  /**
+   * Conflict
+   */
+  409: unknown;
+  /**
+   * Internal Server Error
+   */
+  500: unknown;
+};
+
+export type PostAccountsResponses = {
+  /**
+   * Created
+   */
+  201: unknown;
+};
+
+export type DeleteAccountsByIdData = {
+  body?: never;
+  path: {
+    /**
+     * Номер счета
+     */
+    id: string;
+  };
+  query?: never;
+  url: '/api/v1/accounts/{id}';
+};
+
+export type DeleteAccountsByIdErrors = {
+  /**
+   * Internal Server Error
+   */
+  500: unknown;
+};
+
+export type DeleteAccountsByIdResponses = {
   /**
    * No Content
    */
   204: void;
 };
 
-export type DeleteSecurityQuotesByIdResponse =
-  DeleteSecurityQuotesByIdResponses[keyof DeleteSecurityQuotesByIdResponses];
+export type DeleteAccountsByIdResponse =
+  DeleteAccountsByIdResponses[keyof DeleteAccountsByIdResponses];
 
-export type GetSecurityQuotesByIdData = {
+export type GetAccountsByIdData = {
   body?: never;
   path: {
     /**
-     * Номер записи о котировке
+     * Номер счета
      */
-    id: number;
+    id: string;
   };
   query?: never;
-  url: '/api/v1/security-quotes/{id}';
+  url: '/api/v1/accounts/{id}';
 };
 
-export type GetSecurityQuotesByIdErrors = {
+export type GetAccountsByIdErrors = {
   /**
    * Internal Server Error
    */
   500: unknown;
 };
 
-export type GetSecurityQuotesByIdResponses = {
+export type GetAccountsByIdResponses = {
   /**
    * OK
    */
-  200: SecurityQuote;
+  200: Account;
 };
 
-export type GetSecurityQuotesByIdResponse =
-  GetSecurityQuotesByIdResponses[keyof GetSecurityQuotesByIdResponses];
+export type GetAccountsByIdResponse =
+  GetAccountsByIdResponses[keyof GetAccountsByIdResponses];
 
-export type PutSecurityQuotesByIdData = {
-  body: SecurityQuote;
+export type PutAccountsByIdData = {
+  body: Account;
   path: {
     /**
-     * Номер записи о котировке
+     * Номер счета
      */
-    id: number;
+    id: string;
   };
   query?: never;
-  url: '/api/v1/security-quotes/{id}';
+  url: '/api/v1/accounts/{id}';
 };
 
-export type PutSecurityQuotesByIdErrors = {
+export type PutAccountsByIdErrors = {
   /**
    * Internal Server Error
    */
   500: unknown;
 };
 
-export type PutSecurityQuotesByIdResponses = {
+export type PutAccountsByIdResponses = {
   /**
    * Created
    */
@@ -793,87 +992,238 @@ export type PutSecurityQuotesByIdResponses = {
   204: void;
 };
 
-export type PutSecurityQuotesByIdResponse =
-  PutSecurityQuotesByIdResponses[keyof PutSecurityQuotesByIdResponses];
+export type PutAccountsByIdResponse =
+  PutAccountsByIdResponses[keyof PutAccountsByIdResponses];
 
-export type DeleteSecurityEventCashFlowsByIdData = {
+export type GetCashFlowTypesData = {
   body?: never;
-  path: {
-    /**
-     * Внутренний идентификатор выплаты
-     */
-    id: number;
-  };
+  path?: never;
   query?: never;
-  url: '/api/v1/security-event-cash-flows/{id}';
+  url: '/api/v1/cash-flow-types';
 };
 
-export type DeleteSecurityEventCashFlowsByIdErrors = {
+export type GetCashFlowTypesErrors = {
   /**
    * Internal Server Error
    */
   500: unknown;
 };
 
-export type DeleteSecurityEventCashFlowsByIdResponses = {
+export type GetCashFlowTypesResponses = {
+  /**
+   * OK
+   */
+  200: Array<
+    | 'CASH'
+    | 'PRICE'
+    | 'ACCRUED_INTEREST'
+    | 'FEE'
+    | 'AMORTIZATION'
+    | 'REDEMPTION'
+    | 'COUPON'
+    | 'DIVIDEND'
+    | 'DERIVATIVE_PROFIT'
+    | 'MARGIN'
+    | 'TAX'
+    | 'FORECAST_TAX'
+    | 'DERIVATIVE_PRICE'
+    | 'DERIVATIVE_QUOTE'
+  >;
+};
+
+export type GetCashFlowTypesResponse =
+  GetCashFlowTypesResponses[keyof GetCashFlowTypesResponses];
+
+export type GetCashFlowTypesByIdData = {
+  body?: never;
+  path: {
+    /**
+     * Идентификатор типа
+     */
+    id: number;
+  };
+  query?: never;
+  url: '/api/v1/cash-flow-types/{id}';
+};
+
+export type GetCashFlowTypesByIdErrors = {
+  /**
+   * Internal Server Error
+   */
+  500: unknown;
+};
+
+export type GetCashFlowTypesByIdResponses = {
+  /**
+   * OK
+   */
+  200:
+    | 'CASH'
+    | 'PRICE'
+    | 'ACCRUED_INTEREST'
+    | 'FEE'
+    | 'AMORTIZATION'
+    | 'REDEMPTION'
+    | 'COUPON'
+    | 'DIVIDEND'
+    | 'DERIVATIVE_PROFIT'
+    | 'MARGIN'
+    | 'TAX'
+    | 'FORECAST_TAX'
+    | 'DERIVATIVE_PRICE'
+    | 'DERIVATIVE_QUOTE';
+};
+
+export type GetCashFlowTypesByIdResponse =
+  GetCashFlowTypesByIdResponses[keyof GetCashFlowTypesByIdResponses];
+
+export type GetEventCashFlowsData = {
+  body?: never;
+  path?: never;
+  query?: {
+    /**
+     * Zero-based page index (0..N)
+     */
+    page?: number;
+    /**
+     * The size of the page to be returned
+     */
+    size?: number;
+    /**
+     * Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
+     */
+    sort?: Array<string>;
+    id?: number;
+    account?: string;
+    timestamp?: string;
+    cashFlowType?: string;
+    value?: number;
+    currency?: string;
+    description?: string;
+  };
+  url: '/api/v1/event-cash-flows';
+};
+
+export type GetEventCashFlowsErrors = {
+  /**
+   * Internal Server Error
+   */
+  500: unknown;
+};
+
+export type GetEventCashFlowsResponses = {
+  /**
+   * OK
+   */
+  200: PageEventCashFlow;
+};
+
+export type GetEventCashFlowsResponse =
+  GetEventCashFlowsResponses[keyof GetEventCashFlowsResponses];
+
+export type PostEventCashFlowsData = {
+  body: EventCashFlow;
+  path?: never;
+  query?: never;
+  url: '/api/v1/event-cash-flows';
+};
+
+export type PostEventCashFlowsErrors = {
+  /**
+   * Conflict
+   */
+  409: unknown;
+  /**
+   * Internal Server Error
+   */
+  500: unknown;
+};
+
+export type PostEventCashFlowsResponses = {
+  /**
+   * Created
+   */
+  201: unknown;
+};
+
+export type DeleteEventCashFlowsByIdData = {
+  body?: never;
+  path: {
+    /**
+     * Номер события
+     */
+    id: number;
+  };
+  query?: never;
+  url: '/api/v1/event-cash-flows/{id}';
+};
+
+export type DeleteEventCashFlowsByIdErrors = {
+  /**
+   * Internal Server Error
+   */
+  500: unknown;
+};
+
+export type DeleteEventCashFlowsByIdResponses = {
   /**
    * No Content
    */
   204: void;
 };
 
-export type DeleteSecurityEventCashFlowsByIdResponse =
-  DeleteSecurityEventCashFlowsByIdResponses[keyof DeleteSecurityEventCashFlowsByIdResponses];
+export type DeleteEventCashFlowsByIdResponse =
+  DeleteEventCashFlowsByIdResponses[keyof DeleteEventCashFlowsByIdResponses];
 
-export type GetSecurityEventCashFlowsByIdData = {
+export type GetEventCashFlowsByIdData = {
   body?: never;
   path: {
     /**
-     * Внутренний идентификатор выплаты
+     * Номер события
      */
     id: number;
   };
   query?: never;
-  url: '/api/v1/security-event-cash-flows/{id}';
+  url: '/api/v1/event-cash-flows/{id}';
 };
 
-export type GetSecurityEventCashFlowsByIdErrors = {
+export type GetEventCashFlowsByIdErrors = {
   /**
    * Internal Server Error
    */
   500: unknown;
 };
 
-export type GetSecurityEventCashFlowsByIdResponses = {
+export type GetEventCashFlowsByIdResponses = {
   /**
    * OK
    */
-  200: SecurityEventCashFlow;
+  200: EventCashFlow;
 };
 
-export type GetSecurityEventCashFlowsByIdResponse =
-  GetSecurityEventCashFlowsByIdResponses[keyof GetSecurityEventCashFlowsByIdResponses];
+export type GetEventCashFlowsByIdResponse =
+  GetEventCashFlowsByIdResponses[keyof GetEventCashFlowsByIdResponses];
 
-export type PutSecurityEventCashFlowsByIdData = {
-  body: SecurityEventCashFlow;
+export type PutEventCashFlowsByIdData = {
+  body: EventCashFlow;
   path: {
     /**
-     * Внутренний идентификатор выплаты
+     * Номер события
      */
     id: number;
   };
   query?: never;
-  url: '/api/v1/security-event-cash-flows/{id}';
+  url: '/api/v1/event-cash-flows/{id}';
 };
 
-export type PutSecurityEventCashFlowsByIdErrors = {
+export type PutEventCashFlowsByIdErrors = {
   /**
    * Internal Server Error
    */
   500: unknown;
 };
 
-export type PutSecurityEventCashFlowsByIdResponses = {
+export type PutEventCashFlowsByIdResponses = {
   /**
    * Created
    */
@@ -884,281 +1234,101 @@ export type PutSecurityEventCashFlowsByIdResponses = {
   204: void;
 };
 
-export type PutSecurityEventCashFlowsByIdResponse =
-  PutSecurityEventCashFlowsByIdResponses[keyof PutSecurityEventCashFlowsByIdResponses];
+export type PutEventCashFlowsByIdResponse =
+  PutEventCashFlowsByIdResponses[keyof PutEventCashFlowsByIdResponses];
 
-export type DeleteSecurityDescriptionsByIdData = {
+export type GetForeignExchangeRatesData = {
   body?: never;
-  path: {
+  path?: never;
+  query?: {
     /**
-     * Идентификатор
+     * Zero-based page index (0..N)
      */
-    id: number;
+    page?: number;
+    /**
+     * The size of the page to be returned
+     */
+    size?: number;
+    /**
+     * Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
+     */
+    sort?: Array<string>;
+    pk?: string;
+    rate?: number;
   };
-  query?: never;
-  url: '/api/v1/security-descriptions/{id}';
+  url: '/api/v1/foreign-exchange-rates';
 };
 
-export type DeleteSecurityDescriptionsByIdErrors = {
+export type GetForeignExchangeRatesErrors = {
   /**
    * Internal Server Error
    */
   500: unknown;
 };
 
-export type DeleteSecurityDescriptionsByIdResponses = {
-  /**
-   * No Content
-   */
-  204: void;
-};
-
-export type DeleteSecurityDescriptionsByIdResponse =
-  DeleteSecurityDescriptionsByIdResponses[keyof DeleteSecurityDescriptionsByIdResponses];
-
-export type GetSecurityDescriptionsByIdData = {
-  body?: never;
-  path: {
-    /**
-     * Идентификатор
-     */
-    id: number;
-  };
-  query?: never;
-  url: '/api/v1/security-descriptions/{id}';
-};
-
-export type GetSecurityDescriptionsByIdErrors = {
-  /**
-   * Internal Server Error
-   */
-  500: unknown;
-};
-
-export type GetSecurityDescriptionsByIdResponses = {
+export type GetForeignExchangeRatesResponses = {
   /**
    * OK
    */
-  200: SecurityDescription;
+  200: PageForeignExchangeRate;
 };
 
-export type GetSecurityDescriptionsByIdResponse =
-  GetSecurityDescriptionsByIdResponses[keyof GetSecurityDescriptionsByIdResponses];
+export type GetForeignExchangeRatesResponse =
+  GetForeignExchangeRatesResponses[keyof GetForeignExchangeRatesResponses];
 
-export type PutSecurityDescriptionsByIdData = {
-  body: SecurityDescription;
-  path: {
-    /**
-     * Идентификатор
-     */
-    id: number;
-  };
+export type PostForeignExchangeRatesData = {
+  body: ForeignExchangeRate;
+  path?: never;
   query?: never;
-  url: '/api/v1/security-descriptions/{id}';
+  url: '/api/v1/foreign-exchange-rates';
 };
 
-export type PutSecurityDescriptionsByIdErrors = {
+export type PostForeignExchangeRatesErrors = {
+  /**
+   * Conflict
+   */
+  409: unknown;
   /**
    * Internal Server Error
    */
   500: unknown;
 };
 
-export type PutSecurityDescriptionsByIdResponses = {
+export type PostForeignExchangeRatesResponses = {
   /**
    * Created
    */
   201: unknown;
-  /**
-   * No Content
-   */
-  204: void;
 };
 
-export type PutSecurityDescriptionsByIdResponse =
-  PutSecurityDescriptionsByIdResponses[keyof PutSecurityDescriptionsByIdResponses];
-
-export type DeleteSecuritiesByIdData = {
+export type GetForeignExchangeRatesCurrencyPairsByCurrencyPairData = {
   body?: never;
   path: {
     /**
-     * Идентификатор
+     * Валютная пара
      */
-    id: number;
+    'currency-pair': string;
   };
   query?: never;
-  url: '/api/v1/securities/{id}';
+  url: '/api/v1/foreign-exchange-rates/currency-pairs/{currency-pair}';
 };
 
-export type DeleteSecuritiesByIdErrors = {
+export type GetForeignExchangeRatesCurrencyPairsByCurrencyPairErrors = {
   /**
    * Internal Server Error
    */
   500: unknown;
 };
 
-export type DeleteSecuritiesByIdResponses = {
-  /**
-   * No Content
-   */
-  204: void;
-};
-
-export type DeleteSecuritiesByIdResponse =
-  DeleteSecuritiesByIdResponses[keyof DeleteSecuritiesByIdResponses];
-
-export type GetSecuritiesByIdData = {
-  body?: never;
-  path: {
-    /**
-     * Идентификатор
-     */
-    id: number;
-  };
-  query?: never;
-  url: '/api/v1/securities/{id}';
-};
-
-export type GetSecuritiesByIdErrors = {
-  /**
-   * Internal Server Error
-   */
-  500: unknown;
-};
-
-export type GetSecuritiesByIdResponses = {
+export type GetForeignExchangeRatesCurrencyPairsByCurrencyPairResponses = {
   /**
    * OK
    */
-  200: Security;
+  200: Array<ForeignExchangeRate>;
 };
 
-export type GetSecuritiesByIdResponse =
-  GetSecuritiesByIdResponses[keyof GetSecuritiesByIdResponses];
-
-export type PutSecuritiesByIdData = {
-  body: Security;
-  path: {
-    /**
-     * Идентификатор
-     */
-    id: number;
-  };
-  query?: never;
-  url: '/api/v1/securities/{id}';
-};
-
-export type PutSecuritiesByIdErrors = {
-  /**
-   * Internal Server Error
-   */
-  500: unknown;
-};
-
-export type PutSecuritiesByIdResponses = {
-  /**
-   * Created
-   */
-  201: unknown;
-  /**
-   * No Content
-   */
-  204: void;
-};
-
-export type PutSecuritiesByIdResponse =
-  PutSecuritiesByIdResponses[keyof PutSecuritiesByIdResponses];
-
-export type DeleteIssuersByIdData = {
-  body?: never;
-  path: {
-    /**
-     * Внутренний идентификатор эмитента
-     */
-    id: number;
-  };
-  query?: never;
-  url: '/api/v1/issuers/{id}';
-};
-
-export type DeleteIssuersByIdErrors = {
-  /**
-   * Internal Server Error
-   */
-  500: unknown;
-};
-
-export type DeleteIssuersByIdResponses = {
-  /**
-   * No Content
-   */
-  204: void;
-};
-
-export type DeleteIssuersByIdResponse =
-  DeleteIssuersByIdResponses[keyof DeleteIssuersByIdResponses];
-
-export type GetIssuersByIdData = {
-  body?: never;
-  path: {
-    /**
-     * Внутренний идентификатор эмитента
-     */
-    id: number;
-  };
-  query?: never;
-  url: '/api/v1/issuers/{id}';
-};
-
-export type GetIssuersByIdErrors = {
-  /**
-   * Internal Server Error
-   */
-  500: unknown;
-};
-
-export type GetIssuersByIdResponses = {
-  /**
-   * OK
-   */
-  200: Issuer;
-};
-
-export type GetIssuersByIdResponse =
-  GetIssuersByIdResponses[keyof GetIssuersByIdResponses];
-
-export type PutIssuersByIdData = {
-  body: Issuer;
-  path: {
-    /**
-     * Внутренний идентификатор эмитента
-     */
-    id: number;
-  };
-  query?: never;
-  url: '/api/v1/issuers/{id}';
-};
-
-export type PutIssuersByIdErrors = {
-  /**
-   * Internal Server Error
-   */
-  500: unknown;
-};
-
-export type PutIssuersByIdResponses = {
-  /**
-   * Created
-   */
-  201: unknown;
-  /**
-   * No Content
-   */
-  204: void;
-};
-
-export type PutIssuersByIdResponse =
-  PutIssuersByIdResponses[keyof PutIssuersByIdResponses];
+export type GetForeignExchangeRatesCurrencyPairsByCurrencyPairResponse =
+  GetForeignExchangeRatesCurrencyPairsByCurrencyPairResponses[keyof GetForeignExchangeRatesCurrencyPairsByCurrencyPairResponses];
 
 export type DeleteForeignExchangeRatesCurrencyPairsByCurrencyPairDatesByDateData =
   {
@@ -1272,371 +1442,7 @@ export type PutForeignExchangeRatesCurrencyPairsByCurrencyPairDatesByDateRespons
 export type PutForeignExchangeRatesCurrencyPairsByCurrencyPairDatesByDateResponse =
   PutForeignExchangeRatesCurrencyPairsByCurrencyPairDatesByDateResponses[keyof PutForeignExchangeRatesCurrencyPairsByCurrencyPairDatesByDateResponses];
 
-export type DeleteEventCashFlowsByIdData = {
-  body?: never;
-  path: {
-    /**
-     * Номер события
-     */
-    id: number;
-  };
-  query?: never;
-  url: '/api/v1/event-cash-flows/{id}';
-};
-
-export type DeleteEventCashFlowsByIdErrors = {
-  /**
-   * Internal Server Error
-   */
-  500: unknown;
-};
-
-export type DeleteEventCashFlowsByIdResponses = {
-  /**
-   * No Content
-   */
-  204: void;
-};
-
-export type DeleteEventCashFlowsByIdResponse =
-  DeleteEventCashFlowsByIdResponses[keyof DeleteEventCashFlowsByIdResponses];
-
-export type GetEventCashFlowsByIdData = {
-  body?: never;
-  path: {
-    /**
-     * Номер события
-     */
-    id: number;
-  };
-  query?: never;
-  url: '/api/v1/event-cash-flows/{id}';
-};
-
-export type GetEventCashFlowsByIdErrors = {
-  /**
-   * Internal Server Error
-   */
-  500: unknown;
-};
-
-export type GetEventCashFlowsByIdResponses = {
-  /**
-   * OK
-   */
-  200: EventCashFlow;
-};
-
-export type GetEventCashFlowsByIdResponse =
-  GetEventCashFlowsByIdResponses[keyof GetEventCashFlowsByIdResponses];
-
-export type PutEventCashFlowsByIdData = {
-  body: EventCashFlow;
-  path: {
-    /**
-     * Номер события
-     */
-    id: number;
-  };
-  query?: never;
-  url: '/api/v1/event-cash-flows/{id}';
-};
-
-export type PutEventCashFlowsByIdErrors = {
-  /**
-   * Internal Server Error
-   */
-  500: unknown;
-};
-
-export type PutEventCashFlowsByIdResponses = {
-  /**
-   * Created
-   */
-  201: unknown;
-  /**
-   * No Content
-   */
-  204: void;
-};
-
-export type PutEventCashFlowsByIdResponse =
-  PutEventCashFlowsByIdResponses[keyof PutEventCashFlowsByIdResponses];
-
-export type DeleteAccountsByIdData = {
-  body?: never;
-  path: {
-    /**
-     * Номер счета
-     */
-    id: string;
-  };
-  query?: never;
-  url: '/api/v1/accounts/{id}';
-};
-
-export type DeleteAccountsByIdErrors = {
-  /**
-   * Internal Server Error
-   */
-  500: unknown;
-};
-
-export type DeleteAccountsByIdResponses = {
-  /**
-   * No Content
-   */
-  204: void;
-};
-
-export type DeleteAccountsByIdResponse =
-  DeleteAccountsByIdResponses[keyof DeleteAccountsByIdResponses];
-
-export type GetAccountsByIdData = {
-  body?: never;
-  path: {
-    /**
-     * Номер счета
-     */
-    id: string;
-  };
-  query?: never;
-  url: '/api/v1/accounts/{id}';
-};
-
-export type GetAccountsByIdErrors = {
-  /**
-   * Internal Server Error
-   */
-  500: unknown;
-};
-
-export type GetAccountsByIdResponses = {
-  /**
-   * OK
-   */
-  200: Account;
-};
-
-export type GetAccountsByIdResponse =
-  GetAccountsByIdResponses[keyof GetAccountsByIdResponses];
-
-export type PutAccountsByIdData = {
-  body: Account;
-  path: {
-    /**
-     * Номер счета
-     */
-    id: string;
-  };
-  query?: never;
-  url: '/api/v1/accounts/{id}';
-};
-
-export type PutAccountsByIdErrors = {
-  /**
-   * Internal Server Error
-   */
-  500: unknown;
-};
-
-export type PutAccountsByIdResponses = {
-  /**
-   * Created
-   */
-  201: unknown;
-  /**
-   * No Content
-   */
-  204: void;
-};
-
-export type PutAccountsByIdResponse =
-  PutAccountsByIdResponses[keyof PutAccountsByIdResponses];
-
-export type DeleteAccountPropertiesByIdData = {
-  body?: never;
-  path: {
-    /**
-     * Внутренний идентификатор записи
-     */
-    id: number;
-  };
-  query?: never;
-  url: '/api/v1/account-properties/{id}';
-};
-
-export type DeleteAccountPropertiesByIdErrors = {
-  /**
-   * Internal Server Error
-   */
-  500: unknown;
-};
-
-export type DeleteAccountPropertiesByIdResponses = {
-  /**
-   * No Content
-   */
-  204: void;
-};
-
-export type DeleteAccountPropertiesByIdResponse =
-  DeleteAccountPropertiesByIdResponses[keyof DeleteAccountPropertiesByIdResponses];
-
-export type GetAccountPropertiesByIdData = {
-  body?: never;
-  path: {
-    /**
-     * Внутренний идентификатор записи
-     */
-    id: number;
-  };
-  query?: never;
-  url: '/api/v1/account-properties/{id}';
-};
-
-export type GetAccountPropertiesByIdErrors = {
-  /**
-   * Internal Server Error
-   */
-  500: unknown;
-};
-
-export type GetAccountPropertiesByIdResponses = {
-  /**
-   * OK
-   */
-  200: AccountProperty;
-};
-
-export type GetAccountPropertiesByIdResponse =
-  GetAccountPropertiesByIdResponses[keyof GetAccountPropertiesByIdResponses];
-
-export type PutAccountPropertiesByIdData = {
-  body: AccountProperty;
-  path: {
-    /**
-     * Внутренний идентификатор записи
-     */
-    id: number;
-  };
-  query?: never;
-  url: '/api/v1/account-properties/{id}';
-};
-
-export type PutAccountPropertiesByIdErrors = {
-  /**
-   * Internal Server Error
-   */
-  500: unknown;
-};
-
-export type PutAccountPropertiesByIdResponses = {
-  /**
-   * Created
-   */
-  201: unknown;
-  /**
-   * No Content
-   */
-  204: void;
-};
-
-export type PutAccountPropertiesByIdResponse =
-  PutAccountPropertiesByIdResponses[keyof PutAccountPropertiesByIdResponses];
-
-export type DeleteAccountCashByIdData = {
-  body?: never;
-  path: {
-    /**
-     * Внутренний идентификатор записи
-     */
-    id: number;
-  };
-  query?: never;
-  url: '/api/v1/account-cash/{id}';
-};
-
-export type DeleteAccountCashByIdErrors = {
-  /**
-   * Internal Server Error
-   */
-  500: unknown;
-};
-
-export type DeleteAccountCashByIdResponses = {
-  /**
-   * No Content
-   */
-  204: void;
-};
-
-export type DeleteAccountCashByIdResponse =
-  DeleteAccountCashByIdResponses[keyof DeleteAccountCashByIdResponses];
-
-export type GetAccountCashByIdData = {
-  body?: never;
-  path: {
-    /**
-     * Внутренний идентификатор записи
-     */
-    id: number;
-  };
-  query?: never;
-  url: '/api/v1/account-cash/{id}';
-};
-
-export type GetAccountCashByIdErrors = {
-  /**
-   * Internal Server Error
-   */
-  500: unknown;
-};
-
-export type GetAccountCashByIdResponses = {
-  /**
-   * OK
-   */
-  200: AccountCash;
-};
-
-export type GetAccountCashByIdResponse =
-  GetAccountCashByIdResponses[keyof GetAccountCashByIdResponses];
-
-export type PutAccountCashByIdData = {
-  body: AccountCash;
-  path: {
-    /**
-     * Внутренний идентификатор записи
-     */
-    id: number;
-  };
-  query?: never;
-  url: '/api/v1/account-cash/{id}';
-};
-
-export type PutAccountCashByIdErrors = {
-  /**
-   * Internal Server Error
-   */
-  500: unknown;
-};
-
-export type PutAccountCashByIdResponses = {
-  /**
-   * Created
-   */
-  201: unknown;
-  /**
-   * No Content
-   */
-  204: void;
-};
-
-export type PutAccountCashByIdResponse =
-  PutAccountCashByIdResponses[keyof PutAccountCashByIdResponses];
-
-export type GetTransactionsData = {
+export type GetIssuersData = {
   body?: never;
   path?: never;
   query?: {
@@ -1653,40 +1459,36 @@ export type GetTransactionsData = {
      */
     sort?: Array<string>;
     id?: number;
-    tradeId?: string;
-    account?: string;
-    security?: string;
-    timestamp?: string;
-    count?: number;
+    taxpayerId?: string;
+    name?: string;
   };
-  url: '/api/v1/transactions';
+  url: '/api/v1/issuers';
 };
 
-export type GetTransactionsErrors = {
+export type GetIssuersErrors = {
   /**
    * Internal Server Error
    */
   500: unknown;
 };
 
-export type GetTransactionsResponses = {
+export type GetIssuersResponses = {
   /**
    * OK
    */
-  200: PageTransaction;
+  200: PageIssuer;
 };
 
-export type GetTransactionsResponse =
-  GetTransactionsResponses[keyof GetTransactionsResponses];
+export type GetIssuersResponse = GetIssuersResponses[keyof GetIssuersResponses];
 
-export type PostTransactionsData = {
-  body: Transaction;
+export type PostIssuersData = {
+  body: Issuer;
   path?: never;
   query?: never;
-  url: '/api/v1/transactions';
+  url: '/api/v1/issuers';
 };
 
-export type PostTransactionsErrors = {
+export type PostIssuersErrors = {
   /**
    * Conflict
    */
@@ -1697,287 +1499,103 @@ export type PostTransactionsErrors = {
   500: unknown;
 };
 
-export type PostTransactionsResponses = {
+export type PostIssuersResponses = {
   /**
    * Created
    */
   201: unknown;
 };
 
-export type GetTransactionCashFlowsData = {
+export type DeleteIssuersByIdData = {
   body?: never;
-  path?: never;
-  query?: {
+  path: {
     /**
-     * Тип (стоимость/комиссия/НКД)
+     * Внутренний идентификатор эмитента
      */
-    'event-type'?: number;
-    /**
-     * Zero-based page index (0..N)
-     */
-    page?: number;
-    /**
-     * The size of the page to be returned
-     */
-    size?: number;
-    /**
-     * Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
-     */
-    sort?: Array<string>;
-    id?: number;
-    transactionId?: number;
-    cashFlowType?: string;
-    value?: number;
-    currency?: string;
+    id: number;
   };
-  url: '/api/v1/transaction-cash-flows';
-};
-
-export type GetTransactionCashFlowsErrors = {
-  /**
-   * Internal Server Error
-   */
-  500: unknown;
-};
-
-export type GetTransactionCashFlowsResponses = {
-  /**
-   * OK
-   */
-  200: PageTransactionCashFlow;
-};
-
-export type GetTransactionCashFlowsResponse =
-  GetTransactionCashFlowsResponses[keyof GetTransactionCashFlowsResponses];
-
-export type PostTransactionCashFlowsData = {
-  body: TransactionCashFlow;
-  path?: never;
   query?: never;
-  url: '/api/v1/transaction-cash-flows';
+  url: '/api/v1/issuers/{id}';
 };
 
-export type PostTransactionCashFlowsErrors = {
-  /**
-   * Conflict
-   */
-  409: unknown;
+export type DeleteIssuersByIdErrors = {
   /**
    * Internal Server Error
    */
   500: unknown;
 };
 
-export type PostTransactionCashFlowsResponses = {
+export type DeleteIssuersByIdResponses = {
   /**
-   * Created
+   * No Content
    */
-  201: unknown;
+  204: void;
 };
 
-export type GetSecurityQuotesData = {
+export type DeleteIssuersByIdResponse =
+  DeleteIssuersByIdResponses[keyof DeleteIssuersByIdResponses];
+
+export type GetIssuersByIdData = {
   body?: never;
-  path?: never;
-  query?: {
+  path: {
     /**
-     * Zero-based page index (0..N)
+     * Внутренний идентификатор эмитента
      */
-    page?: number;
-    /**
-     * The size of the page to be returned
-     */
-    size?: number;
-    /**
-     * Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
-     */
-    sort?: Array<string>;
-    id?: number;
-    security?: string;
-    timestamp?: string;
-    quote?: number;
-    price?: number;
-    accruedInterest?: number;
-    currency?: string;
+    id: number;
   };
-  url: '/api/v1/security-quotes';
+  query?: never;
+  url: '/api/v1/issuers/{id}';
 };
 
-export type GetSecurityQuotesErrors = {
+export type GetIssuersByIdErrors = {
   /**
    * Internal Server Error
    */
   500: unknown;
 };
 
-export type GetSecurityQuotesResponses = {
+export type GetIssuersByIdResponses = {
   /**
    * OK
    */
-  200: PageSecurityQuote;
+  200: Issuer;
 };
 
-export type GetSecurityQuotesResponse =
-  GetSecurityQuotesResponses[keyof GetSecurityQuotesResponses];
+export type GetIssuersByIdResponse =
+  GetIssuersByIdResponses[keyof GetIssuersByIdResponses];
 
-export type PostSecurityQuotesData = {
-  body: SecurityQuote;
-  path?: never;
+export type PutIssuersByIdData = {
+  body: Issuer;
+  path: {
+    /**
+     * Внутренний идентификатор эмитента
+     */
+    id: number;
+  };
   query?: never;
-  url: '/api/v1/security-quotes';
+  url: '/api/v1/issuers/{id}';
 };
 
-export type PostSecurityQuotesErrors = {
-  /**
-   * Conflict
-   */
-  409: unknown;
+export type PutIssuersByIdErrors = {
   /**
    * Internal Server Error
    */
   500: unknown;
 };
 
-export type PostSecurityQuotesResponses = {
+export type PutIssuersByIdResponses = {
   /**
    * Created
    */
   201: unknown;
-};
-
-export type GetSecurityEventCashFlowsData = {
-  body?: never;
-  path?: never;
-  query?: {
-    /**
-     * Zero-based page index (0..N)
-     */
-    page?: number;
-    /**
-     * The size of the page to be returned
-     */
-    size?: number;
-    /**
-     * Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
-     */
-    sort?: Array<string>;
-    id?: number;
-    account?: string;
-    timestamp?: string;
-    security?: string;
-    count?: number;
-    cashFlowType?: string;
-    value?: number;
-    currency?: string;
-  };
-  url: '/api/v1/security-event-cash-flows';
-};
-
-export type GetSecurityEventCashFlowsErrors = {
   /**
-   * Internal Server Error
+   * No Content
    */
-  500: unknown;
+  204: void;
 };
 
-export type GetSecurityEventCashFlowsResponses = {
-  /**
-   * OK
-   */
-  200: PageSecurityEventCashFlow;
-};
-
-export type GetSecurityEventCashFlowsResponse =
-  GetSecurityEventCashFlowsResponses[keyof GetSecurityEventCashFlowsResponses];
-
-export type PostSecurityEventCashFlowsData = {
-  body: SecurityEventCashFlow;
-  path?: never;
-  query?: never;
-  url: '/api/v1/security-event-cash-flows';
-};
-
-export type PostSecurityEventCashFlowsErrors = {
-  /**
-   * Conflict
-   */
-  409: unknown;
-  /**
-   * Internal Server Error
-   */
-  500: unknown;
-};
-
-export type PostSecurityEventCashFlowsResponses = {
-  /**
-   * Created
-   */
-  201: unknown;
-};
-
-export type GetSecurityDescriptionsData = {
-  body?: never;
-  path?: never;
-  query?: {
-    /**
-     * Zero-based page index (0..N)
-     */
-    page?: number;
-    /**
-     * The size of the page to be returned
-     */
-    size?: number;
-    /**
-     * Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
-     */
-    sort?: Array<string>;
-    security?: number;
-    sector?: string;
-    issuer?: string;
-  };
-  url: '/api/v1/security-descriptions';
-};
-
-export type GetSecurityDescriptionsErrors = {
-  /**
-   * Internal Server Error
-   */
-  500: unknown;
-};
-
-export type GetSecurityDescriptionsResponses = {
-  /**
-   * OK
-   */
-  200: PageSecurityDescription;
-};
-
-export type GetSecurityDescriptionsResponse =
-  GetSecurityDescriptionsResponses[keyof GetSecurityDescriptionsResponses];
-
-export type PostSecurityDescriptionsData = {
-  body: SecurityDescription;
-  path?: never;
-  query?: never;
-  url: '/api/v1/security-descriptions';
-};
-
-export type PostSecurityDescriptionsErrors = {
-  /**
-   * Conflict
-   */
-  409: unknown;
-  /**
-   * Internal Server Error
-   */
-  500: unknown;
-};
-
-export type PostSecurityDescriptionsResponses = {
-  /**
-   * Created
-   */
-  201: unknown;
-};
+export type PutIssuersByIdResponse =
+  PutIssuersByIdResponses[keyof PutIssuersByIdResponses];
 
 export type GetSecuritiesData = {
   body?: never;
@@ -2052,509 +1670,891 @@ export type PostSecuritiesResponses = {
   201: unknown;
 };
 
-export type GetIssuersData = {
-  body?: never;
-  path?: never;
-  query?: {
-    /**
-     * Zero-based page index (0..N)
-     */
-    page?: number;
-    /**
-     * The size of the page to be returned
-     */
-    size?: number;
-    /**
-     * Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
-     */
-    sort?: Array<string>;
-    id?: number;
-    taxpayerId?: string;
-    name?: string;
-  };
-  url: '/api/v1/issuers';
-};
-
-export type GetIssuersErrors = {
-  /**
-   * Internal Server Error
-   */
-  500: unknown;
-};
-
-export type GetIssuersResponses = {
-  /**
-   * OK
-   */
-  200: PageIssuer;
-};
-
-export type GetIssuersResponse = GetIssuersResponses[keyof GetIssuersResponses];
-
-export type PostIssuersData = {
-  body: Issuer;
-  path?: never;
-  query?: never;
-  url: '/api/v1/issuers';
-};
-
-export type PostIssuersErrors = {
-  /**
-   * Conflict
-   */
-  409: unknown;
-  /**
-   * Internal Server Error
-   */
-  500: unknown;
-};
-
-export type PostIssuersResponses = {
-  /**
-   * Created
-   */
-  201: unknown;
-};
-
-export type GetForeignExchangeRatesData = {
-  body?: never;
-  path?: never;
-  query?: {
-    /**
-     * Zero-based page index (0..N)
-     */
-    page?: number;
-    /**
-     * The size of the page to be returned
-     */
-    size?: number;
-    /**
-     * Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
-     */
-    sort?: Array<string>;
-    pk?: string;
-    rate?: number;
-  };
-  url: '/api/v1/foreign-exchange-rates';
-};
-
-export type GetForeignExchangeRatesErrors = {
-  /**
-   * Internal Server Error
-   */
-  500: unknown;
-};
-
-export type GetForeignExchangeRatesResponses = {
-  /**
-   * OK
-   */
-  200: PageForeignExchangeRate;
-};
-
-export type GetForeignExchangeRatesResponse =
-  GetForeignExchangeRatesResponses[keyof GetForeignExchangeRatesResponses];
-
-export type PostForeignExchangeRatesData = {
-  body: ForeignExchangeRate;
-  path?: never;
-  query?: never;
-  url: '/api/v1/foreign-exchange-rates';
-};
-
-export type PostForeignExchangeRatesErrors = {
-  /**
-   * Conflict
-   */
-  409: unknown;
-  /**
-   * Internal Server Error
-   */
-  500: unknown;
-};
-
-export type PostForeignExchangeRatesResponses = {
-  /**
-   * Created
-   */
-  201: unknown;
-};
-
-export type GetEventCashFlowsData = {
-  body?: never;
-  path?: never;
-  query?: {
-    /**
-     * Zero-based page index (0..N)
-     */
-    page?: number;
-    /**
-     * The size of the page to be returned
-     */
-    size?: number;
-    /**
-     * Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
-     */
-    sort?: Array<string>;
-    id?: number;
-    account?: string;
-    timestamp?: string;
-    cashFlowType?: string;
-    value?: number;
-    currency?: string;
-    description?: string;
-  };
-  url: '/api/v1/event-cash-flows';
-};
-
-export type GetEventCashFlowsErrors = {
-  /**
-   * Internal Server Error
-   */
-  500: unknown;
-};
-
-export type GetEventCashFlowsResponses = {
-  /**
-   * OK
-   */
-  200: PageEventCashFlow;
-};
-
-export type GetEventCashFlowsResponse =
-  GetEventCashFlowsResponses[keyof GetEventCashFlowsResponses];
-
-export type PostEventCashFlowsData = {
-  body: EventCashFlow;
-  path?: never;
-  query?: never;
-  url: '/api/v1/event-cash-flows';
-};
-
-export type PostEventCashFlowsErrors = {
-  /**
-   * Conflict
-   */
-  409: unknown;
-  /**
-   * Internal Server Error
-   */
-  500: unknown;
-};
-
-export type PostEventCashFlowsResponses = {
-  /**
-   * Created
-   */
-  201: unknown;
-};
-
-export type GetAccountsData = {
-  body?: never;
-  path?: never;
-  query?: {
-    /**
-     * Zero-based page index (0..N)
-     */
-    page?: number;
-    /**
-     * The size of the page to be returned
-     */
-    size?: number;
-    /**
-     * Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
-     */
-    sort?: Array<string>;
-    id?: string;
-    enabled?: boolean;
-  };
-  url: '/api/v1/accounts';
-};
-
-export type GetAccountsErrors = {
-  /**
-   * Internal Server Error
-   */
-  500: unknown;
-};
-
-export type GetAccountsResponses = {
-  /**
-   * OK
-   */
-  200: PageAccount;
-};
-
-export type GetAccountsResponse =
-  GetAccountsResponses[keyof GetAccountsResponses];
-
-export type PostAccountsData = {
-  body: Account;
-  path?: never;
-  query?: never;
-  url: '/api/v1/accounts';
-};
-
-export type PostAccountsErrors = {
-  /**
-   * Conflict
-   */
-  409: unknown;
-  /**
-   * Internal Server Error
-   */
-  500: unknown;
-};
-
-export type PostAccountsResponses = {
-  /**
-   * Created
-   */
-  201: unknown;
-};
-
-export type GetAccountPropertiesData = {
-  body?: never;
-  path?: never;
-  query?: {
-    /**
-     * Zero-based page index (0..N)
-     */
-    page?: number;
-    /**
-     * The size of the page to be returned
-     */
-    size?: number;
-    /**
-     * Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
-     */
-    sort?: Array<string>;
-    id?: number;
-    account?: string;
-    timestamp?: string;
-    property?: string;
-    value?: string;
-  };
-  url: '/api/v1/account-properties';
-};
-
-export type GetAccountPropertiesErrors = {
-  /**
-   * Internal Server Error
-   */
-  500: unknown;
-};
-
-export type GetAccountPropertiesResponses = {
-  /**
-   * OK
-   */
-  200: PageAccountProperty;
-};
-
-export type GetAccountPropertiesResponse =
-  GetAccountPropertiesResponses[keyof GetAccountPropertiesResponses];
-
-export type PostAccountPropertiesData = {
-  body: AccountProperty;
-  path?: never;
-  query?: never;
-  url: '/api/v1/account-properties';
-};
-
-export type PostAccountPropertiesErrors = {
-  /**
-   * Conflict
-   */
-  409: unknown;
-  /**
-   * Internal Server Error
-   */
-  500: unknown;
-};
-
-export type PostAccountPropertiesResponses = {
-  /**
-   * Created
-   */
-  201: unknown;
-};
-
-export type GetAccountCashData = {
-  body?: never;
-  path?: never;
-  query?: {
-    /**
-     * Zero-based page index (0..N)
-     */
-    page?: number;
-    /**
-     * The size of the page to be returned
-     */
-    size?: number;
-    /**
-     * Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
-     */
-    sort?: Array<string>;
-    id?: number;
-    account?: string;
-    timestamp?: string;
-    market?: string;
-    value?: number;
-    currency?: string;
-  };
-  url: '/api/v1/account-cash';
-};
-
-export type GetAccountCashErrors = {
-  /**
-   * Internal Server Error
-   */
-  500: unknown;
-};
-
-export type GetAccountCashResponses = {
-  /**
-   * OK
-   */
-  200: PageAccountCash;
-};
-
-export type GetAccountCashResponse =
-  GetAccountCashResponses[keyof GetAccountCashResponses];
-
-export type PostAccountCashData = {
-  body: AccountCash;
-  path?: never;
-  query?: never;
-  url: '/api/v1/account-cash';
-};
-
-export type PostAccountCashErrors = {
-  /**
-   * Conflict
-   */
-  409: unknown;
-  /**
-   * Internal Server Error
-   */
-  500: unknown;
-};
-
-export type PostAccountCashResponses = {
-  /**
-   * Created
-   */
-  201: unknown;
-};
-
-export type GetForeignExchangeRatesCurrencyPairsByCurrencyPairData = {
+export type DeleteSecuritiesByIdData = {
   body?: never;
   path: {
     /**
-     * Валютная пара
-     */
-    'currency-pair': string;
-  };
-  query?: never;
-  url: '/api/v1/foreign-exchange-rates/currency-pairs/{currency-pair}';
-};
-
-export type GetForeignExchangeRatesCurrencyPairsByCurrencyPairErrors = {
-  /**
-   * Internal Server Error
-   */
-  500: unknown;
-};
-
-export type GetForeignExchangeRatesCurrencyPairsByCurrencyPairResponses = {
-  /**
-   * OK
-   */
-  200: Array<ForeignExchangeRate>;
-};
-
-export type GetForeignExchangeRatesCurrencyPairsByCurrencyPairResponse =
-  GetForeignExchangeRatesCurrencyPairsByCurrencyPairResponses[keyof GetForeignExchangeRatesCurrencyPairsByCurrencyPairResponses];
-
-export type GetCashFlowTypesData = {
-  body?: never;
-  path?: never;
-  query?: never;
-  url: '/api/v1/cash-flow-types';
-};
-
-export type GetCashFlowTypesErrors = {
-  /**
-   * Internal Server Error
-   */
-  500: unknown;
-};
-
-export type GetCashFlowTypesResponses = {
-  /**
-   * OK
-   */
-  200: Array<
-    | 'CASH'
-    | 'PRICE'
-    | 'ACCRUED_INTEREST'
-    | 'FEE'
-    | 'AMORTIZATION'
-    | 'REDEMPTION'
-    | 'COUPON'
-    | 'DIVIDEND'
-    | 'DERIVATIVE_PROFIT'
-    | 'MARGIN'
-    | 'TAX'
-    | 'FORECAST_TAX'
-    | 'DERIVATIVE_PRICE'
-    | 'DERIVATIVE_QUOTE'
-  >;
-};
-
-export type GetCashFlowTypesResponse =
-  GetCashFlowTypesResponses[keyof GetCashFlowTypesResponses];
-
-export type GetCashFlowTypesByIdData = {
-  body?: never;
-  path: {
-    /**
-     * Идентификатор типа
+     * Идентификатор
      */
     id: number;
   };
   query?: never;
-  url: '/api/v1/cash-flow-types/{id}';
+  url: '/api/v1/securities/{id}';
 };
 
-export type GetCashFlowTypesByIdErrors = {
+export type DeleteSecuritiesByIdErrors = {
   /**
    * Internal Server Error
    */
   500: unknown;
 };
 
-export type GetCashFlowTypesByIdResponses = {
+export type DeleteSecuritiesByIdResponses = {
+  /**
+   * No Content
+   */
+  204: void;
+};
+
+export type DeleteSecuritiesByIdResponse =
+  DeleteSecuritiesByIdResponses[keyof DeleteSecuritiesByIdResponses];
+
+export type GetSecuritiesByIdData = {
+  body?: never;
+  path: {
+    /**
+     * Идентификатор
+     */
+    id: number;
+  };
+  query?: never;
+  url: '/api/v1/securities/{id}';
+};
+
+export type GetSecuritiesByIdErrors = {
+  /**
+   * Internal Server Error
+   */
+  500: unknown;
+};
+
+export type GetSecuritiesByIdResponses = {
   /**
    * OK
    */
-  200:
-    | 'CASH'
-    | 'PRICE'
-    | 'ACCRUED_INTEREST'
-    | 'FEE'
-    | 'AMORTIZATION'
-    | 'REDEMPTION'
-    | 'COUPON'
-    | 'DIVIDEND'
-    | 'DERIVATIVE_PROFIT'
-    | 'MARGIN'
-    | 'TAX'
-    | 'FORECAST_TAX'
-    | 'DERIVATIVE_PRICE'
-    | 'DERIVATIVE_QUOTE';
+  200: Security;
 };
 
-export type GetCashFlowTypesByIdResponse =
-  GetCashFlowTypesByIdResponses[keyof GetCashFlowTypesByIdResponses];
+export type GetSecuritiesByIdResponse =
+  GetSecuritiesByIdResponses[keyof GetSecuritiesByIdResponses];
+
+export type PutSecuritiesByIdData = {
+  body: Security;
+  path: {
+    /**
+     * Идентификатор
+     */
+    id: number;
+  };
+  query?: never;
+  url: '/api/v1/securities/{id}';
+};
+
+export type PutSecuritiesByIdErrors = {
+  /**
+   * Internal Server Error
+   */
+  500: unknown;
+};
+
+export type PutSecuritiesByIdResponses = {
+  /**
+   * Created
+   */
+  201: unknown;
+  /**
+   * No Content
+   */
+  204: void;
+};
+
+export type PutSecuritiesByIdResponse =
+  PutSecuritiesByIdResponses[keyof PutSecuritiesByIdResponses];
+
+export type GetSecurityDescriptionsData = {
+  body?: never;
+  path?: never;
+  query?: {
+    /**
+     * Zero-based page index (0..N)
+     */
+    page?: number;
+    /**
+     * The size of the page to be returned
+     */
+    size?: number;
+    /**
+     * Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
+     */
+    sort?: Array<string>;
+    security?: number;
+    sector?: string;
+    issuer?: string;
+  };
+  url: '/api/v1/security-descriptions';
+};
+
+export type GetSecurityDescriptionsErrors = {
+  /**
+   * Internal Server Error
+   */
+  500: unknown;
+};
+
+export type GetSecurityDescriptionsResponses = {
+  /**
+   * OK
+   */
+  200: PageSecurityDescription;
+};
+
+export type GetSecurityDescriptionsResponse =
+  GetSecurityDescriptionsResponses[keyof GetSecurityDescriptionsResponses];
+
+export type PostSecurityDescriptionsData = {
+  body: SecurityDescription;
+  path?: never;
+  query?: never;
+  url: '/api/v1/security-descriptions';
+};
+
+export type PostSecurityDescriptionsErrors = {
+  /**
+   * Conflict
+   */
+  409: unknown;
+  /**
+   * Internal Server Error
+   */
+  500: unknown;
+};
+
+export type PostSecurityDescriptionsResponses = {
+  /**
+   * Created
+   */
+  201: unknown;
+};
+
+export type DeleteSecurityDescriptionsByIdData = {
+  body?: never;
+  path: {
+    /**
+     * Идентификатор
+     */
+    id: number;
+  };
+  query?: never;
+  url: '/api/v1/security-descriptions/{id}';
+};
+
+export type DeleteSecurityDescriptionsByIdErrors = {
+  /**
+   * Internal Server Error
+   */
+  500: unknown;
+};
+
+export type DeleteSecurityDescriptionsByIdResponses = {
+  /**
+   * No Content
+   */
+  204: void;
+};
+
+export type DeleteSecurityDescriptionsByIdResponse =
+  DeleteSecurityDescriptionsByIdResponses[keyof DeleteSecurityDescriptionsByIdResponses];
+
+export type GetSecurityDescriptionsByIdData = {
+  body?: never;
+  path: {
+    /**
+     * Идентификатор
+     */
+    id: number;
+  };
+  query?: never;
+  url: '/api/v1/security-descriptions/{id}';
+};
+
+export type GetSecurityDescriptionsByIdErrors = {
+  /**
+   * Internal Server Error
+   */
+  500: unknown;
+};
+
+export type GetSecurityDescriptionsByIdResponses = {
+  /**
+   * OK
+   */
+  200: SecurityDescription;
+};
+
+export type GetSecurityDescriptionsByIdResponse =
+  GetSecurityDescriptionsByIdResponses[keyof GetSecurityDescriptionsByIdResponses];
+
+export type PutSecurityDescriptionsByIdData = {
+  body: SecurityDescription;
+  path: {
+    /**
+     * Идентификатор
+     */
+    id: number;
+  };
+  query?: never;
+  url: '/api/v1/security-descriptions/{id}';
+};
+
+export type PutSecurityDescriptionsByIdErrors = {
+  /**
+   * Internal Server Error
+   */
+  500: unknown;
+};
+
+export type PutSecurityDescriptionsByIdResponses = {
+  /**
+   * Created
+   */
+  201: unknown;
+  /**
+   * No Content
+   */
+  204: void;
+};
+
+export type PutSecurityDescriptionsByIdResponse =
+  PutSecurityDescriptionsByIdResponses[keyof PutSecurityDescriptionsByIdResponses];
+
+export type GetSecurityEventCashFlowsData = {
+  body?: never;
+  path?: never;
+  query?: {
+    /**
+     * Zero-based page index (0..N)
+     */
+    page?: number;
+    /**
+     * The size of the page to be returned
+     */
+    size?: number;
+    /**
+     * Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
+     */
+    sort?: Array<string>;
+    id?: number;
+    account?: string;
+    timestamp?: string;
+    security?: string;
+    count?: number;
+    cashFlowType?: string;
+    value?: number;
+    currency?: string;
+  };
+  url: '/api/v1/security-event-cash-flows';
+};
+
+export type GetSecurityEventCashFlowsErrors = {
+  /**
+   * Internal Server Error
+   */
+  500: unknown;
+};
+
+export type GetSecurityEventCashFlowsResponses = {
+  /**
+   * OK
+   */
+  200: PageSecurityEventCashFlow;
+};
+
+export type GetSecurityEventCashFlowsResponse =
+  GetSecurityEventCashFlowsResponses[keyof GetSecurityEventCashFlowsResponses];
+
+export type PostSecurityEventCashFlowsData = {
+  body: SecurityEventCashFlow;
+  path?: never;
+  query?: never;
+  url: '/api/v1/security-event-cash-flows';
+};
+
+export type PostSecurityEventCashFlowsErrors = {
+  /**
+   * Conflict
+   */
+  409: unknown;
+  /**
+   * Internal Server Error
+   */
+  500: unknown;
+};
+
+export type PostSecurityEventCashFlowsResponses = {
+  /**
+   * Created
+   */
+  201: unknown;
+};
+
+export type DeleteSecurityEventCashFlowsByIdData = {
+  body?: never;
+  path: {
+    /**
+     * Внутренний идентификатор выплаты
+     */
+    id: number;
+  };
+  query?: never;
+  url: '/api/v1/security-event-cash-flows/{id}';
+};
+
+export type DeleteSecurityEventCashFlowsByIdErrors = {
+  /**
+   * Internal Server Error
+   */
+  500: unknown;
+};
+
+export type DeleteSecurityEventCashFlowsByIdResponses = {
+  /**
+   * No Content
+   */
+  204: void;
+};
+
+export type DeleteSecurityEventCashFlowsByIdResponse =
+  DeleteSecurityEventCashFlowsByIdResponses[keyof DeleteSecurityEventCashFlowsByIdResponses];
+
+export type GetSecurityEventCashFlowsByIdData = {
+  body?: never;
+  path: {
+    /**
+     * Внутренний идентификатор выплаты
+     */
+    id: number;
+  };
+  query?: never;
+  url: '/api/v1/security-event-cash-flows/{id}';
+};
+
+export type GetSecurityEventCashFlowsByIdErrors = {
+  /**
+   * Internal Server Error
+   */
+  500: unknown;
+};
+
+export type GetSecurityEventCashFlowsByIdResponses = {
+  /**
+   * OK
+   */
+  200: SecurityEventCashFlow;
+};
+
+export type GetSecurityEventCashFlowsByIdResponse =
+  GetSecurityEventCashFlowsByIdResponses[keyof GetSecurityEventCashFlowsByIdResponses];
+
+export type PutSecurityEventCashFlowsByIdData = {
+  body: SecurityEventCashFlow;
+  path: {
+    /**
+     * Внутренний идентификатор выплаты
+     */
+    id: number;
+  };
+  query?: never;
+  url: '/api/v1/security-event-cash-flows/{id}';
+};
+
+export type PutSecurityEventCashFlowsByIdErrors = {
+  /**
+   * Internal Server Error
+   */
+  500: unknown;
+};
+
+export type PutSecurityEventCashFlowsByIdResponses = {
+  /**
+   * Created
+   */
+  201: unknown;
+  /**
+   * No Content
+   */
+  204: void;
+};
+
+export type PutSecurityEventCashFlowsByIdResponse =
+  PutSecurityEventCashFlowsByIdResponses[keyof PutSecurityEventCashFlowsByIdResponses];
+
+export type GetSecurityQuotesData = {
+  body?: never;
+  path?: never;
+  query?: {
+    /**
+     * Zero-based page index (0..N)
+     */
+    page?: number;
+    /**
+     * The size of the page to be returned
+     */
+    size?: number;
+    /**
+     * Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
+     */
+    sort?: Array<string>;
+    id?: number;
+    security?: string;
+    timestamp?: string;
+    quote?: number;
+    price?: number;
+    accruedInterest?: number;
+    currency?: string;
+  };
+  url: '/api/v1/security-quotes';
+};
+
+export type GetSecurityQuotesErrors = {
+  /**
+   * Internal Server Error
+   */
+  500: unknown;
+};
+
+export type GetSecurityQuotesResponses = {
+  /**
+   * OK
+   */
+  200: PageSecurityQuote;
+};
+
+export type GetSecurityQuotesResponse =
+  GetSecurityQuotesResponses[keyof GetSecurityQuotesResponses];
+
+export type PostSecurityQuotesData = {
+  body: SecurityQuote;
+  path?: never;
+  query?: never;
+  url: '/api/v1/security-quotes';
+};
+
+export type PostSecurityQuotesErrors = {
+  /**
+   * Conflict
+   */
+  409: unknown;
+  /**
+   * Internal Server Error
+   */
+  500: unknown;
+};
+
+export type PostSecurityQuotesResponses = {
+  /**
+   * Created
+   */
+  201: unknown;
+};
+
+export type DeleteSecurityQuotesByIdData = {
+  body?: never;
+  path: {
+    /**
+     * Номер записи о котировке
+     */
+    id: number;
+  };
+  query?: never;
+  url: '/api/v1/security-quotes/{id}';
+};
+
+export type DeleteSecurityQuotesByIdErrors = {
+  /**
+   * Internal Server Error
+   */
+  500: unknown;
+};
+
+export type DeleteSecurityQuotesByIdResponses = {
+  /**
+   * No Content
+   */
+  204: void;
+};
+
+export type DeleteSecurityQuotesByIdResponse =
+  DeleteSecurityQuotesByIdResponses[keyof DeleteSecurityQuotesByIdResponses];
+
+export type GetSecurityQuotesByIdData = {
+  body?: never;
+  path: {
+    /**
+     * Номер записи о котировке
+     */
+    id: number;
+  };
+  query?: never;
+  url: '/api/v1/security-quotes/{id}';
+};
+
+export type GetSecurityQuotesByIdErrors = {
+  /**
+   * Internal Server Error
+   */
+  500: unknown;
+};
+
+export type GetSecurityQuotesByIdResponses = {
+  /**
+   * OK
+   */
+  200: SecurityQuote;
+};
+
+export type GetSecurityQuotesByIdResponse =
+  GetSecurityQuotesByIdResponses[keyof GetSecurityQuotesByIdResponses];
+
+export type PutSecurityQuotesByIdData = {
+  body: SecurityQuote;
+  path: {
+    /**
+     * Номер записи о котировке
+     */
+    id: number;
+  };
+  query?: never;
+  url: '/api/v1/security-quotes/{id}';
+};
+
+export type PutSecurityQuotesByIdErrors = {
+  /**
+   * Internal Server Error
+   */
+  500: unknown;
+};
+
+export type PutSecurityQuotesByIdResponses = {
+  /**
+   * Created
+   */
+  201: unknown;
+  /**
+   * No Content
+   */
+  204: void;
+};
+
+export type PutSecurityQuotesByIdResponse =
+  PutSecurityQuotesByIdResponses[keyof PutSecurityQuotesByIdResponses];
+
+export type GetTransactionCashFlowsData = {
+  body?: never;
+  path?: never;
+  query?: {
+    /**
+     * Тип (стоимость/комиссия/НКД)
+     */
+    'event-type'?: number;
+    /**
+     * Zero-based page index (0..N)
+     */
+    page?: number;
+    /**
+     * The size of the page to be returned
+     */
+    size?: number;
+    /**
+     * Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
+     */
+    sort?: Array<string>;
+    id?: number;
+    transactionId?: number;
+    cashFlowType?: string;
+    value?: number;
+    currency?: string;
+  };
+  url: '/api/v1/transaction-cash-flows';
+};
+
+export type GetTransactionCashFlowsErrors = {
+  /**
+   * Internal Server Error
+   */
+  500: unknown;
+};
+
+export type GetTransactionCashFlowsResponses = {
+  /**
+   * OK
+   */
+  200: PageTransactionCashFlow;
+};
+
+export type GetTransactionCashFlowsResponse =
+  GetTransactionCashFlowsResponses[keyof GetTransactionCashFlowsResponses];
+
+export type PostTransactionCashFlowsData = {
+  body: TransactionCashFlow;
+  path?: never;
+  query?: never;
+  url: '/api/v1/transaction-cash-flows';
+};
+
+export type PostTransactionCashFlowsErrors = {
+  /**
+   * Conflict
+   */
+  409: unknown;
+  /**
+   * Internal Server Error
+   */
+  500: unknown;
+};
+
+export type PostTransactionCashFlowsResponses = {
+  /**
+   * Created
+   */
+  201: unknown;
+};
+
+export type DeleteTransactionCashFlowsByIdData = {
+  body?: never;
+  path: {
+    /**
+     * Внутренний идентификатор сделки
+     */
+    id: number;
+  };
+  query?: never;
+  url: '/api/v1/transaction-cash-flows/{id}';
+};
+
+export type DeleteTransactionCashFlowsByIdErrors = {
+  /**
+   * Internal Server Error
+   */
+  500: unknown;
+};
+
+export type DeleteTransactionCashFlowsByIdResponses = {
+  /**
+   * No Content
+   */
+  204: void;
+};
+
+export type DeleteTransactionCashFlowsByIdResponse =
+  DeleteTransactionCashFlowsByIdResponses[keyof DeleteTransactionCashFlowsByIdResponses];
+
+export type GetTransactionCashFlowsByIdData = {
+  body?: never;
+  path: {
+    /**
+     * Внутренний идентификатор сделки
+     */
+    id: number;
+  };
+  query?: never;
+  url: '/api/v1/transaction-cash-flows/{id}';
+};
+
+export type GetTransactionCashFlowsByIdErrors = {
+  /**
+   * Internal Server Error
+   */
+  500: unknown;
+};
+
+export type GetTransactionCashFlowsByIdResponses = {
+  /**
+   * OK
+   */
+  200: TransactionCashFlow;
+};
+
+export type GetTransactionCashFlowsByIdResponse =
+  GetTransactionCashFlowsByIdResponses[keyof GetTransactionCashFlowsByIdResponses];
+
+export type PutTransactionCashFlowsByIdData = {
+  body: TransactionCashFlow;
+  path: {
+    /**
+     * Внутренний идентификатор сделки
+     */
+    id: number;
+  };
+  query?: never;
+  url: '/api/v1/transaction-cash-flows/{id}';
+};
+
+export type PutTransactionCashFlowsByIdErrors = {
+  /**
+   * Internal Server Error
+   */
+  500: unknown;
+};
+
+export type PutTransactionCashFlowsByIdResponses = {
+  /**
+   * Created
+   */
+  201: unknown;
+  /**
+   * No Content
+   */
+  204: void;
+};
+
+export type PutTransactionCashFlowsByIdResponse =
+  PutTransactionCashFlowsByIdResponses[keyof PutTransactionCashFlowsByIdResponses];
+
+export type GetTransactionsData = {
+  body?: never;
+  path?: never;
+  query?: {
+    /**
+     * Zero-based page index (0..N)
+     */
+    page?: number;
+    /**
+     * The size of the page to be returned
+     */
+    size?: number;
+    /**
+     * Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
+     */
+    sort?: Array<string>;
+    id?: number;
+    tradeId?: string;
+    account?: string;
+    security?: string;
+    timestamp?: string;
+    count?: number;
+  };
+  url: '/api/v1/transactions';
+};
+
+export type GetTransactionsErrors = {
+  /**
+   * Internal Server Error
+   */
+  500: unknown;
+};
+
+export type GetTransactionsResponses = {
+  /**
+   * OK
+   */
+  200: PageTransaction;
+};
+
+export type GetTransactionsResponse =
+  GetTransactionsResponses[keyof GetTransactionsResponses];
+
+export type PostTransactionsData = {
+  body: Transaction;
+  path?: never;
+  query?: never;
+  url: '/api/v1/transactions';
+};
+
+export type PostTransactionsErrors = {
+  /**
+   * Conflict
+   */
+  409: unknown;
+  /**
+   * Internal Server Error
+   */
+  500: unknown;
+};
+
+export type PostTransactionsResponses = {
+  /**
+   * Created
+   */
+  201: unknown;
+};
+
+export type DeleteTransactionsByIdData = {
+  body?: never;
+  path: {
+    /**
+     * Внутренний идентификатор сделки
+     */
+    id: number;
+  };
+  query?: never;
+  url: '/api/v1/transactions/{id}';
+};
+
+export type DeleteTransactionsByIdErrors = {
+  /**
+   * Internal Server Error
+   */
+  500: unknown;
+};
+
+export type DeleteTransactionsByIdResponses = {
+  /**
+   * No Content
+   */
+  204: void;
+};
+
+export type DeleteTransactionsByIdResponse =
+  DeleteTransactionsByIdResponses[keyof DeleteTransactionsByIdResponses];
+
+export type GetTransactionsByIdData = {
+  body?: never;
+  path: {
+    /**
+     * Внутренний идентификатор сделки
+     */
+    id: number;
+  };
+  query?: never;
+  url: '/api/v1/transactions/{id}';
+};
+
+export type GetTransactionsByIdErrors = {
+  /**
+   * Internal Server Error
+   */
+  500: unknown;
+};
+
+export type GetTransactionsByIdResponses = {
+  /**
+   * OK
+   */
+  200: Transaction;
+};
+
+export type GetTransactionsByIdResponse =
+  GetTransactionsByIdResponses[keyof GetTransactionsByIdResponses];
+
+export type PutTransactionsByIdData = {
+  body: Transaction;
+  path: {
+    /**
+     * Внутренний идентификатор сделки
+     */
+    id: number;
+  };
+  query?: never;
+  url: '/api/v1/transactions/{id}';
+};
+
+export type PutTransactionsByIdErrors = {
+  /**
+   * Internal Server Error
+   */
+  500: unknown;
+};
+
+export type PutTransactionsByIdResponses = {
+  /**
+   * Created
+   */
+  201: unknown;
+  /**
+   * No Content
+   */
+  204: void;
+};
+
+export type PutTransactionsByIdResponse =
+  PutTransactionsByIdResponses[keyof PutTransactionsByIdResponses];
