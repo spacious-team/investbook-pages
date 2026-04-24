@@ -7,6 +7,7 @@ import path from 'path';
 export default defineConfig({
   root: __dirname,
   cacheDir: '../../node_modules/.vite/local',
+  envDir: path.resolve(__dirname, '../..'),
 
   server: {
     port: 4200,
