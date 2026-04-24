@@ -38,7 +38,10 @@
             "description": "Внутренний идентификатор",
             "example": 123,
             "format": "int32",
-            "type": "integer"
+            "type": [
+              "integer",
+              "null"
+            ]
           },
           "market": {
             "description": "Рынок",
@@ -66,6 +69,38 @@
         ],
         "type": "object"
       },
+      "AccountPof": {
+        "properties": {
+          "account-number": {
+            "type": "string"
+          },
+          "id": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "type": {
+            "enum": [
+              "investment",
+              "bank",
+              "savings"
+            ],
+            "type": "string"
+          },
+          "valuation": {
+            "type": "number"
+          },
+          "valuation-currency": {
+            "minLength": 1,
+            "type": "string"
+          }
+        },
+        "required": [
+          "type",
+          "valuation",
+          "valuation-currency"
+        ],
+        "type": "object"
+      },
       "AccountProperty": {
         "properties": {
           "account": {
@@ -78,7 +113,10 @@
             "description": "Внутренний идентификатор записи",
             "example": 111,
             "format": "int32",
-            "type": "integer"
+            "type": [
+              "integer",
+              "null"
+            ]
           },
           "property": {
             "description": "Свойство портфеля",
@@ -93,17 +131,128 @@
             "description": "Информация актуальна на время",
             "example": "2021-01-01T12:00:00+03:00",
             "format": "date-time",
-            "type": "string"
+            "type": [
+              "string",
+              "null"
+            ]
           },
           "value": {
             "description": "Значение свойства",
-            "example": 100.2,
+            "example": "100.20",
             "type": "string"
           }
         },
         "required": [
           "account",
           "property",
+          "value"
+        ],
+        "type": "object"
+      },
+      "AssetPof": {
+        "properties": {
+          "id": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "isin": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "symbol": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "type"
+        ],
+        "type": "object"
+      },
+      "CashBalancesPof": {
+        "properties": {
+          "account": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "cash": {
+            "items": {
+              "$ref": "#/components/schemas/CashPof"
+            },
+            "type": "array"
+          }
+        },
+        "required": [
+          "cash"
+        ],
+        "type": "object"
+      },
+      "CashFlowPof": {
+        "properties": {
+          "account": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "amount": {
+            "type": "number"
+          },
+          "currency": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "flow-id": {
+            "type": "string"
+          },
+          "id": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "timestamp": {
+            "format": "int64",
+            "type": "integer"
+          },
+          "type": {
+            "enum": [
+              "cash",
+              "dividend",
+              "coupon",
+              "bond-amortization",
+              "bond-redemption",
+              "variation-margin",
+              "fee",
+              "tax",
+              "interest",
+              "other"
+            ],
+            "type": "string"
+          }
+        },
+        "required": [
+          "amount",
+          "currency",
+          "type"
+        ],
+        "type": "object"
+      },
+      "CashPof": {
+        "properties": {
+          "currency": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "value": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "currency",
           "value"
         ],
         "type": "object"
@@ -126,7 +275,10 @@
           "description": {
             "description": "Описание события",
             "example": "Внесение наличных",
-            "type": "string"
+            "type": [
+              "string",
+              "null"
+            ]
           },
           "event-type": {
             "description": "Тип события",
@@ -153,7 +305,10 @@
             "description": "Идентификатор записи",
             "example": 123,
             "format": "int32",
-            "type": "integer"
+            "type": [
+              "integer",
+              "null"
+            ]
           },
           "timestamp": {
             "description": "Время события",
@@ -207,7 +362,10 @@
           "id": {
             "description": "Внутренний идентификатор эмитента",
             "format": "int32",
-            "type": "integer"
+            "type": [
+              "integer",
+              "null"
+            ]
           },
           "name": {
             "description": "Наименование",
@@ -217,13 +375,27 @@
           },
           "taxpayerId": {
             "description": "Идентификатор налогоплательщика (Россия - ИНН, США - EIN и т.д.)",
-            "example": 7736050003,
-            "type": "string"
+            "example": "7736050003",
+            "type": [
+              "string",
+              "null"
+            ]
           }
         },
         "required": [
           "name"
         ],
+        "type": "object"
+      },
+      "Link": {
+        "properties": {
+          "href": {
+            "type": "string"
+          },
+          "templated": {
+            "type": "boolean"
+          }
+        },
         "type": "object"
       },
       "PageAccount": {
@@ -804,6 +976,149 @@
         },
         "type": "object"
       },
+      "PaymentPof": {
+        "properties": {
+          "account": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "amount": {
+            "type": "number"
+          },
+          "asset": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "count": {
+            "type": "number"
+          },
+          "currency": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "id": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "payment-id": {
+            "type": "string"
+          },
+          "tax": {
+            "type": "number"
+          },
+          "tax-currency": {
+            "type": "string"
+          },
+          "timestamp": {
+            "format": "int64",
+            "type": "integer"
+          },
+          "type": {
+            "enum": [
+              "cash",
+              "dividend",
+              "coupon",
+              "bond-amortization",
+              "bond-redemption",
+              "variation-margin",
+              "fee",
+              "tax",
+              "interest",
+              "other"
+            ],
+            "type": "string"
+          }
+        },
+        "required": [
+          "amount",
+          "count",
+          "currency",
+          "type"
+        ],
+        "type": "object"
+      },
+      "PortfolioOpenFormatV1_1_0": {
+        "properties": {
+          "accounts": {
+            "items": {
+              "$ref": "#/components/schemas/AccountPof"
+            },
+            "type": "array"
+          },
+          "assets": {
+            "items": {
+              "$ref": "#/components/schemas/AssetPof"
+            },
+            "type": "array"
+          },
+          "cash-balances": {
+            "items": {
+              "$ref": "#/components/schemas/CashBalancesPof"
+            },
+            "type": "array"
+          },
+          "cash-flows": {
+            "items": {
+              "$ref": "#/components/schemas/CashFlowPof"
+            },
+            "type": "array"
+          },
+          "end": {
+            "format": "int64",
+            "type": "integer"
+          },
+          "generated": {
+            "format": "int64",
+            "type": "integer"
+          },
+          "generated-by": {
+            "type": "string"
+          },
+          "payments": {
+            "items": {
+              "$ref": "#/components/schemas/PaymentPof"
+            },
+            "type": "array"
+          },
+          "start": {
+            "format": "int64",
+            "type": "integer"
+          },
+          "trades": {
+            "items": {
+              "$ref": "#/components/schemas/TradePof"
+            },
+            "type": "array"
+          },
+          "transfers": {
+            "items": {
+              "$ref": "#/components/schemas/TransferPof"
+            },
+            "type": "array"
+          },
+          "version": {
+            "type": "string"
+          },
+          "vnd-investbook": {
+            "$ref": "#/components/schemas/VndInvestbookPof"
+          }
+        },
+        "required": [
+          "accounts",
+          "assets",
+          "cash-balances",
+          "cash-flows",
+          "generated-by",
+          "payments",
+          "trades",
+          "transfers",
+          "version"
+        ],
+        "type": "object"
+      },
       "Security": {
         "description": "Акция, облигация, валютная пара, фьючерс, опцион или произвольный актив",
         "properties": {
@@ -811,23 +1126,35 @@
             "description": "Внутренний идентификатор инструмента",
             "example": 123,
             "format": "int32",
-            "type": "integer"
+            "type": [
+              "integer",
+              "null"
+            ]
           },
           "isin": {
             "description": "ISIN акций и облигаций (опционально)",
             "example": "NL0009805522",
             "pattern": "^[A-Z]{2}[A-Z0-9]{9}\\d$",
-            "type": "string"
+            "type": [
+              "string",
+              "null"
+            ]
           },
           "name": {
             "description": "Наименование (опционально)",
             "example": "Yandex clA",
-            "type": "string"
+            "type": [
+              "string",
+              "null"
+            ]
           },
           "ticker": {
             "description": "Тикер (опционально)",
             "example": "YNDX, USDRUB_TOM или Si-12.21",
-            "type": "string"
+            "type": [
+              "string",
+              "null"
+            ]
           },
           "type": {
             "description": "Тип ценной бумаги",
@@ -855,12 +1182,18 @@
             "description": "Внутренний идентификатор эмитента (опционально)",
             "example": 10,
             "format": "int32",
-            "type": "integer"
+            "type": [
+              "integer",
+              "null"
+            ]
           },
           "sector": {
             "description": "Сектор экономики (опционально)",
             "example": "Финансы",
-            "type": "string"
+            "type": [
+              "string",
+              "null"
+            ]
           },
           "security": {
             "description": "Внутренний идентификатор инструмента",
@@ -893,7 +1226,10 @@
             "default": "RUB",
             "description": "Валюта",
             "example": "RUB",
-            "type": "string"
+            "type": [
+              "string",
+              "null"
+            ]
           },
           "event-type": {
             "description": "Тип события",
@@ -920,7 +1256,10 @@
             "description": "Внутренний идентификатор записи",
             "example": 222,
             "format": "int32",
-            "type": "integer"
+            "type": [
+              "integer",
+              "null"
+            ]
           },
           "security": {
             "description": "Инструмент",
@@ -955,23 +1294,35 @@
           "accrued-interest": {
             "description": "НКД (в валюте, только для облигаций)",
             "example": 10.2,
-            "type": "number"
+            "type": [
+              "number",
+              "null"
+            ]
           },
           "currency": {
             "description": "Валюта котировки для акций, облигаций, произвольных активов и опционально для деривативов",
             "example": "RUB",
-            "type": "string"
+            "type": [
+              "string",
+              "null"
+            ]
           },
           "id": {
             "description": "Внутренний идентификатор записи",
             "example": 333,
             "format": "int32",
-            "type": "integer"
+            "type": [
+              "integer",
+              "null"
+            ]
           },
           "price": {
             "description": "Котировка (в валюте, только для облигаций и деривативов)",
             "example": 1020.3,
-            "type": "number"
+            "type": [
+              "number",
+              "null"
+            ]
           },
           "quote": {
             "description": "Котировка (для облигаций - в процентах, деривативы - в пунктах)",
@@ -1012,6 +1363,66 @@
         },
         "type": "object"
       },
+      "TradePof": {
+        "properties": {
+          "account": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "accrued-interest": {
+            "type": "number"
+          },
+          "asset": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "count": {
+            "type": "number"
+          },
+          "currency": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "fee": {
+            "type": "number"
+          },
+          "fee-currency": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "id": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "price": {
+            "type": "number"
+          },
+          "quote": {
+            "type": "number"
+          },
+          "settlement": {
+            "format": "int64",
+            "type": "integer"
+          },
+          "timestamp": {
+            "format": "int64",
+            "type": "integer"
+          },
+          "trade-id": {
+            "minLength": 1,
+            "type": "string"
+          }
+        },
+        "required": [
+          "count",
+          "fee",
+          "fee-currency",
+          "trade-id"
+        ],
+        "type": "object"
+      },
       "Transaction": {
         "properties": {
           "account": {
@@ -1030,7 +1441,10 @@
             "description": "Внутренний идентификатор сделки",
             "example": 123,
             "format": "int32",
-            "type": "integer"
+            "type": [
+              "integer",
+              "null"
+            ]
           },
           "security": {
             "description": "Инструмент",
@@ -1066,7 +1480,10 @@
             "default": "RUB",
             "description": "Валюта",
             "example": "RUB",
-            "type": "string"
+            "type": [
+              "string",
+              "null"
+            ]
           },
           "event-type": {
             "description": "Тип события (стоимость бумаг без НКД, НКД, комиссия)",
@@ -1093,7 +1510,10 @@
             "description": "Внутренний идентификатор записи",
             "example": 1,
             "format": "int32",
-            "type": "integer"
+            "type": [
+              "integer",
+              "null"
+            ]
           },
           "transaction-id": {
             "description": "Внутренний идентификатор сделки",
@@ -1113,6 +1533,88 @@
           "value"
         ],
         "type": "object"
+      },
+      "TransferPof": {
+        "properties": {
+          "account": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "asset": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "count": {
+            "type": "number"
+          },
+          "description": {
+            "type": "string"
+          },
+          "fee": {
+            "type": "number"
+          },
+          "fee-account": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "fee-currency": {
+            "type": "string"
+          },
+          "id": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "timestamp": {
+            "format": "int64",
+            "type": "integer"
+          },
+          "transfer-id": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "count"
+        ],
+        "type": "object"
+      },
+      "VndInvestbookPof": {
+        "properties": {
+          "account-cash": {
+            "items": {
+              "$ref": "#/components/schemas/AccountCash"
+            },
+            "type": "array"
+          },
+          "account-properties": {
+            "items": {
+              "$ref": "#/components/schemas/AccountProperty"
+            },
+            "type": "array"
+          },
+          "security-descriptions": {
+            "items": {
+              "$ref": "#/components/schemas/SecurityDescription"
+            },
+            "type": "array"
+          },
+          "security-quotes": {
+            "items": {
+              "$ref": "#/components/schemas/SecurityQuote"
+            },
+            "type": "array"
+          },
+          "version": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "account-cash",
+          "account-properties",
+          "security-descriptions",
+          "security-quotes",
+          "version"
+        ],
+        "type": "object"
       }
     }
   },
@@ -1122,6 +1624,217 @@
   },
   "openapi": "3.1.0",
   "paths": {
+    "/accounts/all/stats": {
+      "get": {
+        "operationId": "getAccountsAllStats",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": {},
+                  "type": "object"
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "summary": "Статистика портфеля",
+        "tags": [
+          "Счета"
+        ]
+      }
+    },
+    "/actuator": {
+      "get": {
+        "operationId": "getActuator",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": {
+                    "additionalProperties": {
+                      "$ref": "#/components/schemas/Link"
+                    },
+                    "type": "object"
+                  },
+                  "type": "object"
+                }
+              },
+              "application/vnd.spring-boot.actuator.v2+json": {
+                "schema": {
+                  "additionalProperties": {
+                    "additionalProperties": {
+                      "$ref": "#/components/schemas/Link"
+                    },
+                    "type": "object"
+                  },
+                  "type": "object"
+                }
+              },
+              "application/vnd.spring-boot.actuator.v3+json": {
+                "schema": {
+                  "additionalProperties": {
+                    "additionalProperties": {
+                      "$ref": "#/components/schemas/Link"
+                    },
+                    "type": "object"
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "OK"
+          }
+        },
+        "summary": "Actuator root web endpoint",
+        "tags": [
+          "Actuator"
+        ]
+      }
+    },
+    "/actuator/configprops": {
+      "get": {
+        "operationId": "getActuatorConfigprops",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              },
+              "application/vnd.spring-boot.actuator.v2+json": {
+                "schema": {
+                  "type": "object"
+                }
+              },
+              "application/vnd.spring-boot.actuator.v3+json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            },
+            "description": "OK"
+          }
+        },
+        "summary": "Actuator web endpoint 'configprops'",
+        "tags": [
+          "Actuator"
+        ]
+      }
+    },
+    "/actuator/configprops/{prefix}": {
+      "get": {
+        "operationId": "getActuatorConfigpropsByPrefix",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "prefix",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              },
+              "application/vnd.spring-boot.actuator.v2+json": {
+                "schema": {
+                  "type": "object"
+                }
+              },
+              "application/vnd.spring-boot.actuator.v3+json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "summary": "Actuator web endpoint 'configprops-prefix'",
+        "tags": [
+          "Actuator"
+        ]
+      }
+    },
+    "/actuator/health": {
+      "get": {
+        "operationId": "getActuatorHealth",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              },
+              "application/vnd.spring-boot.actuator.v2+json": {
+                "schema": {
+                  "type": "object"
+                }
+              },
+              "application/vnd.spring-boot.actuator.v3+json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            },
+            "description": "OK"
+          }
+        },
+        "summary": "Actuator web endpoint 'health'",
+        "tags": [
+          "Actuator"
+        ]
+      }
+    },
+    "/actuator/info": {
+      "get": {
+        "operationId": "getActuatorInfo",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              },
+              "application/vnd.spring-boot.actuator.v2+json": {
+                "schema": {
+                  "type": "object"
+                }
+              },
+              "application/vnd.spring-boot.actuator.v3+json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            },
+            "description": "OK"
+          }
+        },
+        "summary": "Actuator web endpoint 'info'",
+        "tags": [
+          "Actuator"
+        ]
+      }
+    },
     "/api/v1/account-cash": {
       "get": {
         "description": "Отображает всю информацию обо всех счетах",
@@ -4212,6 +4925,90 @@
           "Сделки"
         ]
       }
+    },
+    "/app/shutdown": {
+      "post": {
+        "operationId": "postAppShutdown",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": {
+                    "type": "string"
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "summary": "Закрыть приложение",
+        "tags": [
+          "Приложение"
+        ]
+      }
+    },
+    "/portfolio-open-format/records": {
+      "get": {
+        "operationId": "getPortfolioOpenFormatRecords",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PortfolioOpenFormatV1_1_0"
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "summary": "Отобразить портфель",
+        "tags": [
+          "Portfolio Open Format"
+        ]
+      },
+      "post": {
+        "operationId": "postPortfolioOpenFormatRecords",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "file": {
+                    "format": "binary",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "file"
+                ],
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "summary": "Сохранить портфель",
+        "tags": [
+          "Portfolio Open Format"
+        ]
+      }
     }
   },
   "servers": [
@@ -4224,6 +5021,10 @@
     {
       "description": "Уплаченные и вырученные суммы в сделках",
       "name": "Движения ДС по сделкам"
+    },
+    {
+      "description": "Сохранение и отображение портфеля в унифицированном формате",
+      "name": "Portfolio Open Format"
     },
     {
       "description": "Сектор экономики, эмитент",
@@ -4244,6 +5045,14 @@
     {
       "description": "Операции купли/продажи биржевых инструментов",
       "name": "Сделки"
+    },
+    {
+      "description": "Monitor and interact",
+      "externalDocs": {
+        "description": "Spring Boot Actuator Web API Documentation",
+        "url": "https://docs.spring.io/spring-boot/docs/current/actuator-api/html/"
+      },
+      "name": "Actuator"
     },
     {
       "description": "Котировки биржевых инструментов",

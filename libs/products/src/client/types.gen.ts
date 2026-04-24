@@ -27,7 +27,7 @@ export type AccountCash = {
   /**
    * Внутренний идентификатор
    */
-  id?: number;
+  id?: number | null;
   /**
    * Рынок
    */
@@ -42,6 +42,14 @@ export type AccountCash = {
   value: number;
 };
 
+export type AccountPof = {
+  'account-number'?: string;
+  id?: number;
+  type: 'investment' | 'bank' | 'savings';
+  valuation: number;
+  'valuation-currency': string;
+};
+
 export type AccountProperty = {
   /**
    * Номер счета
@@ -50,7 +58,7 @@ export type AccountProperty = {
   /**
    * Внутренний идентификатор записи
    */
-  id?: number;
+  id?: number | null;
   /**
    * Свойство портфеля
    */
@@ -58,11 +66,50 @@ export type AccountProperty = {
   /**
    * Информация актуальна на время
    */
-  timestamp?: string;
+  timestamp?: string | null;
   /**
    * Значение свойства
    */
   value: string;
+};
+
+export type AssetPof = {
+  id?: number;
+  isin?: string;
+  name?: string;
+  symbol?: string;
+  type: string;
+};
+
+export type CashBalancesPof = {
+  account?: number;
+  cash: Array<CashPof>;
+};
+
+export type CashFlowPof = {
+  account?: number;
+  amount: number;
+  currency: string;
+  description?: string;
+  'flow-id'?: string;
+  id?: number;
+  timestamp?: number;
+  type:
+    | 'cash'
+    | 'dividend'
+    | 'coupon'
+    | 'bond-amortization'
+    | 'bond-redemption'
+    | 'variation-margin'
+    | 'fee'
+    | 'tax'
+    | 'interest'
+    | 'other';
+};
+
+export type CashPof = {
+  currency: string;
+  value: number;
 };
 
 /**
@@ -80,7 +127,7 @@ export type EventCashFlow = {
   /**
    * Описание события
    */
-  description?: string;
+  description?: string | null;
   /**
    * Тип события
    */
@@ -102,7 +149,7 @@ export type EventCashFlow = {
   /**
    * Идентификатор записи
    */
-  id?: number;
+  id?: number | null;
   /**
    * Время события
    */
@@ -132,7 +179,7 @@ export type Issuer = {
   /**
    * Внутренний идентификатор эмитента
    */
-  id?: number;
+  id?: number | null;
   /**
    * Наименование
    */
@@ -140,7 +187,12 @@ export type Issuer = {
   /**
    * Идентификатор налогоплательщика (Россия - ИНН, США - EIN и т.д.)
    */
-  taxpayerId?: string;
+  taxpayerId?: string | null;
+};
+
+export type Link = {
+  href?: string;
+  templated?: boolean;
 };
 
 export type PageAccount = {
@@ -320,6 +372,47 @@ export type PageableObject = {
   unpaged?: boolean;
 };
 
+export type PaymentPof = {
+  account?: number;
+  amount: number;
+  asset?: number;
+  count: number;
+  currency: string;
+  description?: string;
+  id?: number;
+  'payment-id'?: string;
+  tax?: number;
+  'tax-currency'?: string;
+  timestamp?: number;
+  type:
+    | 'cash'
+    | 'dividend'
+    | 'coupon'
+    | 'bond-amortization'
+    | 'bond-redemption'
+    | 'variation-margin'
+    | 'fee'
+    | 'tax'
+    | 'interest'
+    | 'other';
+};
+
+export type PortfolioOpenFormatV110 = {
+  accounts: Array<AccountPof>;
+  assets: Array<AssetPof>;
+  'cash-balances': Array<CashBalancesPof>;
+  'cash-flows': Array<CashFlowPof>;
+  end?: number;
+  generated?: number;
+  'generated-by': string;
+  payments: Array<PaymentPof>;
+  start?: number;
+  trades: Array<TradePof>;
+  transfers: Array<TransferPof>;
+  version: string;
+  'vnd-investbook'?: VndInvestbookPof;
+};
+
 /**
  * Акция, облигация, валютная пара, фьючерс, опцион или произвольный актив
  */
@@ -327,19 +420,19 @@ export type Security = {
   /**
    * Внутренний идентификатор инструмента
    */
-  id?: number;
+  id?: number | null;
   /**
    * ISIN акций и облигаций (опционально)
    */
-  isin?: string;
+  isin?: string | null;
   /**
    * Наименование (опционально)
    */
-  name?: string;
+  name?: string | null;
   /**
    * Тикер (опционально)
    */
-  ticker?: string;
+  ticker?: string | null;
   /**
    * Тип ценной бумаги
    */
@@ -359,11 +452,11 @@ export type SecurityDescription = {
   /**
    * Внутренний идентификатор эмитента (опционально)
    */
-  issuer?: number;
+  issuer?: number | null;
   /**
    * Сектор экономики (опционально)
    */
-  sector?: string;
+  sector?: string | null;
   /**
    * Внутренний идентификатор инструмента
    */
@@ -385,7 +478,7 @@ export type SecurityEventCashFlow = {
   /**
    * Валюта
    */
-  currency?: string;
+  currency?: string | null;
   /**
    * Тип события
    */
@@ -407,7 +500,7 @@ export type SecurityEventCashFlow = {
   /**
    * Внутренний идентификатор записи
    */
-  id?: number;
+  id?: number | null;
   /**
    * Инструмент
    */
@@ -426,19 +519,19 @@ export type SecurityQuote = {
   /**
    * НКД (в валюте, только для облигаций)
    */
-  'accrued-interest'?: number;
+  'accrued-interest'?: number | null;
   /**
    * Валюта котировки для акций, облигаций, произвольных активов и опционально для деривативов
    */
-  currency?: string;
+  currency?: string | null;
   /**
    * Внутренний идентификатор записи
    */
-  id?: number;
+  id?: number | null;
   /**
    * Котировка (в валюте, только для облигаций и деривативов)
    */
-  price?: number;
+  price?: number | null;
   /**
    * Котировка (для облигаций - в процентах, деривативы - в пунктах)
    */
@@ -459,6 +552,23 @@ export type SortObject = {
   unsorted?: boolean;
 };
 
+export type TradePof = {
+  account?: number;
+  'accrued-interest'?: number;
+  asset?: number;
+  count: number;
+  currency?: string;
+  description?: string;
+  fee: number;
+  'fee-currency': string;
+  id?: number;
+  price?: number;
+  quote?: number;
+  settlement?: number;
+  timestamp?: number;
+  'trade-id': string;
+};
+
 export type Transaction = {
   /**
    * Номер счета в системе учета брокера
@@ -471,7 +581,7 @@ export type Transaction = {
   /**
    * Внутренний идентификатор сделки
    */
-  id?: number;
+  id?: number | null;
   /**
    * Инструмент
    */
@@ -490,7 +600,7 @@ export type TransactionCashFlow = {
   /**
    * Валюта
    */
-  currency?: string;
+  currency?: string | null;
   /**
    * Тип события (стоимость бумаг без НКД, НКД, комиссия)
    */
@@ -512,7 +622,7 @@ export type TransactionCashFlow = {
   /**
    * Внутренний идентификатор записи
    */
-  id?: number;
+  id?: number | null;
   /**
    * Внутренний идентификатор сделки
    */
@@ -522,6 +632,159 @@ export type TransactionCashFlow = {
    */
   value: number;
 };
+
+export type TransferPof = {
+  account?: number;
+  asset?: number;
+  count: number;
+  description?: string;
+  fee?: number;
+  'fee-account'?: number;
+  'fee-currency'?: string;
+  id?: number;
+  timestamp?: number;
+  'transfer-id'?: string;
+};
+
+export type VndInvestbookPof = {
+  'account-cash': Array<AccountCash>;
+  'account-properties': Array<AccountProperty>;
+  'security-descriptions': Array<SecurityDescription>;
+  'security-quotes': Array<SecurityQuote>;
+  version: string;
+};
+
+export type GetAccountsAllStatsData = {
+  body?: never;
+  path?: never;
+  query?: never;
+  url: '/accounts/all/stats';
+};
+
+export type GetAccountsAllStatsErrors = {
+  /**
+   * Internal Server Error
+   */
+  500: unknown;
+};
+
+export type GetAccountsAllStatsResponses = {
+  /**
+   * OK
+   */
+  200: {
+    [key: string]: unknown;
+  };
+};
+
+export type GetAccountsAllStatsResponse =
+  GetAccountsAllStatsResponses[keyof GetAccountsAllStatsResponses];
+
+export type GetActuatorData = {
+  body?: never;
+  path?: never;
+  query?: never;
+  url: '/actuator';
+};
+
+export type GetActuatorResponses = {
+  /**
+   * OK
+   */
+  200: {
+    [key: string]: {
+      [key: string]: Link;
+    };
+  };
+};
+
+export type GetActuatorResponse =
+  GetActuatorResponses[keyof GetActuatorResponses];
+
+export type GetActuatorConfigpropsData = {
+  body?: never;
+  path?: never;
+  query?: never;
+  url: '/actuator/configprops';
+};
+
+export type GetActuatorConfigpropsResponses = {
+  /**
+   * OK
+   */
+  200: {
+    [key: string]: unknown;
+  };
+};
+
+export type GetActuatorConfigpropsResponse =
+  GetActuatorConfigpropsResponses[keyof GetActuatorConfigpropsResponses];
+
+export type GetActuatorConfigpropsByPrefixData = {
+  body?: never;
+  path: {
+    prefix: string;
+  };
+  query?: never;
+  url: '/actuator/configprops/{prefix}';
+};
+
+export type GetActuatorConfigpropsByPrefixErrors = {
+  /**
+   * Not Found
+   */
+  404: unknown;
+};
+
+export type GetActuatorConfigpropsByPrefixResponses = {
+  /**
+   * OK
+   */
+  200: {
+    [key: string]: unknown;
+  };
+};
+
+export type GetActuatorConfigpropsByPrefixResponse =
+  GetActuatorConfigpropsByPrefixResponses[keyof GetActuatorConfigpropsByPrefixResponses];
+
+export type GetActuatorHealthData = {
+  body?: never;
+  path?: never;
+  query?: never;
+  url: '/actuator/health';
+};
+
+export type GetActuatorHealthResponses = {
+  /**
+   * OK
+   */
+  200: {
+    [key: string]: unknown;
+  };
+};
+
+export type GetActuatorHealthResponse =
+  GetActuatorHealthResponses[keyof GetActuatorHealthResponses];
+
+export type GetActuatorInfoData = {
+  body?: never;
+  path?: never;
+  query?: never;
+  url: '/actuator/info';
+};
+
+export type GetActuatorInfoResponses = {
+  /**
+   * OK
+   */
+  200: {
+    [key: string]: unknown;
+  };
+};
+
+export type GetActuatorInfoResponse =
+  GetActuatorInfoResponses[keyof GetActuatorInfoResponses];
 
 export type GetAccountCashData = {
   body?: never;
@@ -2558,3 +2821,76 @@ export type PutTransactionsByIdResponses = {
 
 export type PutTransactionsByIdResponse =
   PutTransactionsByIdResponses[keyof PutTransactionsByIdResponses];
+
+export type PostAppShutdownData = {
+  body?: never;
+  path?: never;
+  query?: never;
+  url: '/app/shutdown';
+};
+
+export type PostAppShutdownErrors = {
+  /**
+   * Internal Server Error
+   */
+  500: unknown;
+};
+
+export type PostAppShutdownResponses = {
+  /**
+   * OK
+   */
+  200: {
+    [key: string]: string;
+  };
+};
+
+export type PostAppShutdownResponse =
+  PostAppShutdownResponses[keyof PostAppShutdownResponses];
+
+export type GetPortfolioOpenFormatRecordsData = {
+  body?: never;
+  path?: never;
+  query?: never;
+  url: '/portfolio-open-format/records';
+};
+
+export type GetPortfolioOpenFormatRecordsErrors = {
+  /**
+   * Internal Server Error
+   */
+  500: unknown;
+};
+
+export type GetPortfolioOpenFormatRecordsResponses = {
+  /**
+   * OK
+   */
+  200: PortfolioOpenFormatV110;
+};
+
+export type GetPortfolioOpenFormatRecordsResponse =
+  GetPortfolioOpenFormatRecordsResponses[keyof GetPortfolioOpenFormatRecordsResponses];
+
+export type PostPortfolioOpenFormatRecordsData = {
+  body?: {
+    file: Blob | File;
+  };
+  path?: never;
+  query?: never;
+  url: '/portfolio-open-format/records';
+};
+
+export type PostPortfolioOpenFormatRecordsErrors = {
+  /**
+   * Internal Server Error
+   */
+  500: unknown;
+};
+
+export type PostPortfolioOpenFormatRecordsResponses = {
+  /**
+   * OK
+   */
+  200: unknown;
+};

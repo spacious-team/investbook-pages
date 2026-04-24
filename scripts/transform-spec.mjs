@@ -5,7 +5,7 @@
 
 import { writeFileSync } from 'node:fs';
 
-const SPEC_URL = 'http://localhost:2030/v3/api-docs/public';
+const SPEC_URL = 'http://localhost:2030/v3/api-docs';
 const OUTPUT_FILE = 'openapi-spec.json';
 
 // Cyrillic → Latin transliteration table (ISO 9 / common web standard)

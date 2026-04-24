@@ -51,12 +51,26 @@ import type {
   GetAccountPropertiesData,
   GetAccountPropertiesErrors,
   GetAccountPropertiesResponses,
+  GetAccountsAllStatsData,
+  GetAccountsAllStatsErrors,
+  GetAccountsAllStatsResponses,
   GetAccountsByIdData,
   GetAccountsByIdErrors,
   GetAccountsByIdResponses,
   GetAccountsData,
   GetAccountsErrors,
   GetAccountsResponses,
+  GetActuatorConfigpropsByPrefixData,
+  GetActuatorConfigpropsByPrefixErrors,
+  GetActuatorConfigpropsByPrefixResponses,
+  GetActuatorConfigpropsData,
+  GetActuatorConfigpropsResponses,
+  GetActuatorData,
+  GetActuatorHealthData,
+  GetActuatorHealthResponses,
+  GetActuatorInfoData,
+  GetActuatorInfoResponses,
+  GetActuatorResponses,
   GetCashFlowTypesByIdData,
   GetCashFlowTypesByIdErrors,
   GetCashFlowTypesByIdResponses,
@@ -84,6 +98,9 @@ import type {
   GetIssuersData,
   GetIssuersErrors,
   GetIssuersResponses,
+  GetPortfolioOpenFormatRecordsData,
+  GetPortfolioOpenFormatRecordsErrors,
+  GetPortfolioOpenFormatRecordsResponses,
   GetSecuritiesByIdData,
   GetSecuritiesByIdErrors,
   GetSecuritiesByIdResponses,
@@ -129,6 +146,9 @@ import type {
   PostAccountsData,
   PostAccountsErrors,
   PostAccountsResponses,
+  PostAppShutdownData,
+  PostAppShutdownErrors,
+  PostAppShutdownResponses,
   PostEventCashFlowsData,
   PostEventCashFlowsErrors,
   PostEventCashFlowsResponses,
@@ -138,6 +158,9 @@ import type {
   PostIssuersData,
   PostIssuersErrors,
   PostIssuersResponses,
+  PostPortfolioOpenFormatRecordsData,
+  PostPortfolioOpenFormatRecordsErrors,
+  PostPortfolioOpenFormatRecordsResponses,
   PostSecuritiesData,
   PostSecuritiesErrors,
   PostSecuritiesResponses,
@@ -211,6 +234,79 @@ export type Options<
    */
   meta?: Record<string, unknown>;
 };
+
+/**
+ * Статистика портфеля
+ */
+export const getAccountsAllStats = <ThrowOnError extends boolean = false>(
+  options?: Options<GetAccountsAllStatsData, ThrowOnError>,
+) =>
+  (options?.client ?? client).get<
+    GetAccountsAllStatsResponses,
+    GetAccountsAllStatsErrors,
+    ThrowOnError
+  >({ url: '/accounts/all/stats', ...options });
+
+/**
+ * Actuator root web endpoint
+ */
+export const getActuator = <ThrowOnError extends boolean = false>(
+  options?: Options<GetActuatorData, ThrowOnError>,
+) =>
+  (options?.client ?? client).get<GetActuatorResponses, unknown, ThrowOnError>({
+    url: '/actuator',
+    ...options,
+  });
+
+/**
+ * Actuator web endpoint 'configprops'
+ */
+export const getActuatorConfigprops = <ThrowOnError extends boolean = false>(
+  options?: Options<GetActuatorConfigpropsData, ThrowOnError>,
+) =>
+  (options?.client ?? client).get<
+    GetActuatorConfigpropsResponses,
+    unknown,
+    ThrowOnError
+  >({ url: '/actuator/configprops', ...options });
+
+/**
+ * Actuator web endpoint 'configprops-prefix'
+ */
+export const getActuatorConfigpropsByPrefix = <
+  ThrowOnError extends boolean = false,
+>(
+  options: Options<GetActuatorConfigpropsByPrefixData, ThrowOnError>,
+) =>
+  (options.client ?? client).get<
+    GetActuatorConfigpropsByPrefixResponses,
+    GetActuatorConfigpropsByPrefixErrors,
+    ThrowOnError
+  >({ url: '/actuator/configprops/{prefix}', ...options });
+
+/**
+ * Actuator web endpoint 'health'
+ */
+export const getActuatorHealth = <ThrowOnError extends boolean = false>(
+  options?: Options<GetActuatorHealthData, ThrowOnError>,
+) =>
+  (options?.client ?? client).get<
+    GetActuatorHealthResponses,
+    unknown,
+    ThrowOnError
+  >({ url: '/actuator/health', ...options });
+
+/**
+ * Actuator web endpoint 'info'
+ */
+export const getActuatorInfo = <ThrowOnError extends boolean = false>(
+  options?: Options<GetActuatorInfoData, ThrowOnError>,
+) =>
+  (options?.client ?? client).get<
+    GetActuatorInfoResponses,
+    unknown,
+    ThrowOnError
+  >({ url: '/actuator/info', ...options });
 
 /**
  * Отобразить все
@@ -1278,5 +1374,52 @@ export const putTransactionsById = <ThrowOnError extends boolean = false>(
     headers: {
       'Content-Type': 'application/json',
       ...options.headers,
+    },
+  });
+
+/**
+ * Закрыть приложение
+ */
+export const postAppShutdown = <ThrowOnError extends boolean = false>(
+  options?: Options<PostAppShutdownData, ThrowOnError>,
+) =>
+  (options?.client ?? client).post<
+    PostAppShutdownResponses,
+    PostAppShutdownErrors,
+    ThrowOnError
+  >({ url: '/app/shutdown', ...options });
+
+/**
+ * Отобразить портфель
+ */
+export const getPortfolioOpenFormatRecords = <
+  ThrowOnError extends boolean = false,
+>(
+  options?: Options<GetPortfolioOpenFormatRecordsData, ThrowOnError>,
+) =>
+  (options?.client ?? client).get<
+    GetPortfolioOpenFormatRecordsResponses,
+    GetPortfolioOpenFormatRecordsErrors,
+    ThrowOnError
+  >({ url: '/portfolio-open-format/records', ...options });
+
+/**
+ * Сохранить портфель
+ */
+export const postPortfolioOpenFormatRecords = <
+  ThrowOnError extends boolean = false,
+>(
+  options?: Options<PostPortfolioOpenFormatRecordsData, ThrowOnError>,
+) =>
+  (options?.client ?? client).post<
+    PostPortfolioOpenFormatRecordsResponses,
+    PostPortfolioOpenFormatRecordsErrors,
+    ThrowOnError
+  >({
+    url: '/portfolio-open-format/records',
+    ...options,
+    headers: {
+      'Content-Type': 'application/json',
+      ...options?.headers,
     },
   });
