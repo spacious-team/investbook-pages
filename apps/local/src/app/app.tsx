@@ -1,12 +1,10 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import { useQuery } from '@tanstack/react-query';
-import { getAccountsAllStats } from '@investbook-pages/products';
-import PortfolioPage from './pages/PortfolioPage/PortfolioPage';
-import AnalyticsPage from './pages/AnalyticsPage/AnalyticsPage';
-import TaxesPage from './pages/TaxesPage/TaxesPage';
-import UploadPage from './pages/UploadPage/UploadPage';
-import FormsPage from './pages/FormsPage/FormsPage';
-import MainLayout from './layouts/MainLayout/MainLayout';
+import { PortfolioPage } from './pages/PortfolioPage/PortfolioPage';
+import { AnalyticsPage } from './pages/AnalyticsPage/AnalyticsPage';
+import { TaxesPage } from './pages/TaxesPage/TaxesPage';
+import { UploadPage } from './pages/UploadPage/UploadPage';
+import { FormsPage } from './pages/FormsPage/FormsPage';
+import { MainLayout } from './layouts/MainLayout/MainLayout';
 
 const router = createBrowserRouter([
   {
@@ -42,15 +40,5 @@ const router = createBrowserRouter([
 ]);
 
 export function App() {
-  const { data, error } = useQuery({
-    queryKey: ['accountsAllStats'],
-    queryFn: () => getAccountsAllStats({ throwOnError: true }),
-  });
-
-  console.log('[accountsAllStats]', data);
-  console.error('[accountsAllStats]', error);
-
   return <RouterProvider router={router} />;
 }
-
-export default App;

@@ -5,7 +5,7 @@ import './index.css';
 import { QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { configureApiClient } from '@investbook-pages/products';
-import App from './app/app';
+import { App } from './app/app';
 import { queryClient } from './app/query-client/query-client';
 
 configureApiClient();

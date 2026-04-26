@@ -29,22 +29,27 @@ import {
   AdaptiveTooltipContent,
   AdaptiveTooltipTrigger,
 } from '@investbook-pages/common-ui';
-import { useTranslation } from '@investbook-pages/products';
+import {
+  useTranslation,
+  getAccountsAllStats,
+} from '@investbook-pages/products';
+import { useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 
-// ─── Mock data (replace with real query when endpoint is ready) ───────────────
-
-const mockStats = {
-  assets: 145_328,
-  transactions: 16,
-  accounts: ['demo', 'demo-gold', 'demo-us', 'demo-eur', 'demo-usd'],
-  cash: 24_928,
-};
-
 const ACCOUNTS_LIMIT = 3;
 
-function formatCurrency(value: number) {
+function useAccountsAllStats() {
+  return useQuery({
+    queryKey: ['accountsAllStats'],
+    queryFn: () => getAccountsAllStats({ throwOnError: true }),
+    staleTime: Infinity,
+  });
+}
+
+function formatCurrency(value: number | undefined): string | undefined {
+  if (value === null || value === undefined) return undefined;
+
   return value.toLocaleString('ru-RU') + '\u00a0₽';
 }
 
@@ -54,7 +59,12 @@ function StatDivider() {
   return <div className="h-7 w-px shrink-0 bg-primary-foreground/20 mx-1" />;
 }
 
-function StatLink({ label, value }: { label: string; value: string }) {
+interface StatLinkProps {
+  label: string;
+  value?: string | number;
+}
+
+function StatLink({ label, value }: StatLinkProps) {
   return (
     <Link
       to="/portfolio"
@@ -64,22 +74,20 @@ function StatLink({ label, value }: { label: string; value: string }) {
         {label}
       </span>
       <span className="text-[13px] font-semibold text-primary-foreground">
-        {value}
+        {value !== null && value !== undefined ? String(value) : '—'}
       </span>
     </Link>
   );
 }
 
-function AccountsStat({
-  label,
-  visibleAccounts,
-  hiddenAccounts,
-}: {
-  label: string;
-  visibleAccounts: string[];
-  hiddenAccounts: string[];
-}) {
+function AccountsStat() {
+  const { t } = useTranslation();
   const navigate = useNavigate();
+  const { data: stats } = useAccountsAllStats();
+
+  const accounts = stats?.data?.accounts ?? [];
+  const visibleAccounts = accounts.slice(0, ACCOUNTS_LIMIT);
+  const hiddenAccounts = accounts.slice(ACCOUNTS_LIMIT);
 
   return (
     <div
@@ -87,7 +95,7 @@ function AccountsStat({
       onClick={() => navigate('/portfolio')}
     >
       <span className="text-[10px] uppercase tracking-wide text-primary-foreground/60">
-        {label}
+        {t('statsStrip.accounts')}
       </span>
       <div className="flex items-center gap-1.5">
         <span className="text-[13px] font-semibold text-primary-foreground">
@@ -117,44 +125,58 @@ function AccountsStat({
 
 // ─── Stats layouts ────────────────────────────────────────────────────────────
 
-function StatsRow({
-  t,
-  visibleAccounts,
-  hiddenAccounts,
-}: {
-  t: (key: string) => string;
-  visibleAccounts: string[];
-  hiddenAccounts: string[];
-}) {
+function StatsRow() {
+  const { t } = useTranslation();
+  const { data: stats } = useAccountsAllStats();
+
   return (
     <>
       <StatLink
         label={t('statsStrip.assets')}
-        value={formatCurrency(mockStats.assets)}
+        value={formatCurrency(stats?.data?.assetsValue)}
       />
       <StatDivider />
       <StatLink
         label={t('statsStrip.transactions')}
-        value={String(mockStats.transactions)}
+        value={stats?.data?.totalTransactions}
       />
       <StatDivider />
-      <AccountsStat
-        label={t('statsStrip.accounts')}
-        visibleAccounts={visibleAccounts}
-        hiddenAccounts={hiddenAccounts}
-      />
+      <AccountsStat />
       <StatDivider />
       <StatLink
         label={t('statsStrip.cash')}
-        value={formatCurrency(mockStats.cash)}
+        value={formatCurrency(stats?.data?.cashBalance)}
       />
     </>
   );
 }
 
+function StatsMobileGrid() {
+  const { t } = useTranslation();
+  const { data: stats } = useAccountsAllStats();
+
+  return (
+    <div className="md:hidden grid grid-cols-2 gap-x-2 gap-y-1 pb-4 pt-1 border-t border-primary-foreground/20">
+      <StatLink
+        label={t('statsStrip.assets')}
+        value={formatCurrency(stats?.data?.assetsValue)}
+      />
+      <StatLink
+        label={t('statsStrip.transactions')}
+        value={stats?.data?.totalTransactions}
+      />
+      <AccountsStat />
+      <StatLink
+        label={t('statsStrip.cash')}
+        value={formatCurrency(stats?.data?.cashBalance)}
+      />
+    </div>
+  );
+}
+
 // ─── Header ───────────────────────────────────────────────────────────────────
 
-export default function Header() {
+export function Header() {
   const { pathname } = useLocation();
   const { t } = useTranslation();
 
@@ -222,9 +244,6 @@ export default function Header() {
     setIsDark(dark);
   };
 
-  const visibleAccounts = mockStats.accounts.slice(0, ACCOUNTS_LIMIT);
-  const hiddenAccounts = mockStats.accounts.slice(ACCOUNTS_LIMIT);
-
   const userMenu = (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -291,11 +310,7 @@ export default function Header() {
         {/* Right side: stats (lg only) + user menu */}
         <div className="ml-auto flex items-center gap-2">
           <div className="hidden lg:flex items-center gap-1">
-            <StatsRow
-              t={t}
-              visibleAccounts={visibleAccounts}
-              hiddenAccounts={hiddenAccounts}
-            />
+            <StatsRow />
           </div>
           {userMenu}
         </div>
@@ -303,33 +318,11 @@ export default function Header() {
 
       {/* ── Row 2: stats strip — medium screens only ── */}
       <div className="hidden md:flex lg:hidden items-center gap-1 pb-4 pt-1 border-t border-primary-foreground/20">
-        <StatsRow
-          t={t}
-          visibleAccounts={visibleAccounts}
-          hiddenAccounts={hiddenAccounts}
-        />
+        <StatsRow />
       </div>
 
       {/* ── Row 2: stats 2×2 grid — mobile only ── */}
-      <div className="md:hidden grid grid-cols-2 gap-x-2 gap-y-1 pb-4 pt-1 border-t border-primary-foreground/20">
-        <StatLink
-          label={t('statsStrip.assets')}
-          value={formatCurrency(mockStats.assets)}
-        />
-        <StatLink
-          label={t('statsStrip.transactions')}
-          value={String(mockStats.transactions)}
-        />
-        <AccountsStat
-          label={t('statsStrip.accounts')}
-          visibleAccounts={visibleAccounts}
-          hiddenAccounts={hiddenAccounts}
-        />
-        <StatLink
-          label={t('statsStrip.cash')}
-          value={formatCurrency(mockStats.cash)}
-        />
-      </div>
+      <StatsMobileGrid />
     </header>
   );
 }

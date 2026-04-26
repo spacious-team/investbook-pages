@@ -58,6 +58,7 @@ module.exports = [
     },
     rules: {
       ...tseslint.configs.recommended.rules,
+      eqeqeq: ['error', 'always'],
     },
   },
 
