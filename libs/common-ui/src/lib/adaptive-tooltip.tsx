@@ -1,15 +1,23 @@
-import * as React from 'react';
+import {
+  ComponentProps,
+  createContext,
+  ReactNode,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react';
 
 import { Popover, PopoverContent, PopoverTrigger } from './popover';
 import { Tooltip, TooltipContent, TooltipTrigger } from './tooltip';
 import { cn } from './utils';
 
-const AdaptiveTooltipContext = React.createContext<{ isHover: boolean }>({
+const AdaptiveTooltipContext = createContext<{ isHover: boolean }>({
   isHover: true,
 });
 
 function useHoverCapable() {
-  const mq = React.useMemo(
+  const mq = useMemo(
     () =>
       typeof window !== 'undefined' && typeof window.matchMedia === 'function'
         ? window.matchMedia('(hover: hover)')
@@ -17,9 +25,9 @@ function useHoverCapable() {
     [],
   );
 
-  const [isHover, setIsHover] = React.useState(() => mq?.matches ?? true);
+  const [isHover, setIsHover] = useState(() => mq?.matches ?? true);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (!mq) return;
     const handler = (e: MediaQueryListEvent) => setIsHover(e.matches);
     mq.addEventListener('change', handler);
@@ -31,7 +39,7 @@ function useHoverCapable() {
 }
 
 interface AdaptiveTooltipProps {
-  children: React.ReactNode;
+  children: ReactNode;
   open?: boolean;
   onOpenChange?: (open: boolean) => void;
   defaultOpen?: boolean;
@@ -53,8 +61,8 @@ function AdaptiveTooltip({ children, ...props }: AdaptiveTooltipProps) {
 
 function AdaptiveTooltipTrigger({
   ...props
-}: React.ComponentProps<typeof TooltipTrigger>) {
-  const { isHover } = React.useContext(AdaptiveTooltipContext);
+}: ComponentProps<typeof TooltipTrigger>) {
+  const { isHover } = useContext(AdaptiveTooltipContext);
 
   if (isHover) {
     return <TooltipTrigger {...props} />;
@@ -64,7 +72,7 @@ function AdaptiveTooltipTrigger({
 }
 
 interface AdaptiveTooltipContentProps {
-  children?: React.ReactNode;
+  children?: ReactNode;
   className?: string;
   side?: 'top' | 'right' | 'bottom' | 'left';
   sideOffset?: number;
@@ -76,7 +84,7 @@ function AdaptiveTooltipContent({
   children,
   ...props
 }: AdaptiveTooltipContentProps) {
-  const { isHover } = React.useContext(AdaptiveTooltipContext);
+  const { isHover } = useContext(AdaptiveTooltipContext);
 
   if (isHover) {
     return (
