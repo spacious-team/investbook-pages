@@ -68,7 +68,7 @@ npx nx build common-ui
 - **shadcn/ui components are built on individual `@radix-ui/*` packages** — always use individual Radix UI packages (e.g. `@radix-ui/react-dialog`, `@radix-ui/react-slot`) as the primitive layer; do NOT use the monolithic `radix-ui` package, `@base-ui/react`, or other component libraries
 - **React Router v7** — `createBrowserRouter` pattern
 - **Zustand** — app-level client state manager. Store: `apps/local/src/app/store.ts`, exported as `useAppStore`. Extend `AppState` interface as features are added. No provider required.
-- **TanStack Query v5** — server state and data fetching. Singleton `QueryClient` in `apps/local/src/app/query-client.ts`. `QueryClientProvider` wraps the app in `main.tsx`. `ReactQueryDevtools` active in dev only (`import.meta.env.DEV`).
+- **TanStack Query v5** — server state and data fetching. Singleton `QueryClient` in `apps/local/src/app/query-client/query-client.ts`. `QueryClientProvider` wraps the app in `main.tsx`. `ReactQueryDevtools` active in dev only (`import.meta.env.DEV`). Feature-scoped query hooks live in `apps/local/src/app/hooks/queries/`.
 - **Vitest** + **@testing-library/react** for tests
 - **Nx 22** for monorepo task orchestration and caching
 
@@ -98,7 +98,7 @@ Do **not** write tests unless the user explicitly asks for them. This project us
 - **Component props:** always extract into a named `interface` above the component (`interface FooProps { ... }`), never inline in the function signature
 - **Strict equality only:** always use `===` / `!==`; loose `==` / `!=` is forbidden (enforced by ESLint `eqeqeq`). For null + undefined checks use `value === null || value === undefined` (or `!== null && !== undefined`)
 - New shared UI components go in `libs/common-ui/src/lib/` and must be re-exported from `libs/common-ui/src/index.ts`
-- New business logic goes in `libs/products/src/lib/` and must be re-exported from `libs/products/src/index.ts`
+- Shared formatting and conversion utilities go in `libs/products/src/utils/` and must be re-exported from `libs/products/src/index.ts` (e.g. `format.ts` for currency/number formatting)
 - Nx generators default to `none` for styling (no CSS-in-JS), `eslint`, `vite`, and `vitest` — use these defaults when scaffolding new apps/libs
 - New shadcn/ui components: run `npx shadcn add <component>` from repo root; components land in `libs/common-ui/src/lib/` and must be re-exported from `libs/common-ui/src/index.ts`
 - **Tooltips on interactive elements:** use `AdaptiveTooltip` / `AdaptiveTooltipTrigger` / `AdaptiveTooltipContent` from `@investbook-pages/common-ui` instead of plain `Tooltip`. It renders `Tooltip` on hover-capable devices and `Popover` (click/tap) on touch. Use plain `Tooltip` only for purely decorative/non-interactive hints where touch support is irrelevant.
@@ -136,7 +136,7 @@ yarn openapi-ts
 Two-step process:
 
 1. `scripts/transform-spec.mjs` — fetches spec from `http://localhost:2030/v3/api-docs/public`, transliterates Cyrillic schema names to Latin, generates `operationId`s from HTTP method + path, writes `openapi-spec.json`
-2. `openapi-ts` — reads `openapi-ts.config.ts`, generates TypeScript client into `libs/products/src/client/`
+2. `openapi-ts` — reads `openapi-ts.config.ts`, generates TypeScript client into `libs/products/src/investbook-api/`
 
 Generated files (auto-generated, do not edit manually):
 
@@ -144,6 +144,10 @@ Generated files (auto-generated, do not edit manually):
 - `sdk.gen.ts` — typed SDK functions per endpoint
 - `client.gen.ts` — Fetch client instance
 - `core/` — internal serialization/auth utilities
+
+Hand-written file outside the codegen folder (safe from `clean: true`):
+
+- `libs/products/src/configure-api.ts` — sets `baseUrl`, camelCase↔kebab-case body/response transformers; exports `configureApiClient()` called once in `main.tsx`
 
 Everything is re-exported from `libs/products/src/index.ts` and available via `@investbook-pages/products`.
 

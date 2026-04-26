@@ -1,4 +1,4 @@
-import { client } from '../client/client.gen';
+import { client } from './investbook-api/client.gen';
 
 function camelToKebab(str: string): string {
   return str.replace(/([A-Z])/g, (c) => '-' + c.toLowerCase());

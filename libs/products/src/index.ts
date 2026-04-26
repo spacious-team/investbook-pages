@@ -1,3 +1,4 @@
 export * from './i18n';
-export * from './lib/configure-client';
-export * from './client';
+export * from './utils/format';
+export * from './configure-api';
+export * from './investbook-api';
