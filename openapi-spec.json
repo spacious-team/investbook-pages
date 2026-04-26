@@ -71,7 +71,7 @@
       },
       "AccountPof": {
         "properties": {
-          "account-number": {
+          "accountNumber": {
             "type": "string"
           },
           "id": {
@@ -89,7 +89,7 @@
           "valuation": {
             "type": "number"
           },
-          "valuation-currency": {
+          "valuationCurrency": {
             "minLength": 1,
             "type": "string"
           }
@@ -97,7 +97,7 @@
         "required": [
           "type",
           "valuation",
-          "valuation-currency"
+          "valuationCurrency"
         ],
         "type": "object"
       },
@@ -147,6 +147,28 @@
           "property",
           "value"
         ],
+        "type": "object"
+      },
+      "AccountStats": {
+        "properties": {
+          "accounts": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "uniqueItems": true
+          },
+          "assetsValue": {
+            "type": "number"
+          },
+          "cashBalance": {
+            "type": "number"
+          },
+          "totalTransactions": {
+            "format": "int32",
+            "type": "integer"
+          }
+        },
         "type": "object"
       },
       "AssetPof": {
@@ -207,7 +229,7 @@
           "description": {
             "type": "string"
           },
-          "flow-id": {
+          "flowId": {
             "type": "string"
           },
           "id": {
@@ -280,7 +302,7 @@
               "null"
             ]
           },
-          "event-type": {
+          "eventType": {
             "description": "Тип события",
             "enum": [
               "CASH",
@@ -324,7 +346,7 @@
         },
         "required": [
           "account",
-          "event-type",
+          "eventType",
           "timestamp",
           "value"
         ],
@@ -332,7 +354,7 @@
       },
       "ForeignExchangeRate": {
         "properties": {
-          "currency-pair": {
+          "currencyPair": {
             "description": "Валютная пара, для курса доллара в рублях - USDRUB",
             "example": "USDRUB",
             "minLength": 1,
@@ -351,7 +373,7 @@
           }
         },
         "required": [
-          "currency-pair",
+          "currencyPair",
           "date",
           "rate"
         ],
@@ -1003,13 +1025,13 @@
             "format": "int32",
             "type": "integer"
           },
-          "payment-id": {
+          "paymentId": {
             "type": "string"
           },
           "tax": {
             "type": "number"
           },
-          "tax-currency": {
+          "taxCurrency": {
             "type": "string"
           },
           "timestamp": {
@@ -1054,13 +1076,13 @@
             },
             "type": "array"
           },
-          "cash-balances": {
+          "cashBalances": {
             "items": {
               "$ref": "#/components/schemas/CashBalancesPof"
             },
             "type": "array"
           },
-          "cash-flows": {
+          "cashFlows": {
             "items": {
               "$ref": "#/components/schemas/CashFlowPof"
             },
@@ -1074,7 +1096,7 @@
             "format": "int64",
             "type": "integer"
           },
-          "generated-by": {
+          "generatedBy": {
             "type": "string"
           },
           "payments": {
@@ -1102,16 +1124,16 @@
           "version": {
             "type": "string"
           },
-          "vnd-investbook": {
+          "vndInvestbook": {
             "$ref": "#/components/schemas/VndInvestbookPof"
           }
         },
         "required": [
           "accounts",
           "assets",
-          "cash-balances",
-          "cash-flows",
-          "generated-by",
+          "cashBalances",
+          "cashFlows",
+          "generatedBy",
           "payments",
           "trades",
           "transfers",
@@ -1231,7 +1253,7 @@
               "null"
             ]
           },
-          "event-type": {
+          "eventType": {
             "description": "Тип события",
             "enum": [
               "CASH",
@@ -1282,7 +1304,7 @@
         "required": [
           "account",
           "count",
-          "event-type",
+          "eventType",
           "security",
           "timestamp",
           "value"
@@ -1291,7 +1313,7 @@
       },
       "SecurityQuote": {
         "properties": {
-          "accrued-interest": {
+          "accruedInterest": {
             "description": "НКД (в валюте, только для облигаций)",
             "example": 10.2,
             "type": [
@@ -1369,7 +1391,7 @@
             "format": "int32",
             "type": "integer"
           },
-          "accrued-interest": {
+          "accruedInterest": {
             "type": "number"
           },
           "asset": {
@@ -1388,7 +1410,7 @@
           "fee": {
             "type": "number"
           },
-          "fee-currency": {
+          "feeCurrency": {
             "minLength": 1,
             "type": "string"
           },
@@ -1410,7 +1432,7 @@
             "format": "int64",
             "type": "integer"
           },
-          "trade-id": {
+          "tradeId": {
             "minLength": 1,
             "type": "string"
           }
@@ -1418,8 +1440,8 @@
         "required": [
           "count",
           "fee",
-          "fee-currency",
-          "trade-id"
+          "feeCurrency",
+          "tradeId"
         ],
         "type": "object"
       },
@@ -1458,7 +1480,7 @@
             "format": "date-time",
             "type": "string"
           },
-          "trade-id": {
+          "tradeId": {
             "description": "Номер сделки в системе учета брокера",
             "example": "123SP",
             "minLength": 1,
@@ -1470,7 +1492,7 @@
           "count",
           "security",
           "timestamp",
-          "trade-id"
+          "tradeId"
         ],
         "type": "object"
       },
@@ -1485,7 +1507,7 @@
               "null"
             ]
           },
-          "event-type": {
+          "eventType": {
             "description": "Тип события (стоимость бумаг без НКД, НКД, комиссия)",
             "enum": [
               "CASH",
@@ -1515,7 +1537,7 @@
               "null"
             ]
           },
-          "transaction-id": {
+          "transactionId": {
             "description": "Внутренний идентификатор сделки",
             "example": 123,
             "format": "int32",
@@ -1528,8 +1550,8 @@
           }
         },
         "required": [
-          "event-type",
-          "transaction-id",
+          "eventType",
+          "transactionId",
           "value"
         ],
         "type": "object"
@@ -1553,11 +1575,11 @@
           "fee": {
             "type": "number"
           },
-          "fee-account": {
+          "feeAccount": {
             "format": "int32",
             "type": "integer"
           },
-          "fee-currency": {
+          "feeCurrency": {
             "type": "string"
           },
           "id": {
@@ -1568,7 +1590,7 @@
             "format": "int64",
             "type": "integer"
           },
-          "transfer-id": {
+          "transferId": {
             "type": "string"
           }
         },
@@ -1579,25 +1601,25 @@
       },
       "VndInvestbookPof": {
         "properties": {
-          "account-cash": {
+          "accountCash": {
             "items": {
               "$ref": "#/components/schemas/AccountCash"
             },
             "type": "array"
           },
-          "account-properties": {
+          "accountProperties": {
             "items": {
               "$ref": "#/components/schemas/AccountProperty"
             },
             "type": "array"
           },
-          "security-descriptions": {
+          "securityDescriptions": {
             "items": {
               "$ref": "#/components/schemas/SecurityDescription"
             },
             "type": "array"
           },
-          "security-quotes": {
+          "securityQuotes": {
             "items": {
               "$ref": "#/components/schemas/SecurityQuote"
             },
@@ -1608,10 +1630,10 @@
           }
         },
         "required": [
-          "account-cash",
-          "account-properties",
-          "security-descriptions",
-          "security-quotes",
+          "accountCash",
+          "accountProperties",
+          "securityDescriptions",
+          "securityQuotes",
           "version"
         ],
         "type": "object"
@@ -1632,8 +1654,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "additionalProperties": {},
-                  "type": "object"
+                  "$ref": "#/components/schemas/AccountStats"
                 }
               }
             },
@@ -3001,7 +3022,7 @@
         ]
       }
     },
-    "/api/v1/foreign-exchange-rates/currency-pairs/{currency-pair}": {
+    "/api/v1/foreign-exchange-rates/currency-pairs/{currencyPair}": {
       "get": {
         "description": "Отображает всю имеющуюся информацию по обменному курсу заданной валютной пары",
         "operationId": "getForeignExchangeRatesCurrencyPairsByCurrencyPair",
@@ -3009,7 +3030,7 @@
           {
             "description": "Валютная пара",
             "in": "path",
-            "name": "currency-pair",
+            "name": "currencyPair",
             "required": true,
             "schema": {
               "type": "string"
@@ -3040,7 +3061,7 @@
         ]
       }
     },
-    "/api/v1/foreign-exchange-rates/currency-pairs/{currency-pair}/dates/{date}": {
+    "/api/v1/foreign-exchange-rates/currency-pairs/{currencyPair}/dates/{date}": {
       "delete": {
         "description": "Удаляет информацию о курсе из БД",
         "operationId": "deleteForeignExchangeRatesCurrencyPairsByCurrencyPairDatesByDate",
@@ -3049,7 +3070,7 @@
             "description": "Валютная пара",
             "example": "USDRUB",
             "in": "path",
-            "name": "currency-pair",
+            "name": "currencyPair",
             "required": true,
             "schema": {
               "type": "string"
@@ -3087,7 +3108,7 @@
             "description": "Валютная пара",
             "example": "USDRUB",
             "in": "path",
-            "name": "currency-pair",
+            "name": "currencyPair",
             "required": true,
             "schema": {
               "type": "string"
@@ -3133,7 +3154,7 @@
             "description": "Валютная пара",
             "example": "USDRUB",
             "in": "path",
-            "name": "currency-pair",
+            "name": "currencyPair",
             "required": true,
             "schema": {
               "type": "string"
@@ -4930,18 +4951,8 @@
       "post": {
         "operationId": "postAppShutdown",
         "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "additionalProperties": {
-                    "type": "string"
-                  },
-                  "type": "object"
-                }
-              }
-            },
-            "description": "OK"
+          "202": {
+            "description": "Accepted"
           },
           "500": {
             "description": "Internal Server Error"

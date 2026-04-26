@@ -43,11 +43,11 @@ export type AccountCash = {
 };
 
 export type AccountPof = {
-  'account-number'?: string;
+  accountNumber?: string;
   id?: number;
   type: 'investment' | 'bank' | 'savings';
   valuation: number;
-  'valuation-currency': string;
+  valuationCurrency: string;
 };
 
 export type AccountProperty = {
@@ -73,6 +73,13 @@ export type AccountProperty = {
   value: string;
 };
 
+export type AccountStats = {
+  accounts?: Array<string>;
+  assetsValue?: number;
+  cashBalance?: number;
+  totalTransactions?: number;
+};
+
 export type AssetPof = {
   id?: number;
   isin?: string;
@@ -91,7 +98,7 @@ export type CashFlowPof = {
   amount: number;
   currency: string;
   description?: string;
-  'flow-id'?: string;
+  flowId?: string;
   id?: number;
   timestamp?: number;
   type:
@@ -131,7 +138,7 @@ export type EventCashFlow = {
   /**
    * Тип события
    */
-  'event-type':
+  eventType:
     | 'CASH'
     | 'PRICE'
     | 'ACCRUED_INTEREST'
@@ -164,7 +171,7 @@ export type ForeignExchangeRate = {
   /**
    * Валютная пара, для курса доллара в рублях - USDRUB
    */
-  'currency-pair': string;
+  currencyPair: string;
   /**
    * Дата
    */
@@ -380,9 +387,9 @@ export type PaymentPof = {
   currency: string;
   description?: string;
   id?: number;
-  'payment-id'?: string;
+  paymentId?: string;
   tax?: number;
-  'tax-currency'?: string;
+  taxCurrency?: string;
   timestamp?: number;
   type:
     | 'cash'
@@ -400,17 +407,17 @@ export type PaymentPof = {
 export type PortfolioOpenFormatV110 = {
   accounts: Array<AccountPof>;
   assets: Array<AssetPof>;
-  'cash-balances': Array<CashBalancesPof>;
-  'cash-flows': Array<CashFlowPof>;
+  cashBalances: Array<CashBalancesPof>;
+  cashFlows: Array<CashFlowPof>;
   end?: number;
   generated?: number;
-  'generated-by': string;
+  generatedBy: string;
   payments: Array<PaymentPof>;
   start?: number;
   trades: Array<TradePof>;
   transfers: Array<TransferPof>;
   version: string;
-  'vnd-investbook'?: VndInvestbookPof;
+  vndInvestbook?: VndInvestbookPof;
 };
 
 /**
@@ -482,7 +489,7 @@ export type SecurityEventCashFlow = {
   /**
    * Тип события
    */
-  'event-type':
+  eventType:
     | 'CASH'
     | 'PRICE'
     | 'ACCRUED_INTEREST'
@@ -519,7 +526,7 @@ export type SecurityQuote = {
   /**
    * НКД (в валюте, только для облигаций)
    */
-  'accrued-interest'?: number | null;
+  accruedInterest?: number | null;
   /**
    * Валюта котировки для акций, облигаций, произвольных активов и опционально для деривативов
    */
@@ -554,19 +561,19 @@ export type SortObject = {
 
 export type TradePof = {
   account?: number;
-  'accrued-interest'?: number;
+  accruedInterest?: number;
   asset?: number;
   count: number;
   currency?: string;
   description?: string;
   fee: number;
-  'fee-currency': string;
+  feeCurrency: string;
   id?: number;
   price?: number;
   quote?: number;
   settlement?: number;
   timestamp?: number;
-  'trade-id': string;
+  tradeId: string;
 };
 
 export type Transaction = {
@@ -593,7 +600,7 @@ export type Transaction = {
   /**
    * Номер сделки в системе учета брокера
    */
-  'trade-id': string;
+  tradeId: string;
 };
 
 export type TransactionCashFlow = {
@@ -604,7 +611,7 @@ export type TransactionCashFlow = {
   /**
    * Тип события (стоимость бумаг без НКД, НКД, комиссия)
    */
-  'event-type':
+  eventType:
     | 'CASH'
     | 'PRICE'
     | 'ACCRUED_INTEREST'
@@ -626,7 +633,7 @@ export type TransactionCashFlow = {
   /**
    * Внутренний идентификатор сделки
    */
-  'transaction-id': number;
+  transactionId: number;
   /**
    * Сумма по событию
    */
@@ -639,18 +646,18 @@ export type TransferPof = {
   count: number;
   description?: string;
   fee?: number;
-  'fee-account'?: number;
-  'fee-currency'?: string;
+  feeAccount?: number;
+  feeCurrency?: string;
   id?: number;
   timestamp?: number;
-  'transfer-id'?: string;
+  transferId?: string;
 };
 
 export type VndInvestbookPof = {
-  'account-cash': Array<AccountCash>;
-  'account-properties': Array<AccountProperty>;
-  'security-descriptions': Array<SecurityDescription>;
-  'security-quotes': Array<SecurityQuote>;
+  accountCash: Array<AccountCash>;
+  accountProperties: Array<AccountProperty>;
+  securityDescriptions: Array<SecurityDescription>;
+  securityQuotes: Array<SecurityQuote>;
   version: string;
 };
 
@@ -672,9 +679,7 @@ export type GetAccountsAllStatsResponses = {
   /**
    * OK
    */
-  200: {
-    [key: string]: unknown;
-  };
+  200: AccountStats;
 };
 
 export type GetAccountsAllStatsResponse =
@@ -1570,10 +1575,10 @@ export type GetForeignExchangeRatesCurrencyPairsByCurrencyPairData = {
     /**
      * Валютная пара
      */
-    'currency-pair': string;
+    currencyPair: string;
   };
   query?: never;
-  url: '/api/v1/foreign-exchange-rates/currency-pairs/{currency-pair}';
+  url: '/api/v1/foreign-exchange-rates/currency-pairs/{currencyPair}';
 };
 
 export type GetForeignExchangeRatesCurrencyPairsByCurrencyPairErrors = {
@@ -1600,14 +1605,14 @@ export type DeleteForeignExchangeRatesCurrencyPairsByCurrencyPairDatesByDateData
       /**
        * Валютная пара
        */
-      'currency-pair': string;
+      currencyPair: string;
       /**
        * Дата
        */
       date: string;
     };
     query?: never;
-    url: '/api/v1/foreign-exchange-rates/currency-pairs/{currency-pair}/dates/{date}';
+    url: '/api/v1/foreign-exchange-rates/currency-pairs/{currencyPair}/dates/{date}';
   };
 
 export type DeleteForeignExchangeRatesCurrencyPairsByCurrencyPairDatesByDateErrors =
@@ -1636,14 +1641,14 @@ export type GetForeignExchangeRatesCurrencyPairsByCurrencyPairDatesByDateData =
       /**
        * Валютная пара
        */
-      'currency-pair': string;
+      currencyPair: string;
       /**
        * Дата
        */
       date: string;
     };
     query?: never;
-    url: '/api/v1/foreign-exchange-rates/currency-pairs/{currency-pair}/dates/{date}';
+    url: '/api/v1/foreign-exchange-rates/currency-pairs/{currencyPair}/dates/{date}';
   };
 
 export type GetForeignExchangeRatesCurrencyPairsByCurrencyPairDatesByDateErrors =
@@ -1672,14 +1677,14 @@ export type PutForeignExchangeRatesCurrencyPairsByCurrencyPairDatesByDateData =
       /**
        * Валютная пара
        */
-      'currency-pair': string;
+      currencyPair: string;
       /**
        * Дата
        */
       date: string;
     };
     query?: never;
-    url: '/api/v1/foreign-exchange-rates/currency-pairs/{currency-pair}/dates/{date}';
+    url: '/api/v1/foreign-exchange-rates/currency-pairs/{currencyPair}/dates/{date}';
   };
 
 export type PutForeignExchangeRatesCurrencyPairsByCurrencyPairDatesByDateErrors =
@@ -2838,15 +2843,10 @@ export type PostAppShutdownErrors = {
 
 export type PostAppShutdownResponses = {
   /**
-   * OK
+   * Accepted
    */
-  200: {
-    [key: string]: string;
-  };
+  202: unknown;
 };
-
-export type PostAppShutdownResponse =
-  PostAppShutdownResponses[keyof PostAppShutdownResponses];
 
 export type GetPortfolioOpenFormatRecordsData = {
   body?: never;

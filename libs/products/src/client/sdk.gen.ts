@@ -709,7 +709,7 @@ export const getForeignExchangeRatesCurrencyPairsByCurrencyPair = <
     GetForeignExchangeRatesCurrencyPairsByCurrencyPairErrors,
     ThrowOnError
   >({
-    url: '/api/v1/foreign-exchange-rates/currency-pairs/{currency-pair}',
+    url: '/api/v1/foreign-exchange-rates/currency-pairs/{currencyPair}',
     ...options,
   });
 
@@ -730,7 +730,7 @@ export const deleteForeignExchangeRatesCurrencyPairsByCurrencyPairDatesByDate =
       DeleteForeignExchangeRatesCurrencyPairsByCurrencyPairDatesByDateErrors,
       ThrowOnError
     >({
-      url: '/api/v1/foreign-exchange-rates/currency-pairs/{currency-pair}/dates/{date}',
+      url: '/api/v1/foreign-exchange-rates/currency-pairs/{currencyPair}/dates/{date}',
       ...options,
     });
 
@@ -750,7 +750,7 @@ export const getForeignExchangeRatesCurrencyPairsByCurrencyPairDatesByDate = <
     GetForeignExchangeRatesCurrencyPairsByCurrencyPairDatesByDateErrors,
     ThrowOnError
   >({
-    url: '/api/v1/foreign-exchange-rates/currency-pairs/{currency-pair}/dates/{date}',
+    url: '/api/v1/foreign-exchange-rates/currency-pairs/{currencyPair}/dates/{date}',
     ...options,
   });
 
@@ -772,7 +772,7 @@ export const putForeignExchangeRatesCurrencyPairsByCurrencyPairDatesByDate = <
     PutForeignExchangeRatesCurrencyPairsByCurrencyPairDatesByDateErrors,
     ThrowOnError
   >({
-    url: '/api/v1/foreign-exchange-rates/currency-pairs/{currency-pair}/dates/{date}',
+    url: '/api/v1/foreign-exchange-rates/currency-pairs/{currencyPair}/dates/{date}',
     ...options,
     headers: {
       'Content-Type': 'application/json',

@@ -201,7 +201,69 @@ for (const [path, pathItem] of Object.entries(paths)) {
 
 console.log(`Generated operationIds for ${operationCount} operation(s).`);
 
-// 4. Sort all object keys for deterministic output, then write
+// 4. Convert kebab-case names to camelCase in schema properties and path parameters
+
+function kebabToCamel(str) {
+  return str.replace(/-([a-z])/g, (_, c) => c.toUpperCase());
+}
+
+// Rename schema properties
+const allSchemas = transformedSpec?.components?.schemas ?? {};
+for (const schema of Object.values(allSchemas)) {
+  if (!schema.properties) continue;
+  const renamed = {};
+  for (const [name, def] of Object.entries(schema.properties)) {
+    renamed[kebabToCamel(name)] = def;
+  }
+  schema.properties = renamed;
+  if (Array.isArray(schema.required)) {
+    schema.required = schema.required.map(kebabToCamel);
+  }
+}
+
+// Rename path parameters in URL templates and operation parameter definitions
+const renamedPaths = {};
+for (const [urlTemplate, pathItem] of Object.entries(
+  transformedSpec?.paths ?? {},
+)) {
+  const newUrl = urlTemplate.replace(
+    /\{([^}]+)\}/g,
+    (_, name) => '{' + kebabToCamel(name) + '}',
+  );
+
+  for (const method of [
+    'get',
+    'put',
+    'post',
+    'delete',
+    'patch',
+    'options',
+    'head',
+    'trace',
+  ]) {
+    const op = pathItem[method];
+    if (!op?.parameters) continue;
+    for (const param of op.parameters) {
+      if (param.in === 'path' && param.name) {
+        param.name = kebabToCamel(param.name);
+      }
+    }
+  }
+  if (pathItem.parameters) {
+    for (const param of pathItem.parameters) {
+      if (param.in === 'path' && param.name) {
+        param.name = kebabToCamel(param.name);
+      }
+    }
+  }
+
+  renamedPaths[newUrl] = pathItem;
+}
+transformedSpec.paths = renamedPaths;
+
+console.log('Converted kebab-case property names to camelCase.');
+
+// 5. Sort all object keys for deterministic output, then write
 const sortedSpec = sortObjectKeys(transformedSpec);
 writeFileSync(OUTPUT_FILE, JSON.stringify(sortedSpec, null, 2) + '\n');
 console.log(`Wrote ${OUTPUT_FILE}`);
