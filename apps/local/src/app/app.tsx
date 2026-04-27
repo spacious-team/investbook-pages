@@ -1,10 +1,13 @@
+import { AppLoader } from '@investbook-pages/common-ui';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import { PortfolioPage } from './pages/PortfolioPage/PortfolioPage';
+
+import { useAccountsAllStats } from './hooks/queries/useAccountsAllStats';
+import { MainLayout } from './layouts/MainLayout/MainLayout';
 import { AnalyticsPage } from './pages/AnalyticsPage/AnalyticsPage';
+import { FormsPage } from './pages/FormsPage/FormsPage';
+import { PortfolioPage } from './pages/PortfolioPage/PortfolioPage';
 import { TaxesPage } from './pages/TaxesPage/TaxesPage';
 import { UploadPage } from './pages/UploadPage/UploadPage';
-import { FormsPage } from './pages/FormsPage/FormsPage';
-import { MainLayout } from './layouts/MainLayout/MainLayout';
 
 const router = createBrowserRouter([
   {
@@ -40,5 +43,12 @@ const router = createBrowserRouter([
 ]);
 
 export function App() {
-  return <RouterProvider router={router} />;
+  const { isPending } = useAccountsAllStats();
+
+  return (
+    <>
+      <RouterProvider router={router} />
+      {isPending && <AppLoader />}
+    </>
+  );
 }

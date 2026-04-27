@@ -89,9 +89,11 @@ module.exports = [
   {
     files: ['**/*.ts', '**/*.tsx', '**/*.js', '**/*.jsx'],
     rules: {
+      curly: ['error', 'all'],
       'padding-line-between-statements': [
-        'warn',
+        'error',
         { blankLine: 'always', prev: '*', next: 'return' },
+        { blankLine: 'always', prev: 'block-like', next: '*' },
       ],
     },
   },
