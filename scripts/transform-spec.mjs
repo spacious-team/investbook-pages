@@ -1,93 +1,11 @@
 #!/usr/bin/env node
-// Fetches the OpenAPI spec from the backend, transliterates Cyrillic schema
-// names to Latin identifiers, generates meaningful operationIds from paths,
-// and writes the result to openapi-spec.json for use by openapi-ts.
+// Fetches the OpenAPI spec from the backend, generates meaningful operationIds
+// from paths, and writes the result to openapi-spec.json for use by openapi-ts.
 
 import { writeFileSync } from 'node:fs';
 
 const SPEC_URL = 'http://localhost:2030/v3/api-docs';
 const OUTPUT_FILE = 'openapi-spec.json';
-
-// Cyrillic → Latin transliteration table (ISO 9 / common web standard)
-const TRANSLIT_MAP = {
-  А: 'A',
-  Б: 'B',
-  В: 'V',
-  Г: 'G',
-  Д: 'D',
-  Е: 'E',
-  Ё: 'Yo',
-  Ж: 'Zh',
-  З: 'Z',
-  И: 'I',
-  Й: 'J',
-  К: 'K',
-  Л: 'L',
-  М: 'M',
-  Н: 'N',
-  О: 'O',
-  П: 'P',
-  Р: 'R',
-  С: 'S',
-  Т: 'T',
-  У: 'U',
-  Ф: 'F',
-  Х: 'Kh',
-  Ц: 'Ts',
-  Ч: 'Ch',
-  Ш: 'Sh',
-  Щ: 'Shch',
-  Ъ: '',
-  Ы: 'Y',
-  Ь: '',
-  Э: 'E',
-  Ю: 'Yu',
-  Я: 'Ya',
-  а: 'a',
-  б: 'b',
-  в: 'v',
-  г: 'g',
-  д: 'd',
-  е: 'e',
-  ё: 'yo',
-  ж: 'zh',
-  з: 'z',
-  и: 'i',
-  й: 'j',
-  к: 'k',
-  л: 'l',
-  м: 'm',
-  н: 'n',
-  о: 'o',
-  п: 'p',
-  р: 'r',
-  с: 's',
-  т: 't',
-  у: 'u',
-  ф: 'f',
-  х: 'kh',
-  ц: 'ts',
-  ч: 'ch',
-  ш: 'sh',
-  щ: 'shch',
-  ъ: '',
-  ы: 'y',
-  ь: '',
-  э: 'e',
-  ю: 'yu',
-  я: 'ya',
-};
-
-function hasCyrillic(str) {
-  return /[а-яёА-ЯЁ]/.test(str);
-}
-
-function transliterate(str) {
-  return str
-    .split('')
-    .map((ch) => (ch in TRANSLIT_MAP ? TRANSLIT_MAP[ch] : ch))
-    .join('');
-}
 
 // Convert a kebab-case or plain segment to PascalCase.
 // e.g. "security-quotes" → "SecurityQuotes", "transactions" → "Transactions"
@@ -144,41 +62,9 @@ if (!response.ok) {
 
 const spec = await response.json();
 
-// 1. Build transliteration map for all Cyrillic schema names
-const schemas = spec?.components?.schemas ?? {};
-const renameMap = {}; // cyrillicName → latinName
-
-for (const name of Object.keys(schemas)) {
-  if (hasCyrillic(name)) {
-    renameMap[name] = transliterate(name)
-      .split(' ')
-      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-      .join('');
-  }
-}
-
-console.log(`Renaming ${Object.keys(renameMap).length} Cyrillic schema(s):`);
-for (const [from, to] of Object.entries(renameMap)) {
-  console.log(`  ${from} → ${to}`);
-}
-
-// 2. Apply renames via text replacement on the serialised JSON.
-//    This catches every $ref, discriminator mapping, etc. in one pass.
-let specText = JSON.stringify(spec, null, 2);
-
-const sortedRenames = Object.entries(renameMap).sort(
-  ([a], [b]) => b.length - a.length,
-);
-for (const [from, to] of sortedRenames) {
-  // Replace inside JSON strings: "/components/schemas/Сделка" and plain keys "Сделка"
-  specText = specText.replaceAll(from, to);
-}
-
-const transformedSpec = JSON.parse(specText);
-
-// 3. Generate operationIds for every operation
+// 1. Generate operationIds for every operation
 let operationCount = 0;
-const paths = transformedSpec?.paths ?? {};
+const paths = spec?.paths ?? {};
 
 for (const [path, pathItem] of Object.entries(paths)) {
   for (const method of [
@@ -201,14 +87,14 @@ for (const [path, pathItem] of Object.entries(paths)) {
 
 console.log(`Generated operationIds for ${operationCount} operation(s).`);
 
-// 4. Convert kebab-case names to camelCase in schema properties and path parameters
+// 2. Convert kebab-case names to camelCase in schema properties and path parameters
 
 function kebabToCamel(str) {
   return str.replace(/-([a-z])/g, (_, c) => c.toUpperCase());
 }
 
 // Rename schema properties
-const allSchemas = transformedSpec?.components?.schemas ?? {};
+const allSchemas = spec?.components?.schemas ?? {};
 for (const schema of Object.values(allSchemas)) {
   if (!schema.properties) continue;
   const renamed = {};
@@ -223,9 +109,7 @@ for (const schema of Object.values(allSchemas)) {
 
 // Rename path parameters in URL templates and operation parameter definitions
 const renamedPaths = {};
-for (const [urlTemplate, pathItem] of Object.entries(
-  transformedSpec?.paths ?? {},
-)) {
+for (const [urlTemplate, pathItem] of Object.entries(spec?.paths ?? {})) {
   const newUrl = urlTemplate.replace(
     /\{([^}]+)\}/g,
     (_, name) => '{' + kebabToCamel(name) + '}',
@@ -259,11 +143,11 @@ for (const [urlTemplate, pathItem] of Object.entries(
 
   renamedPaths[newUrl] = pathItem;
 }
-transformedSpec.paths = renamedPaths;
+spec.paths = renamedPaths;
 
 console.log('Converted kebab-case property names to camelCase.');
 
-// 5. Sort all object keys for deterministic output, then write
-const sortedSpec = sortObjectKeys(transformedSpec);
+// 3. Sort all object keys for deterministic output, then write
+const sortedSpec = sortObjectKeys(spec);
 writeFileSync(OUTPUT_FILE, JSON.stringify(sortedSpec, null, 2) + '\n');
 console.log(`Wrote ${OUTPUT_FILE}`);

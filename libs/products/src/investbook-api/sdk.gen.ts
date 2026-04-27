@@ -236,7 +236,7 @@ export type Options<
 };
 
 /**
- * Статистика портфеля
+ * Get statistics for all accounts
  */
 export const getAccountsAllStats = <ThrowOnError extends boolean = false>(
   options?: Options<GetAccountsAllStatsData, ThrowOnError>,
@@ -308,11 +308,6 @@ export const getActuatorInfo = <ThrowOnError extends boolean = false>(
     ThrowOnError
   >({ url: '/actuator/info', ...options });
 
-/**
- * Отобразить все
- *
- * Отображает всю информацию обо всех счетах
- */
 export const getAccountCash = <ThrowOnError extends boolean = false>(
   options?: Options<GetAccountCashData, ThrowOnError>,
 ) =>
@@ -322,11 +317,6 @@ export const getAccountCash = <ThrowOnError extends boolean = false>(
     ThrowOnError
   >({ url: '/api/v1/account-cash', ...options });
 
-/**
- * Добавить
- *
- * Добавить информацию для конкретного счета
- */
 export const postAccountCash = <ThrowOnError extends boolean = false>(
   options: Options<PostAccountCashData, ThrowOnError>,
 ) =>
@@ -343,9 +333,6 @@ export const postAccountCash = <ThrowOnError extends boolean = false>(
     },
   });
 
-/**
- * Удалить
- */
 export const deleteAccountCashById = <ThrowOnError extends boolean = false>(
   options: Options<DeleteAccountCashByIdData, ThrowOnError>,
 ) =>
@@ -355,11 +342,6 @@ export const deleteAccountCashById = <ThrowOnError extends boolean = false>(
     ThrowOnError
   >({ url: '/api/v1/account-cash/{id}', ...options });
 
-/**
- * Отобразить один
- *
- * Отображает информацию по идентификатору
- */
 export const getAccountCashById = <ThrowOnError extends boolean = false>(
   options: Options<GetAccountCashByIdData, ThrowOnError>,
 ) =>
@@ -369,11 +351,6 @@ export const getAccountCashById = <ThrowOnError extends boolean = false>(
     ThrowOnError
   >({ url: '/api/v1/account-cash/{id}', ...options });
 
-/**
- * Обновить
- *
- * Обновить информацию для счета
- */
 export const putAccountCashById = <ThrowOnError extends boolean = false>(
   options: Options<PutAccountCashByIdData, ThrowOnError>,
 ) =>
@@ -390,11 +367,6 @@ export const putAccountCashById = <ThrowOnError extends boolean = false>(
     },
   });
 
-/**
- * Отобразить все
- *
- * Отображает всю имеющуюся информацию обо всех счетах
- */
 export const getAccountProperties = <ThrowOnError extends boolean = false>(
   options?: Options<GetAccountPropertiesData, ThrowOnError>,
 ) =>
@@ -404,11 +376,6 @@ export const getAccountProperties = <ThrowOnError extends boolean = false>(
     ThrowOnError
   >({ url: '/api/v1/account-properties', ...options });
 
-/**
- * Добавить
- *
- * Добавить информацию для конкретного счета
- */
 export const postAccountProperties = <ThrowOnError extends boolean = false>(
   options: Options<PostAccountPropertiesData, ThrowOnError>,
 ) =>
@@ -425,9 +392,6 @@ export const postAccountProperties = <ThrowOnError extends boolean = false>(
     },
   });
 
-/**
- * Удалить
- */
 export const deleteAccountPropertiesById = <
   ThrowOnError extends boolean = false,
 >(
@@ -439,11 +403,6 @@ export const deleteAccountPropertiesById = <
     ThrowOnError
   >({ url: '/api/v1/account-properties/{id}', ...options });
 
-/**
- * Отобразить один
- *
- * Отображает информацию по идентификатору
- */
 export const getAccountPropertiesById = <ThrowOnError extends boolean = false>(
   options: Options<GetAccountPropertiesByIdData, ThrowOnError>,
 ) =>
@@ -453,11 +412,6 @@ export const getAccountPropertiesById = <ThrowOnError extends boolean = false>(
     ThrowOnError
   >({ url: '/api/v1/account-properties/{id}', ...options });
 
-/**
- * Обновить
- *
- * Обновить информацию для счета
- */
 export const putAccountPropertiesById = <ThrowOnError extends boolean = false>(
   options: Options<PutAccountPropertiesByIdData, ThrowOnError>,
 ) =>
@@ -474,9 +428,6 @@ export const putAccountPropertiesById = <ThrowOnError extends boolean = false>(
     },
   });
 
-/**
- * Отобразить все
- */
 export const getAccounts = <ThrowOnError extends boolean = false>(
   options?: Options<GetAccountsData, ThrowOnError>,
 ) =>
@@ -486,9 +437,6 @@ export const getAccounts = <ThrowOnError extends boolean = false>(
     ThrowOnError
   >({ url: '/api/v1/accounts', ...options });
 
-/**
- * Добавить
- */
 export const postAccounts = <ThrowOnError extends boolean = false>(
   options: Options<PostAccountsData, ThrowOnError>,
 ) =>
@@ -506,9 +454,7 @@ export const postAccounts = <ThrowOnError extends boolean = false>(
   });
 
 /**
- * Удалить
- *
- * Удалить счет и все связанные с ним данные
+ * Deletes the account and all associated data, including all transactions
  */
 export const deleteAccountsById = <ThrowOnError extends boolean = false>(
   options: Options<DeleteAccountsByIdData, ThrowOnError>,
@@ -519,9 +465,6 @@ export const deleteAccountsById = <ThrowOnError extends boolean = false>(
     ThrowOnError
   >({ url: '/api/v1/accounts/{id}', ...options });
 
-/**
- * Отобразить один
- */
 export const getAccountsById = <ThrowOnError extends boolean = false>(
   options: Options<GetAccountsByIdData, ThrowOnError>,
 ) =>
@@ -531,9 +474,6 @@ export const getAccountsById = <ThrowOnError extends boolean = false>(
     ThrowOnError
   >({ url: '/api/v1/accounts/{id}', ...options });
 
-/**
- * Обновить
- */
 export const putAccountsById = <ThrowOnError extends boolean = false>(
   options: Options<PutAccountsByIdData, ThrowOnError>,
 ) =>
@@ -550,9 +490,6 @@ export const putAccountsById = <ThrowOnError extends boolean = false>(
     },
   });
 
-/**
- * Отобразить все
- */
 export const getCashFlowTypes = <ThrowOnError extends boolean = false>(
   options?: Options<GetCashFlowTypesData, ThrowOnError>,
 ) =>
@@ -562,9 +499,6 @@ export const getCashFlowTypes = <ThrowOnError extends boolean = false>(
     ThrowOnError
   >({ url: '/api/v1/cash-flow-types', ...options });
 
-/**
- * Отобразить по идентификатору
- */
 export const getCashFlowTypesById = <ThrowOnError extends boolean = false>(
   options: Options<GetCashFlowTypesByIdData, ThrowOnError>,
 ) =>
@@ -574,11 +508,6 @@ export const getCashFlowTypesById = <ThrowOnError extends boolean = false>(
     ThrowOnError
   >({ url: '/api/v1/cash-flow-types/{id}', ...options });
 
-/**
- * Отобразить все
- *
- * Отображает все выплаты по всем счетам
- */
 export const getEventCashFlows = <ThrowOnError extends boolean = false>(
   options?: Options<GetEventCashFlowsData, ThrowOnError>,
 ) =>
@@ -588,11 +517,6 @@ export const getEventCashFlows = <ThrowOnError extends boolean = false>(
     ThrowOnError
   >({ url: '/api/v1/event-cash-flows', ...options });
 
-/**
- * Добавить
- *
- * Сохранить информацию
- */
 export const postEventCashFlows = <ThrowOnError extends boolean = false>(
   options: Options<PostEventCashFlowsData, ThrowOnError>,
 ) =>
@@ -609,11 +533,6 @@ export const postEventCashFlows = <ThrowOnError extends boolean = false>(
     },
   });
 
-/**
- * Удалить
- *
- * Удалить информацию из БД
- */
 export const deleteEventCashFlowsById = <ThrowOnError extends boolean = false>(
   options: Options<DeleteEventCashFlowsByIdData, ThrowOnError>,
 ) =>
@@ -623,11 +542,6 @@ export const deleteEventCashFlowsById = <ThrowOnError extends boolean = false>(
     ThrowOnError
   >({ url: '/api/v1/event-cash-flows/{id}', ...options });
 
-/**
- * Отобразить одну
- *
- * Отобразить выплату по ее номеру
- */
 export const getEventCashFlowsById = <ThrowOnError extends boolean = false>(
   options: Options<GetEventCashFlowsByIdData, ThrowOnError>,
 ) =>
@@ -637,11 +551,6 @@ export const getEventCashFlowsById = <ThrowOnError extends boolean = false>(
     ThrowOnError
   >({ url: '/api/v1/event-cash-flows/{id}', ...options });
 
-/**
- * Обновить
- *
- * Модифицировать информацию
- */
 export const putEventCashFlowsById = <ThrowOnError extends boolean = false>(
   options: Options<PutEventCashFlowsByIdData, ThrowOnError>,
 ) =>
@@ -658,11 +567,6 @@ export const putEventCashFlowsById = <ThrowOnError extends boolean = false>(
     },
   });
 
-/**
- * Отобразить все
- *
- * Отображает всю имеющуюся информацию по обменным курсам
- */
 export const getForeignExchangeRates = <ThrowOnError extends boolean = false>(
   options?: Options<GetForeignExchangeRatesData, ThrowOnError>,
 ) =>
@@ -672,9 +576,6 @@ export const getForeignExchangeRates = <ThrowOnError extends boolean = false>(
     ThrowOnError
   >({ url: '/api/v1/foreign-exchange-rates', ...options });
 
-/**
- * Добавить
- */
 export const postForeignExchangeRates = <ThrowOnError extends boolean = false>(
   options: Options<PostForeignExchangeRatesData, ThrowOnError>,
 ) =>
@@ -691,11 +592,6 @@ export const postForeignExchangeRates = <ThrowOnError extends boolean = false>(
     },
   });
 
-/**
- * Отобразить по валюте
- *
- * Отображает всю имеющуюся информацию по обменному курсу заданной валютной пары
- */
 export const getForeignExchangeRatesCurrencyPairsByCurrencyPair = <
   ThrowOnError extends boolean = false,
 >(
@@ -713,11 +609,6 @@ export const getForeignExchangeRatesCurrencyPairsByCurrencyPair = <
     ...options,
   });
 
-/**
- * Удалить
- *
- * Удаляет информацию о курсе из БД
- */
 export const deleteForeignExchangeRatesCurrencyPairsByCurrencyPairDatesByDate =
   <ThrowOnError extends boolean = false>(
     options: Options<
@@ -734,9 +625,6 @@ export const deleteForeignExchangeRatesCurrencyPairsByCurrencyPairDatesByDate =
       ...options,
     });
 
-/**
- * Отобразить по валюте и дате
- */
 export const getForeignExchangeRatesCurrencyPairsByCurrencyPairDatesByDate = <
   ThrowOnError extends boolean = false,
 >(
@@ -754,11 +642,6 @@ export const getForeignExchangeRatesCurrencyPairsByCurrencyPairDatesByDate = <
     ...options,
   });
 
-/**
- * Обновить
- *
- * Обновляет информацию о курсе валюты за заданную дату
- */
 export const putForeignExchangeRatesCurrencyPairsByCurrencyPairDatesByDate = <
   ThrowOnError extends boolean = false,
 >(
@@ -780,9 +663,6 @@ export const putForeignExchangeRatesCurrencyPairsByCurrencyPairDatesByDate = <
     },
   });
 
-/**
- * Отобразить всех
- */
 export const getIssuers = <ThrowOnError extends boolean = false>(
   options?: Options<GetIssuersData, ThrowOnError>,
 ) =>
@@ -792,9 +672,6 @@ export const getIssuers = <ThrowOnError extends boolean = false>(
     ThrowOnError
   >({ url: '/api/v1/issuers', ...options });
 
-/**
- * Добавить
- */
 export const postIssuers = <ThrowOnError extends boolean = false>(
   options: Options<PostIssuersData, ThrowOnError>,
 ) =>
@@ -811,11 +688,6 @@ export const postIssuers = <ThrowOnError extends boolean = false>(
     },
   });
 
-/**
- * Удалить
- *
- * Удаляет сведения об эмитенте из БД
- */
 export const deleteIssuersById = <ThrowOnError extends boolean = false>(
   options: Options<DeleteIssuersByIdData, ThrowOnError>,
 ) =>
@@ -825,11 +697,6 @@ export const deleteIssuersById = <ThrowOnError extends boolean = false>(
     ThrowOnError
   >({ url: '/api/v1/issuers/{id}', ...options });
 
-/**
- * Отобразить одного
- *
- * Отобразить информацию об эмитенте по его номеру
- */
 export const getIssuersById = <ThrowOnError extends boolean = false>(
   options: Options<GetIssuersByIdData, ThrowOnError>,
 ) =>
@@ -839,9 +706,6 @@ export const getIssuersById = <ThrowOnError extends boolean = false>(
     ThrowOnError
   >({ url: '/api/v1/issuers/{id}', ...options });
 
-/**
- * Обновить сведения
- */
 export const putIssuersById = <ThrowOnError extends boolean = false>(
   options: Options<PutIssuersByIdData, ThrowOnError>,
 ) =>
@@ -858,11 +722,6 @@ export const putIssuersById = <ThrowOnError extends boolean = false>(
     },
   });
 
-/**
- * Отобразить все
- *
- * Отобразить все биржевые инструменты
- */
 export const getSecurities = <ThrowOnError extends boolean = false>(
   options?: Options<GetSecuritiesData, ThrowOnError>,
 ) =>
@@ -872,11 +731,6 @@ export const getSecurities = <ThrowOnError extends boolean = false>(
     ThrowOnError
   >({ url: '/api/v1/securities', ...options });
 
-/**
- * Добавить
- *
- * Добавить информацию об акции, облигации, деривативе или валютной паре
- */
 export const postSecurities = <ThrowOnError extends boolean = false>(
   options: Options<PostSecuritiesData, ThrowOnError>,
 ) =>
@@ -894,9 +748,7 @@ export const postSecurities = <ThrowOnError extends boolean = false>(
   });
 
 /**
- * Удалить
- *
- * Удалить сведения о биржевом инструменте и всех его сделках по всем счетам
+ * Deletes all security-related transactions across all accounts
  */
 export const deleteSecuritiesById = <ThrowOnError extends boolean = false>(
   options: Options<DeleteSecuritiesByIdData, ThrowOnError>,
@@ -907,11 +759,6 @@ export const deleteSecuritiesById = <ThrowOnError extends boolean = false>(
     ThrowOnError
   >({ url: '/api/v1/securities/{id}', ...options });
 
-/**
- * Отобразить один
- *
- * Отобразить биржевой инструмент по внутреннему идентификатору
- */
 export const getSecuritiesById = <ThrowOnError extends boolean = false>(
   options: Options<GetSecuritiesByIdData, ThrowOnError>,
 ) =>
@@ -921,11 +768,6 @@ export const getSecuritiesById = <ThrowOnError extends boolean = false>(
     ThrowOnError
   >({ url: '/api/v1/securities/{id}', ...options });
 
-/**
- * Обновить
- *
- * Добавить информацию об акции, облигации, деривативе или валютной паре
- */
 export const putSecuritiesById = <ThrowOnError extends boolean = false>(
   options: Options<PutSecuritiesByIdData, ThrowOnError>,
 ) =>
@@ -942,11 +784,6 @@ export const putSecuritiesById = <ThrowOnError extends boolean = false>(
     },
   });
 
-/**
- * Отобразить все
- *
- * Отобразить информацию по всем инструментам
- */
 export const getSecurityDescriptions = <ThrowOnError extends boolean = false>(
   options?: Options<GetSecurityDescriptionsData, ThrowOnError>,
 ) =>
@@ -956,11 +793,6 @@ export const getSecurityDescriptions = <ThrowOnError extends boolean = false>(
     ThrowOnError
   >({ url: '/api/v1/security-descriptions', ...options });
 
-/**
- * Добавить
- *
- * Добавить информацию об акции, облигации, деривативе или валютной паре
- */
 export const postSecurityDescriptions = <ThrowOnError extends boolean = false>(
   options: Options<PostSecurityDescriptionsData, ThrowOnError>,
 ) =>
@@ -977,11 +809,6 @@ export const postSecurityDescriptions = <ThrowOnError extends boolean = false>(
     },
   });
 
-/**
- * Удалить
- *
- * Удалить информацию по инструменту
- */
 export const deleteSecurityDescriptionsById = <
   ThrowOnError extends boolean = false,
 >(
@@ -993,11 +820,6 @@ export const deleteSecurityDescriptionsById = <
     ThrowOnError
   >({ url: '/api/v1/security-descriptions/{id}', ...options });
 
-/**
- * Отобразить один
- *
- * Отобразить информацию по инструменту
- */
 export const getSecurityDescriptionsById = <
   ThrowOnError extends boolean = false,
 >(
@@ -1009,11 +831,6 @@ export const getSecurityDescriptionsById = <
     ThrowOnError
   >({ url: '/api/v1/security-descriptions/{id}', ...options });
 
-/**
- * Обновить
- *
- * Добавить информацию об акции, облигации, деривативе или валютной паре
- */
 export const putSecurityDescriptionsById = <
   ThrowOnError extends boolean = false,
 >(
@@ -1032,11 +849,6 @@ export const putSecurityDescriptionsById = <
     },
   });
 
-/**
- * Отобразить все
- *
- * Отображает все выплаты по всем счетам
- */
 export const getSecurityEventCashFlows = <ThrowOnError extends boolean = false>(
   options?: Options<GetSecurityEventCashFlowsData, ThrowOnError>,
 ) =>
@@ -1046,11 +858,6 @@ export const getSecurityEventCashFlows = <ThrowOnError extends boolean = false>(
     ThrowOnError
   >({ url: '/api/v1/security-event-cash-flows', ...options });
 
-/**
- * Добавить
- *
- * Сохранить информацию о выплате
- */
 export const postSecurityEventCashFlows = <
   ThrowOnError extends boolean = false,
 >(
@@ -1069,11 +876,6 @@ export const postSecurityEventCashFlows = <
     },
   });
 
-/**
- * Удалить
- *
- * Удалить информацию о выплате
- */
 export const deleteSecurityEventCashFlowsById = <
   ThrowOnError extends boolean = false,
 >(
@@ -1085,11 +887,6 @@ export const deleteSecurityEventCashFlowsById = <
     ThrowOnError
   >({ url: '/api/v1/security-event-cash-flows/{id}', ...options });
 
-/**
- * Отобразить одну
- *
- * Отобразить выплату по идентификатору
- */
 export const getSecurityEventCashFlowsById = <
   ThrowOnError extends boolean = false,
 >(
@@ -1101,11 +898,6 @@ export const getSecurityEventCashFlowsById = <
     ThrowOnError
   >({ url: '/api/v1/security-event-cash-flows/{id}', ...options });
 
-/**
- * Обновить
- *
- * Модифицировать информацию о выплате
- */
 export const putSecurityEventCashFlowsById = <
   ThrowOnError extends boolean = false,
 >(
@@ -1124,11 +916,6 @@ export const putSecurityEventCashFlowsById = <
     },
   });
 
-/**
- * Отобразить все
- *
- * Отобразить всю историю котировок по всем инструментам
- */
 export const getSecurityQuotes = <ThrowOnError extends boolean = false>(
   options?: Options<GetSecurityQuotesData, ThrowOnError>,
 ) =>
@@ -1138,9 +925,6 @@ export const getSecurityQuotes = <ThrowOnError extends boolean = false>(
     ThrowOnError
   >({ url: '/api/v1/security-quotes', ...options });
 
-/**
- * Добавить
- */
 export const postSecurityQuotes = <ThrowOnError extends boolean = false>(
   options: Options<PostSecurityQuotesData, ThrowOnError>,
 ) =>
@@ -1157,9 +941,6 @@ export const postSecurityQuotes = <ThrowOnError extends boolean = false>(
     },
   });
 
-/**
- * Удалить
- */
 export const deleteSecurityQuotesById = <ThrowOnError extends boolean = false>(
   options: Options<DeleteSecurityQuotesByIdData, ThrowOnError>,
 ) =>
@@ -1169,11 +950,6 @@ export const deleteSecurityQuotesById = <ThrowOnError extends boolean = false>(
     ThrowOnError
   >({ url: '/api/v1/security-quotes/{id}', ...options });
 
-/**
- * Отобразить одну
- *
- * Отобразить котировку по номеру записи
- */
 export const getSecurityQuotesById = <ThrowOnError extends boolean = false>(
   options: Options<GetSecurityQuotesByIdData, ThrowOnError>,
 ) =>
@@ -1183,9 +959,6 @@ export const getSecurityQuotesById = <ThrowOnError extends boolean = false>(
     ThrowOnError
   >({ url: '/api/v1/security-quotes/{id}', ...options });
 
-/**
- * Обновить
- */
 export const putSecurityQuotesById = <ThrowOnError extends boolean = false>(
   options: Options<PutSecurityQuotesByIdData, ThrowOnError>,
 ) =>
@@ -1202,11 +975,6 @@ export const putSecurityQuotesById = <ThrowOnError extends boolean = false>(
     },
   });
 
-/**
- * Отобразить по фильтру
- *
- * Отобразить информацию о сделках
- */
 export const getTransactionCashFlows = <ThrowOnError extends boolean = false>(
   options?: Options<GetTransactionCashFlowsData, ThrowOnError>,
 ) =>
@@ -1216,11 +984,6 @@ export const getTransactionCashFlows = <ThrowOnError extends boolean = false>(
     ThrowOnError
   >({ url: '/api/v1/transaction-cash-flows', ...options });
 
-/**
- * Добавить
- *
- * Добавить информацию об об объемах движения ДС по сделке
- */
 export const postTransactionCashFlows = <ThrowOnError extends boolean = false>(
   options: Options<PostTransactionCashFlowsData, ThrowOnError>,
 ) =>
@@ -1238,10 +1001,7 @@ export const postTransactionCashFlows = <ThrowOnError extends boolean = false>(
   });
 
 /**
- * Удалить
- *
- * Удалить информацию об об объемах движения ДС по сделке. Сама сделка не удаляется, ее нужно удалить своим API
- *
+ * Removes cash flow information for the transaction, the transaction itself is not deleted
  */
 export const deleteTransactionCashFlowsById = <
   ThrowOnError extends boolean = false,
@@ -1254,11 +1014,6 @@ export const deleteTransactionCashFlowsById = <
     ThrowOnError
   >({ url: '/api/v1/transaction-cash-flows/{id}', ...options });
 
-/**
- * Отобразить одну
- *
- * Отобразить информацию о конкретной сделке
- */
 export const getTransactionCashFlowsById = <
   ThrowOnError extends boolean = false,
 >(
@@ -1270,11 +1025,6 @@ export const getTransactionCashFlowsById = <
     ThrowOnError
   >({ url: '/api/v1/transaction-cash-flows/{id}', ...options });
 
-/**
- * Обновить
- *
- * Обновить информацию об об объемах движения ДС по сделке
- */
 export const putTransactionCashFlowsById = <
   ThrowOnError extends boolean = false,
 >(
@@ -1293,11 +1043,6 @@ export const putTransactionCashFlowsById = <
     },
   });
 
-/**
- * Отобразить по фильтру
- *
- * Отображает сделки по счетам
- */
 export const getTransactions = <ThrowOnError extends boolean = false>(
   options?: Options<GetTransactionsData, ThrowOnError>,
 ) =>
@@ -1307,11 +1052,6 @@ export const getTransactions = <ThrowOnError extends boolean = false>(
     ThrowOnError
   >({ url: '/api/v1/transactions', ...options });
 
-/**
- * Добавить
- *
- * Сохраняет новую сделку
- */
 export const postTransactions = <ThrowOnError extends boolean = false>(
   options: Options<PostTransactionsData, ThrowOnError>,
 ) =>
@@ -1328,11 +1068,6 @@ export const postTransactions = <ThrowOnError extends boolean = false>(
     },
   });
 
-/**
- * Удалить
- *
- * Удаляет указанную сделку
- */
 export const deleteTransactionsById = <ThrowOnError extends boolean = false>(
   options: Options<DeleteTransactionsByIdData, ThrowOnError>,
 ) =>
@@ -1342,11 +1077,6 @@ export const deleteTransactionsById = <ThrowOnError extends boolean = false>(
     ThrowOnError
   >({ url: '/api/v1/transactions/{id}', ...options });
 
-/**
- * Отобразить одну
- *
- * Отображает одну сделку
- */
 export const getTransactionsById = <ThrowOnError extends boolean = false>(
   options: Options<GetTransactionsByIdData, ThrowOnError>,
 ) =>
@@ -1356,11 +1086,6 @@ export const getTransactionsById = <ThrowOnError extends boolean = false>(
     ThrowOnError
   >({ url: '/api/v1/transactions/{id}', ...options });
 
-/**
- * Обновить параметры
- *
- * Обновляет параметры указанной сделки
- */
 export const putTransactionsById = <ThrowOnError extends boolean = false>(
   options: Options<PutTransactionsByIdData, ThrowOnError>,
 ) =>
@@ -1378,7 +1103,7 @@ export const putTransactionsById = <ThrowOnError extends boolean = false>(
   });
 
 /**
- * Закрыть приложение
+ * Shutdown app
  */
 export const postAppShutdown = <ThrowOnError extends boolean = false>(
   options?: Options<PostAppShutdownData, ThrowOnError>,
@@ -1390,7 +1115,7 @@ export const postAppShutdown = <ThrowOnError extends boolean = false>(
   >({ url: '/app/shutdown', ...options });
 
 /**
- * Отобразить портфель
+ * Get portfolio
  */
 export const getPortfolioOpenFormatRecords = <
   ThrowOnError extends boolean = false,
@@ -1404,14 +1129,14 @@ export const getPortfolioOpenFormatRecords = <
   >({ url: '/portfolio-open-format/records', ...options });
 
 /**
- * Сохранить портфель
+ * Upload portfolio
  */
 export const postPortfolioOpenFormatRecords = <
   ThrowOnError extends boolean = false,
 >(
-  options?: Options<PostPortfolioOpenFormatRecordsData, ThrowOnError>,
+  options: Options<PostPortfolioOpenFormatRecordsData, ThrowOnError>,
 ) =>
-  (options?.client ?? client).post<
+  (options.client ?? client).post<
     PostPortfolioOpenFormatRecordsResponses,
     PostPortfolioOpenFormatRecordsErrors,
     ThrowOnError
@@ -1420,6 +1145,6 @@ export const postPortfolioOpenFormatRecords = <
     ...options,
     headers: {
       'Content-Type': 'application/json',
-      ...options?.headers,
+      ...options.headers,
     },
   });

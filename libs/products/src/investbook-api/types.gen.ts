@@ -6,38 +6,38 @@ export type ClientOptions = {
 
 export type Account = {
   /**
-   * Признак активного счета: если false то счет исключается из аналитического расчета
+   * Active account flag: if false, the account is archived
    */
   enabled: boolean;
   /**
-   * Номер счета в системе учета брокера
+   * Account number in the broker's accounting system
    */
   id: string;
 };
 
 export type AccountCash = {
   /**
-   * Номер счета в системе учета брокера
+   * Account number in the broker's accounting system
    */
   account: string;
   /**
-   * Валюта
+   * Currency
    */
   currency: string;
   /**
-   * Внутренний идентификатор
+   * Record ID
    */
   id?: number | null;
   /**
-   * Рынок
+   * Market
    */
   market: string;
   /**
-   * Значение актуально на дату
+   * Date and time
    */
   timestamp: string;
   /**
-   * Остаток денежных средств
+   * Cash balance
    */
   value: number;
 };
@@ -52,23 +52,23 @@ export type AccountPof = {
 
 export type AccountProperty = {
   /**
-   * Номер счета
+   * Account number in the broker's accounting system
    */
   account: string;
   /**
-   * Внутренний идентификатор записи
+   * Record ID
    */
   id?: number | null;
   /**
-   * Свойство портфеля
+   * Property
    */
   property: 'TOTAL_ASSETS_RUB' | 'TOTAL_ASSETS_USD';
   /**
-   * Информация актуальна на время
+   * Date and time
    */
   timestamp?: string | null;
   /**
-   * Значение свойства
+   * Value
    */
   value: string;
 };
@@ -120,23 +120,23 @@ export type CashPof = {
 };
 
 /**
- * Ввод и вывод ДС, налоги, комиссии, а также выплаты по инструментам другого счета
+ * Cash deposits and withdrawals, taxes, fees, and payouts on instruments from another account
  */
 export type EventCashFlow = {
   /**
-   * Номер счета
+   * Account number in the broker's accounting system
    */
   account: string;
   /**
-   * Валюта
+   * Currency
    */
   currency?: string;
   /**
-   * Описание события
+   * Description
    */
   description?: string | null;
   /**
-   * Тип события
+   * Event type
    */
   eventType:
     | 'CASH'
@@ -154,45 +154,45 @@ export type EventCashFlow = {
     | 'DERIVATIVE_PRICE'
     | 'DERIVATIVE_QUOTE';
   /**
-   * Идентификатор записи
+   * Record ID
    */
   id?: number | null;
   /**
-   * Время события
+   * Event time
    */
   timestamp: string;
   /**
-   * Значение
+   * Amount
    */
   value: number;
 };
 
 export type ForeignExchangeRate = {
   /**
-   * Валютная пара, для курса доллара в рублях - USDRUB
+   * Currency pair
    */
   currencyPair: string;
   /**
-   * Дата
+   * Date
    */
   date: string;
   /**
-   * Значение обменного курса
+   * Currency exchange rate
    */
   rate: number;
 };
 
 export type Issuer = {
   /**
-   * Внутренний идентификатор эмитента
+   * Record ID
    */
   id?: number | null;
   /**
-   * Наименование
+   * Issuer name
    */
   name: string;
   /**
-   * Идентификатор налогоплательщика (Россия - ИНН, США - EIN и т.д.)
+   * Taxpayer identification number (Russia: INN, US: EIN, etc.)
    */
   taxpayerId?: string | null;
 };
@@ -421,27 +421,27 @@ export type PortfolioOpenFormatV110 = {
 };
 
 /**
- * Акция, облигация, валютная пара, фьючерс, опцион или произвольный актив
+ * Stocks, bonds, futures, options, currency pairs and custom assets
  */
 export type Security = {
   /**
-   * Внутренний идентификатор инструмента
+   * Record ID
    */
   id?: number | null;
   /**
-   * ISIN акций и облигаций (опционально)
+   * ISIN of stocks and bonds
    */
   isin?: string | null;
   /**
-   * Наименование (опционально)
+   * Asset name
    */
   name?: string | null;
   /**
-   * Тикер (опционально)
+   * Ticker
    */
   ticker?: string | null;
   /**
-   * Тип ценной бумаги
+   * Security type
    */
   type:
     | 'STOCK'
@@ -452,42 +452,39 @@ export type Security = {
     | 'ASSET';
 };
 
-/**
- * Информация об инструменте
- */
 export type SecurityDescription = {
   /**
-   * Внутренний идентификатор эмитента (опционально)
+   * Issuer record ID
    */
   issuer?: number | null;
   /**
-   * Сектор экономики (опционально)
+   * Industry sector
    */
   sector?: string | null;
   /**
-   * Внутренний идентификатор инструмента
+   * Security record ID
    */
   security: number;
 };
 
 /**
- * Дивиденды, купоны, амортизация, вариационная маржа, налоги, комиссии
+ * Dividends, coupons, amortizations, variation margin, taxes, fees
  */
 export type SecurityEventCashFlow = {
   /**
-   * Номер счета в системе учета брокера
+   * Account number in the broker's accounting system
    */
   account: string;
   /**
-   * Количество бумаг (контрактов)
+   * Number of securities (contracts)
    */
   count: number;
   /**
-   * Валюта
+   * Currency
    */
   currency?: string | null;
   /**
-   * Тип события
+   * Event type
    */
   eventType:
     | 'CASH'
@@ -505,50 +502,53 @@ export type SecurityEventCashFlow = {
     | 'DERIVATIVE_PRICE'
     | 'DERIVATIVE_QUOTE';
   /**
-   * Внутренний идентификатор записи
+   * Record ID
    */
   id?: number | null;
   /**
-   * Инструмент
+   * Security
    */
   security: number;
   /**
-   * Время события
+   * Event time
    */
   timestamp: string;
   /**
-   * Сумма
+   * Amount
    */
   value: number;
 };
 
+/**
+ * Quotes for traded instruments and valuations for custom assets
+ */
 export type SecurityQuote = {
   /**
-   * НКД (в валюте, только для облигаций)
+   * Accrued coupon interest (in currency, for bonds only)
    */
   accruedInterest?: number | null;
   /**
-   * Валюта котировки для акций, облигаций, произвольных активов и опционально для деривативов
+   * Quote currency for stocks, bonds, and custom assets and optionally for derivatives
    */
   currency?: string | null;
   /**
-   * Внутренний идентификатор записи
+   * Record ID
    */
   id?: number | null;
   /**
-   * Котировка (в валюте, только для облигаций и деривативов)
+   * Quote in currency (for bonds and derivatives only)
    */
   price?: number | null;
   /**
-   * Котировка (для облигаций - в процентах, деривативы - в пунктах)
+   * Quote (for bonds - in percent, for derivatives - in points)
    */
   quote: number;
   /**
-   * Инструмент
+   * Asset
    */
   security: number;
   /**
-   * Время
+   * Date and time
    */
   timestamp: string;
 };
@@ -578,38 +578,38 @@ export type TradePof = {
 
 export type Transaction = {
   /**
-   * Номер счета в системе учета брокера
+   * Account number in the broker's accounting system
    */
   account: string;
   /**
-   * Количество бумаг (контрактов), шт
+   * Number of securities (contracts)
    */
   count: number;
   /**
-   * Внутренний идентификатор сделки
+   * Record ID
    */
   id?: number | null;
   /**
-   * Инструмент
+   * Security
    */
   security: number;
   /**
-   * Время сделки
+   * Trade date and time
    */
   timestamp: string;
   /**
-   * Номер сделки в системе учета брокера
+   * Trade ID in the broker's accounting system
    */
   tradeId: string;
 };
 
 export type TransactionCashFlow = {
   /**
-   * Валюта
+   * Currency
    */
   currency?: string | null;
   /**
-   * Тип события (стоимость бумаг без НКД, НКД, комиссия)
+   * Event type
    */
   eventType:
     | 'CASH'
@@ -627,15 +627,15 @@ export type TransactionCashFlow = {
     | 'DERIVATIVE_PRICE'
     | 'DERIVATIVE_QUOTE';
   /**
-   * Внутренний идентификатор записи
+   * Record ID
    */
   id?: number | null;
   /**
-   * Внутренний идентификатор сделки
+   * Transaction record ID
    */
   transactionId: number;
   /**
-   * Сумма по событию
+   * Transaction amount
    */
   value: number;
 };
@@ -862,9 +862,6 @@ export type PostAccountCashResponses = {
 export type DeleteAccountCashByIdData = {
   body?: never;
   path: {
-    /**
-     * Внутренний идентификатор записи
-     */
     id: number;
   };
   query?: never;
@@ -891,9 +888,6 @@ export type DeleteAccountCashByIdResponse =
 export type GetAccountCashByIdData = {
   body?: never;
   path: {
-    /**
-     * Внутренний идентификатор записи
-     */
     id: number;
   };
   query?: never;
@@ -920,9 +914,6 @@ export type GetAccountCashByIdResponse =
 export type PutAccountCashByIdData = {
   body: AccountCash;
   path: {
-    /**
-     * Внутренний идентификатор записи
-     */
     id: number;
   };
   query?: never;
@@ -1020,9 +1011,6 @@ export type PostAccountPropertiesResponses = {
 export type DeleteAccountPropertiesByIdData = {
   body?: never;
   path: {
-    /**
-     * Внутренний идентификатор записи
-     */
     id: number;
   };
   query?: never;
@@ -1049,9 +1037,6 @@ export type DeleteAccountPropertiesByIdResponse =
 export type GetAccountPropertiesByIdData = {
   body?: never;
   path: {
-    /**
-     * Внутренний идентификатор записи
-     */
     id: number;
   };
   query?: never;
@@ -1078,9 +1063,6 @@ export type GetAccountPropertiesByIdResponse =
 export type PutAccountPropertiesByIdData = {
   body: AccountProperty;
   path: {
-    /**
-     * Внутренний идентификатор записи
-     */
     id: number;
   };
   query?: never;
@@ -1175,9 +1157,6 @@ export type PostAccountsResponses = {
 export type DeleteAccountsByIdData = {
   body?: never;
   path: {
-    /**
-     * Номер счета
-     */
     id: string;
   };
   query?: never;
@@ -1204,9 +1183,6 @@ export type DeleteAccountsByIdResponse =
 export type GetAccountsByIdData = {
   body?: never;
   path: {
-    /**
-     * Номер счета
-     */
     id: string;
   };
   query?: never;
@@ -1233,9 +1209,6 @@ export type GetAccountsByIdResponse =
 export type PutAccountsByIdData = {
   body: Account;
   path: {
-    /**
-     * Номер счета
-     */
     id: string;
   };
   query?: never;
@@ -1305,9 +1278,6 @@ export type GetCashFlowTypesResponse =
 export type GetCashFlowTypesByIdData = {
   body?: never;
   path: {
-    /**
-     * Идентификатор типа
-     */
     id: number;
   };
   query?: never;
@@ -1417,9 +1387,6 @@ export type PostEventCashFlowsResponses = {
 export type DeleteEventCashFlowsByIdData = {
   body?: never;
   path: {
-    /**
-     * Номер события
-     */
     id: number;
   };
   query?: never;
@@ -1446,9 +1413,6 @@ export type DeleteEventCashFlowsByIdResponse =
 export type GetEventCashFlowsByIdData = {
   body?: never;
   path: {
-    /**
-     * Номер события
-     */
     id: number;
   };
   query?: never;
@@ -1475,9 +1439,6 @@ export type GetEventCashFlowsByIdResponse =
 export type PutEventCashFlowsByIdData = {
   body: EventCashFlow;
   path: {
-    /**
-     * Номер события
-     */
     id: number;
   };
   query?: never;
@@ -1572,9 +1533,6 @@ export type PostForeignExchangeRatesResponses = {
 export type GetForeignExchangeRatesCurrencyPairsByCurrencyPairData = {
   body?: never;
   path: {
-    /**
-     * Валютная пара
-     */
     currencyPair: string;
   };
   query?: never;
@@ -1602,13 +1560,7 @@ export type DeleteForeignExchangeRatesCurrencyPairsByCurrencyPairDatesByDateData
   {
     body?: never;
     path: {
-      /**
-       * Валютная пара
-       */
       currencyPair: string;
-      /**
-       * Дата
-       */
       date: string;
     };
     query?: never;
@@ -1638,13 +1590,7 @@ export type GetForeignExchangeRatesCurrencyPairsByCurrencyPairDatesByDateData =
   {
     body?: never;
     path: {
-      /**
-       * Валютная пара
-       */
       currencyPair: string;
-      /**
-       * Дата
-       */
       date: string;
     };
     query?: never;
@@ -1674,13 +1620,7 @@ export type PutForeignExchangeRatesCurrencyPairsByCurrencyPairDatesByDateData =
   {
     body: ForeignExchangeRate;
     path: {
-      /**
-       * Валютная пара
-       */
       currencyPair: string;
-      /**
-       * Дата
-       */
       date: string;
     };
     query?: never;
@@ -1777,9 +1717,6 @@ export type PostIssuersResponses = {
 export type DeleteIssuersByIdData = {
   body?: never;
   path: {
-    /**
-     * Внутренний идентификатор эмитента
-     */
     id: number;
   };
   query?: never;
@@ -1806,9 +1743,6 @@ export type DeleteIssuersByIdResponse =
 export type GetIssuersByIdData = {
   body?: never;
   path: {
-    /**
-     * Внутренний идентификатор эмитента
-     */
     id: number;
   };
   query?: never;
@@ -1835,9 +1769,6 @@ export type GetIssuersByIdResponse =
 export type PutIssuersByIdData = {
   body: Issuer;
   path: {
-    /**
-     * Внутренний идентификатор эмитента
-     */
     id: number;
   };
   query?: never;
@@ -1941,9 +1872,6 @@ export type PostSecuritiesResponses = {
 export type DeleteSecuritiesByIdData = {
   body?: never;
   path: {
-    /**
-     * Идентификатор
-     */
     id: number;
   };
   query?: never;
@@ -1970,9 +1898,6 @@ export type DeleteSecuritiesByIdResponse =
 export type GetSecuritiesByIdData = {
   body?: never;
   path: {
-    /**
-     * Идентификатор
-     */
     id: number;
   };
   query?: never;
@@ -1999,9 +1924,6 @@ export type GetSecuritiesByIdResponse =
 export type PutSecuritiesByIdData = {
   body: Security;
   path: {
-    /**
-     * Идентификатор
-     */
     id: number;
   };
   query?: never;
@@ -2097,9 +2019,6 @@ export type PostSecurityDescriptionsResponses = {
 export type DeleteSecurityDescriptionsByIdData = {
   body?: never;
   path: {
-    /**
-     * Идентификатор
-     */
     id: number;
   };
   query?: never;
@@ -2126,9 +2045,6 @@ export type DeleteSecurityDescriptionsByIdResponse =
 export type GetSecurityDescriptionsByIdData = {
   body?: never;
   path: {
-    /**
-     * Идентификатор
-     */
     id: number;
   };
   query?: never;
@@ -2155,9 +2071,6 @@ export type GetSecurityDescriptionsByIdResponse =
 export type PutSecurityDescriptionsByIdData = {
   body: SecurityDescription;
   path: {
-    /**
-     * Идентификатор
-     */
     id: number;
   };
   query?: never;
@@ -2258,9 +2171,6 @@ export type PostSecurityEventCashFlowsResponses = {
 export type DeleteSecurityEventCashFlowsByIdData = {
   body?: never;
   path: {
-    /**
-     * Внутренний идентификатор выплаты
-     */
     id: number;
   };
   query?: never;
@@ -2287,9 +2197,6 @@ export type DeleteSecurityEventCashFlowsByIdResponse =
 export type GetSecurityEventCashFlowsByIdData = {
   body?: never;
   path: {
-    /**
-     * Внутренний идентификатор выплаты
-     */
     id: number;
   };
   query?: never;
@@ -2316,9 +2223,6 @@ export type GetSecurityEventCashFlowsByIdResponse =
 export type PutSecurityEventCashFlowsByIdData = {
   body: SecurityEventCashFlow;
   path: {
-    /**
-     * Внутренний идентификатор выплаты
-     */
     id: number;
   };
   query?: never;
@@ -2418,9 +2322,6 @@ export type PostSecurityQuotesResponses = {
 export type DeleteSecurityQuotesByIdData = {
   body?: never;
   path: {
-    /**
-     * Номер записи о котировке
-     */
     id: number;
   };
   query?: never;
@@ -2447,9 +2348,6 @@ export type DeleteSecurityQuotesByIdResponse =
 export type GetSecurityQuotesByIdData = {
   body?: never;
   path: {
-    /**
-     * Номер записи о котировке
-     */
     id: number;
   };
   query?: never;
@@ -2476,9 +2374,6 @@ export type GetSecurityQuotesByIdResponse =
 export type PutSecurityQuotesByIdData = {
   body: SecurityQuote;
   path: {
-    /**
-     * Номер записи о котировке
-     */
     id: number;
   };
   query?: never;
@@ -2511,7 +2406,7 @@ export type GetTransactionCashFlowsData = {
   path?: never;
   query?: {
     /**
-     * Тип (стоимость/комиссия/НКД)
+     * Type (price / fee / accrued interest)
      */
     'event-type'?: number;
     /**
@@ -2580,9 +2475,6 @@ export type PostTransactionCashFlowsResponses = {
 export type DeleteTransactionCashFlowsByIdData = {
   body?: never;
   path: {
-    /**
-     * Внутренний идентификатор сделки
-     */
     id: number;
   };
   query?: never;
@@ -2609,9 +2501,6 @@ export type DeleteTransactionCashFlowsByIdResponse =
 export type GetTransactionCashFlowsByIdData = {
   body?: never;
   path: {
-    /**
-     * Внутренний идентификатор сделки
-     */
     id: number;
   };
   query?: never;
@@ -2638,9 +2527,6 @@ export type GetTransactionCashFlowsByIdResponse =
 export type PutTransactionCashFlowsByIdData = {
   body: TransactionCashFlow;
   path: {
-    /**
-     * Внутренний идентификатор сделки
-     */
     id: number;
   };
   query?: never;
@@ -2739,9 +2625,6 @@ export type PostTransactionsResponses = {
 export type DeleteTransactionsByIdData = {
   body?: never;
   path: {
-    /**
-     * Внутренний идентификатор сделки
-     */
     id: number;
   };
   query?: never;
@@ -2768,9 +2651,6 @@ export type DeleteTransactionsByIdResponse =
 export type GetTransactionsByIdData = {
   body?: never;
   path: {
-    /**
-     * Внутренний идентификатор сделки
-     */
     id: number;
   };
   query?: never;
@@ -2797,9 +2677,6 @@ export type GetTransactionsByIdResponse =
 export type PutTransactionsByIdData = {
   body: Transaction;
   path: {
-    /**
-     * Внутренний идентификатор сделки
-     */
     id: number;
   };
   query?: never;
@@ -2873,15 +2750,17 @@ export type GetPortfolioOpenFormatRecordsResponse =
   GetPortfolioOpenFormatRecordsResponses[keyof GetPortfolioOpenFormatRecordsResponses];
 
 export type PostPortfolioOpenFormatRecordsData = {
-  body?: {
-    file: Blob | File;
-  };
+  body: PortfolioOpenFormatV110;
   path?: never;
   query?: never;
   url: '/portfolio-open-format/records';
 };
 
 export type PostPortfolioOpenFormatRecordsErrors = {
+  /**
+   * Bad Request
+   */
+  400: unknown;
   /**
    * Internal Server Error
    */
@@ -2890,7 +2769,10 @@ export type PostPortfolioOpenFormatRecordsErrors = {
 
 export type PostPortfolioOpenFormatRecordsResponses = {
   /**
-   * OK
+   * No Content
    */
-  200: unknown;
+  204: void;
 };
+
+export type PostPortfolioOpenFormatRecordsResponse =
+  PostPortfolioOpenFormatRecordsResponses[keyof PostPortfolioOpenFormatRecordsResponses];

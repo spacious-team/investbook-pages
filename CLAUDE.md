@@ -135,7 +135,7 @@ yarn openapi-ts
 
 Two-step process:
 
-1. `scripts/transform-spec.mjs` — fetches spec from `http://localhost:2030/v3/api-docs/public`, transliterates Cyrillic schema names to Latin, generates `operationId`s from HTTP method + path, writes `openapi-spec.json`
+1. `scripts/transform-spec.mjs` — fetches spec from `http://localhost:2030/v3/api-docs/public`, generates `operationId`s from HTTP method + path, writes `openapi-spec.json`
 2. `openapi-ts` — reads `openapi-ts.config.ts`, generates TypeScript client into `libs/products/src/investbook-api/`
 
 Generated files (auto-generated, do not edit manually):

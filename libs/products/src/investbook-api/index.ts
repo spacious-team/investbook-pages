@@ -308,6 +308,7 @@ export type {
   PostIssuersResponses,
   PostPortfolioOpenFormatRecordsData,
   PostPortfolioOpenFormatRecordsErrors,
+  PostPortfolioOpenFormatRecordsResponse,
   PostPortfolioOpenFormatRecordsResponses,
   PostSecuritiesData,
   PostSecuritiesErrors,
