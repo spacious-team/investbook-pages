@@ -2,7 +2,7 @@ import { Banner } from '@investbook-pages/common-ui';
 import { useTranslation } from '@investbook-pages/products';
 import { FC } from 'react';
 
-const TaxesPage: FC = () => {
+export const TaxesPage: FC = () => {
   const { t } = useTranslation();
 
   return (
@@ -11,5 +11,3 @@ const TaxesPage: FC = () => {
     </div>
   );
 };
-
-export default TaxesPage;

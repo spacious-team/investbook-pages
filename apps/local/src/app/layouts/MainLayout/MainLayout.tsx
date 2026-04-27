@@ -22,9 +22,9 @@ import {
   Upload,
 } from 'lucide-react';
 import { NavLink, Outlet, useLocation } from 'react-router-dom';
-import Header from 'widgets/Header/Header';
+import { Header } from 'widgets/Header/Header';
 
-export default function MainLayout() {
+export function MainLayout() {
   const { t } = useTranslation();
   const { pathname } = useLocation();
 

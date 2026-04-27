@@ -67,14 +67,17 @@ npx nx build common-ui
 - **Tailwind CSS v4** + **shadcn/ui** (new-york style, zinc base color) for styling — use Tailwind utility classes; `cn()` helper from `@investbook-pages/common-ui` for conditional class merging
 - **shadcn/ui components are built on individual `@radix-ui/*` packages** — always use individual Radix UI packages (e.g. `@radix-ui/react-dialog`, `@radix-ui/react-slot`) as the primitive layer; do NOT use the monolithic `radix-ui` package, `@base-ui/react`, or other component libraries
 - **React Router v7** — `createBrowserRouter` pattern
+- **Zustand** — app-level client state manager. Store: `apps/local/src/app/store.ts`, exported as `useAppStore`. Extend `AppState` interface as features are added. No provider required.
+- **TanStack Query v5** — server state and data fetching. Singleton `QueryClient` in `apps/local/src/app/query-client/query-client.ts`. `QueryClientProvider` wraps the app in `main.tsx`. `ReactQueryDevtools` active in dev only (`import.meta.env.DEV`). Feature-scoped query hooks live in `apps/local/src/app/hooks/queries/`.
 - **Vitest** + **@testing-library/react** for tests
 - **Nx 22** for monorepo task orchestration and caching
 
 ### Styling setup
 
-- Tailwind entry point: `apps/local/src/index.css` — imports `tailwindcss`, `tw-animate-css`, and adds `@source` directives to scan `libs/common-ui/src`
+- Tailwind entry point: `apps/local/src/index.css` — imports `tailwindcss`, `tw-animate-css`, the palette, and adds `@source` directives to scan `libs/common-ui/src`
 - shadcn/ui config: `components.json` at repo root
-- OKLCH design tokens (zinc palette, light + dark) defined in `index.css`
+- **Color palette:** OKLCH design tokens (light + dark) live in `libs/common-ui/src/styles/theme.css` — this is the single source of truth for all CSS custom properties
+- **Adding colors:** always add new tokens to `libs/common-ui/src/styles/theme.css` (both `:root` and `.dark`), then expose via `--color-<name>: var(--<name>)` inside `@theme inline` in `apps/local/src/index.css`. Never hardcode color values in components.
 - `cn` utility (`clsx` + `tailwind-merge`): `libs/common-ui/src/lib/utils.ts`, re-exported from `@investbook-pages/common-ui`
 - Vite integration via `@tailwindcss/vite` plugin
 
@@ -91,17 +94,24 @@ Do **not** write tests unless the user explicitly asks for them. This project us
 ## Code conventions
 
 - Component files use PascalCase (`MainPage.tsx`, `Banner.tsx`)
+- **No `export default`** — always use named exports (`export function Foo` / `export const Foo`)
+- **Component props:** always extract into a named `interface` above the component (`interface FooProps { ... }`), never inline in the function signature
+- **Strict equality only:** always use `===` / `!==`; loose `==` / `!=` is forbidden (enforced by ESLint `eqeqeq`). For null + undefined checks use `value === null || value === undefined` (or `!== null && !== undefined`)
 - New shared UI components go in `libs/common-ui/src/lib/` and must be re-exported from `libs/common-ui/src/index.ts`
-- New business logic goes in `libs/products/src/lib/` and must be re-exported from `libs/products/src/index.ts`
+- Shared formatting and conversion utilities go in `libs/products/src/utils/` and must be re-exported from `libs/products/src/index.ts` (e.g. `format.ts` for currency/number formatting)
 - Nx generators default to `none` for styling (no CSS-in-JS), `eslint`, `vite`, and `vitest` — use these defaults when scaffolding new apps/libs
 - New shadcn/ui components: run `npx shadcn add <component>` from repo root; components land in `libs/common-ui/src/lib/` and must be re-exported from `libs/common-ui/src/index.ts`
+- **Tooltips on interactive elements:** use `AdaptiveTooltip` / `AdaptiveTooltipTrigger` / `AdaptiveTooltipContent` from `@investbook-pages/common-ui` instead of plain `Tooltip`. It renders `Tooltip` on hover-capable devices and `Popover` (click/tap) on touch. Use plain `Tooltip` only for purely decorative/non-interactive hints where touch support is irrelevant.
+- **Active states:** whenever you add `hover:bg-*` or `hover:text-*` to a clickable element, always add a matching `active:bg-*` / `active:text-*` with higher contrast (e.g. `hover:bg-primary-foreground/10` → `active:bg-primary-foreground/20`). This gives tactile click feedback, especially on touch.
+- **React imports:** always import React APIs as named imports — never use the `React.*` namespace. Use `import { useState, useEffect, ComponentProps, ... } from 'react'` instead of `import * as React from 'react'`.
+- **Responsive priority:** medium and large screens are the primary target. Small-screen support is allowed but low priority — don't block features on it and don't add mobile-specific logic by default.
 
 ## Internationalisation (i18n)
 
 The project uses `react-i18next` with a single Russian locale. No other languages are planned.
 
 - **Translation file:** `libs/products/src/i18n/ru.json` — single source of truth for all UI strings, organised by area (`nav`, `pageTitles`, `header`, `header.menu`)
-- **Init module:** `libs/products/src/i18n/index.ts` — initialises i18next synchronously (`initImmediate: false`) and re-exports `useTranslation`
+- **Init module:** `libs/products/src/i18n/index.ts` — initialises i18next synchronously (`initAsync: false`) and re-exports `useTranslation`
 - **Import:** `import { useTranslation } from '@investbook-pages/products'`
 - **Usage:** call `const { t } = useTranslation()` inside the component, then `t('pageTitles.portfolio')` etc.
 
@@ -125,8 +135,8 @@ yarn openapi-ts
 
 Two-step process:
 
-1. `scripts/transform-spec.mjs` — fetches spec from `http://localhost:2030/v3/api-docs/public`, transliterates Cyrillic schema names to Latin, generates `operationId`s from HTTP method + path, writes `openapi-spec.json`
-2. `openapi-ts` — reads `openapi-ts.config.ts`, generates TypeScript client into `libs/products/src/client/`
+1. `scripts/transform-spec.mjs` — fetches spec from `http://localhost:2030/v3/api-docs/public`, generates `operationId`s from HTTP method + path, writes `openapi-spec.json`
+2. `openapi-ts` — reads `openapi-ts.config.ts`, generates TypeScript client into `libs/products/src/investbook-api/`
 
 Generated files (auto-generated, do not edit manually):
 
@@ -135,21 +145,25 @@ Generated files (auto-generated, do not edit manually):
 - `client.gen.ts` — Fetch client instance
 - `core/` — internal serialization/auth utilities
 
+Hand-written file outside the codegen folder (safe from `clean: true`):
+
+- `libs/products/src/configure-api.ts` — sets `baseUrl`, camelCase↔kebab-case body/response transformers; exports `configureApiClient()` called once in `main.tsx`
+
 Everything is re-exported from `libs/products/src/index.ts` and available via `@investbook-pages/products`.
 
 ### Environment variables
 
 The project is designed for local use. `.env` is committed with sane defaults:
 
-| Variable            | Used by                                | Default                                    | Purpose                                      |
-| ------------------- | -------------------------------------- | ------------------------------------------ | -------------------------------------------- |
-| `VITE_API_BASE_URL` | Vite / browser bundle                  | `http://localhost:2030`                    | Runtime base URL for all API calls           |
-| `OPENAPI_SPEC_URL`  | `scripts/transform-spec.mjs` (Node.js) | `http://localhost:2030/v3/api-docs/public` | URL to fetch the OpenAPI spec during codegen |
+| Variable            | Used by                                | Default                             | Purpose                                      |
+| ------------------- | -------------------------------------- | ----------------------------------- | -------------------------------------------- |
+| `VITE_API_BASE_URL` | Vite / browser bundle                  | `http://localhost:2030`             | Runtime base URL for all API calls           |
+| `OPENAPI_SPEC_URL`  | `scripts/transform-spec.mjs` (Node.js) | `http://localhost:2030/v3/api-docs` | URL to fetch the OpenAPI spec during codegen |
 
 To override without editing `.env`, create a `.env.local` file (gitignored by Vite) or set the variable inline:
 
 ```bash
-OPENAPI_SPEC_URL=http://myhost:2030/v3/api-docs/public yarn openapi-ts
+OPENAPI_SPEC_URL=http://myhost:2030/v3/api-docs yarn openapi-ts
 VITE_API_BASE_URL=http://myhost:2030 yarn dev
 ```
 
