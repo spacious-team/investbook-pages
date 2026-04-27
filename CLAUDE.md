@@ -103,6 +103,9 @@ Do **not** write tests unless the user explicitly asks for them. This project us
 - New shadcn/ui components: run `npx shadcn add <component>` from repo root; components land in `libs/common-ui/src/lib/` and must be re-exported from `libs/common-ui/src/index.ts`
 - **Tooltips on interactive elements:** use `AdaptiveTooltip` / `AdaptiveTooltipTrigger` / `AdaptiveTooltipContent` from `@investbook-pages/common-ui` instead of plain `Tooltip`. It renders `Tooltip` on hover-capable devices and `Popover` (click/tap) on touch. Use plain `Tooltip` only for purely decorative/non-interactive hints where touch support is irrelevant.
 - **Active states:** whenever you add `hover:bg-*` or `hover:text-*` to a clickable element, always add a matching `active:bg-*` / `active:text-*` with higher contrast (e.g. `hover:bg-primary-foreground/10` → `active:bg-primary-foreground/20`). This gives tactile click feedback, especially on touch.
+- **Braces always:** every `if`, `else`, `for`, `while` body must use `{}`, even single-liners — enforced by the `curly: all` ESLint rule.
+- **Blank line before `return`:** always add a blank line immediately before a `return` statement.
+- **Blank line after blocks:** always add a blank line after the closing `}` of a block statement before the next statement.
 - **React imports:** always import React APIs as named imports — never use the `React.*` namespace. Use `import { useState, useEffect, ComponentProps, ... } from 'react'` instead of `import * as React from 'react'`.
 - **Responsive priority:** medium and large screens are the primary target. Small-screen support is allowed but low priority — don't block features on it and don't add mobile-specific logic by default.
 

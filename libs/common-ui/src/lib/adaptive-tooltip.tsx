@@ -28,7 +28,10 @@ function useHoverCapable() {
   const [isHover, setIsHover] = useState(() => mq?.matches ?? true);
 
   useEffect(() => {
-    if (!mq) return;
+    if (!mq) {
+      return;
+    }
+
     const handler = (e: MediaQueryListEvent) => setIsHover(e.matches);
     mq.addEventListener('change', handler);
 
