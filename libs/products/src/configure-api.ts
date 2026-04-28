@@ -41,6 +41,7 @@ function deepKebabToCamel(value: unknown): unknown {
 export function configureApiClient(): void {
   client.setConfig({
     baseUrl: import.meta.env['VITE_API_BASE_URL'],
+    throwOnError: true,
     bodySerializer: (body) => JSON.stringify(deepCamelToKebab(body)),
     responseTransformer: async (data) => deepKebabToCamel(data),
   });

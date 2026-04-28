@@ -93,7 +93,8 @@ Do **not** write tests unless the user explicitly asks for them. This project us
 
 ## Code conventions
 
-- Component files use PascalCase (`MainPage.tsx`, `Banner.tsx`)
+- Component files use PascalCase in `apps/` (`MainPage.tsx`, `Banner.tsx`)
+- Component files in `libs/common-ui/src/lib/` use **lowercase kebab-case** (`button.tsx`, `spinner.tsx`, `app-loader.tsx`) — this matches shadcn/ui's default output; do not rename them to PascalCase
 - **No `export default`** — always use named exports (`export function Foo` / `export const Foo`)
 - **Component props:** always extract into a named `interface` above the component (`interface FooProps { ... }`), never inline in the function signature
 - **Strict equality only:** always use `===` / `!==`; loose `==` / `!=` is forbidden (enforced by ESLint `eqeqeq`). For null + undefined checks use `value === null || value === undefined` (or `!== null && !== undefined`)

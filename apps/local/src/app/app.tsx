@@ -1,4 +1,4 @@
-import { AppLoader } from '@investbook-pages/common-ui';
+import { AppLoader, Toaster } from '@investbook-pages/common-ui';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
 import { useAccountsAllStats } from './hooks/queries/useAccountsAllStats';
@@ -49,6 +49,7 @@ export function App() {
     <>
       <RouterProvider router={router} />
       {isPending && <AppLoader />}
+      <Toaster position="bottom-left" />
     </>
   );
 }
