@@ -34,6 +34,14 @@
     "themeDark": "Темная",
     "logout": "Выход"
   },
+  "offline": {
+    "title": "Investbook не запущен",
+    "body": "Проверьте работу приложения",
+    "retry": "Повторить"
+  },
+  "loading": {
+    "appTitle": "Investbook загружается"
+  },
   "errors": {
     "fetch": {
       "fail": "Не удалось загрузить данные",

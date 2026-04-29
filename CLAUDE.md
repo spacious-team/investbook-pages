@@ -2,6 +2,10 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## Git workflow
+
+**Never create git commits.** Only the user creates commits. When work is complete, leave all changes staged so the user can review the diff and commit manually.
+
 ## Project Overview
 
 Frontend for [investbook](https://github.com/spacious-team/investbook) — an investment portfolio management application. Built as an Nx monorepo with Yarn as the package manager.
